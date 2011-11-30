@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * Contains the JSL3_FWF_Widget class
+ *
+ * Contains the JSL3_FWF_Widget class.  See class desciption for more
+ * information.
+ *
+ * PHP version 5
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License, version 2, as 
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * @category   WordPress_Plugin
+ * @package    JSL3_FWF
+ * @author     Takanudo <fwf@takanudo.com>
+ * @author     Fedil Grogan <fedil@ukneeq.com>
+ * @copyright  2011-2012
+ * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
+ * @version    1.0
+ * @link       http://takando.com/jsl3-facebook-wall-feed
+ * @since      File available since Release 1.0
+ */
+
+// {{{ JSL3_FWF_Widget
+
+/**
+ * Creates the JSL3 Facebook Wall Feed plugin widget
+ *
+ * Create a widget that can be dragged onto a sidebar.  The widget maintains
+ * two properties: title and limit.  The widget also creates a list of your
+ * Facebook wall posts.
+ *
+ * @category   WordPress_Plugin
+ * @package    JSL3_FWF
+ * @author     Takanudo <fwf@takanudo.com>
+ * @author     Fedil Grogan <fedil@ukneeq.com>
+ * @copyright  2011-2012
+ * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
+ * @version    1.0
+ * @link       http://takando.com/jsl3-facebook-wall-feed
+ * @since      File available since Release 1.0
+ */
+
+class JSL3_FWF_Widget extends WP_Widget {
+
+    // {{{ JSL3_FWF_Widget()
+
+    /**
+     * Constructor for this class
+     *
+     * Constructor sets the name and description of the widget.
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    function JSL3_FWF_Widget() {
+        parent::WP_Widget( false, $name = JSL3_FWF_TITLE,
+            array( 'description' => JSL3_FWF_DESCRIPTION ) );
+
+    }
+
+    // }}}
+    // {{{ widget()
+
+    /**
+     * Actual widget output
+     *
+     * Actual widget ouput for a page, post, etc.  The actual code to display
+     * the Facebook feed was originally written by Fedil Grogan.
+     *
+     * @param array $args Display arguments including before_title,
+     *                    after_title, before_widget, and after_widget
+     * @param array $instance The settings for the particular instance of the
+     *                        widget.
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    function widget( $args, $instance ) {
+        extract( $args );
+
+        // The widget title
+        $title = apply_filters( 'widget_title', $instance[ 'title' ] );
+
+        // The number of facebook wall posts to get
+        $limit = apply_filters( 'widget_title', $instance[ 'limit' ] );
+
+        // Before widget
+        echo $before_widget;
+
+        // Title of widget
+        if ( $title ) { echo $before_title . $title . $after_title; }
+
+        // Widget output
+        $jsl3_fwf = new JSL3_Facebook_Wall_Feed();
+        $dev_options = $jsl3_fwf->get_admin_options();
+        $feed = new UKI_Facebook_Wall_Feed(
+            $dev_options[ 'fb_id' ],
+            $dev_options[ 'app_id' ],
+            $dev_options[ 'app_secret' ],
+            $limit,
+            $dev_options[ 'token' ] );
+        $feed->get_fb_wall_feed();
+        $feed->display_fb_wall_feed();
+
+        // After widget
+        echo $after_widget;
+    } // End widget function
+
+    // }}}
+    // {{{ update()
+
+    /**
+     * Stores the properties into the WordPress databases.
+     *
+     * Gets the widget form properties and stores them into the WordPress
+     * database.
+     *
+     * @param array $new_instance New settings for this instance as input by
+     *                            the user via form().
+     * @param array $old_instance Old settings for this instance.
+     *
+     * @return array Settings to save or bool false to cancel saving.
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    function update( $new_instance, $old_instance ) {
+        $instance = $old_instance;
+        $instance[ 'title' ] = strip_tags( $new_instance[ 'title' ] );
+        $instance[ 'limit' ] = strip_tags( $new_instance[ 'limit' ] );
+
+        return $instance;
+    }
+
+    // }}}
+    // {{{ form()
+
+    /**
+     * Creates the widget form
+     *
+     * Creates the widget form for the sidebar.  This widget takes in two
+     * properties: title and limit
+     *
+     * @param array $instance Current settings
+     *
+     * @access public
+     * @since Method available since Release 1.0
+     */
+    function form( $instance ) {
+        $defaults = array(
+            'title' => JSL3_FWF_WIDGET_TITLE,
+            'limit' => JSL3_FWF_WIDGET_LIMIT );
+        $instance = wp_parse_args( (array) $instance, $defaults );
+        $title = esc_attr( $instance[ 'title' ] );
+        $limit = esc_attr( $instance[ 'limit' ] );
+?>
+<p>
+  <label>
+    Title:
+    <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+  </label>
+  <label>
+    Number of wall posts to get:
+    <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" value="<?php echo $limit; ?>" />
+  </label>
+</p>
+<?php
+    }
+
+    // }}}
+
+} // End jsl3fwf_widget class
+
+// }}}
+
+?>
