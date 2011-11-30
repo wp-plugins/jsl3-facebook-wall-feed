@@ -10,9 +10,7 @@ Displays your Facebook wall as a widget.
 
 == Description ==
 
-Displays your Facebook wall as a widget. Makes use of Fedil Grogan's
-[Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated)
-code and changes suggested by [Daniel Westergren](http://danielwestergren.se).
+Displays your Facebook wall as a widget. Makes use of Fedil Grogan's [Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated) code and changes suggested by [Daniel Westergren](http://danielwestergren.se).
 
 == Installation ==
 
