@@ -81,8 +81,8 @@ This is the initial version.
    **Continue**. You will be prompted with a security check.
 
 1. On your App page, enter your **App Domain**. Under **Select how your app
-   integrates with Facebook** click **Website** and enter your Site URL. Then
-   save your changes.
+   integrates with Facebook** click **Website** and enter your **Site URL**.
+   Then save your changes.
 
 1. Record your **App ID** and **App Secret**. You will need these later.
 
@@ -90,7 +90,7 @@ This is the initial version.
 
 1. Enter your **Facebook ID**. This is the number at the end of your Facebook
    profile URL. Enter the **App ID** and **App Secret** you recorded earlier.
-   Click Save Changes.
+   Click **Save Changes**.
 
 1. You will be redirected to Facebook. You may be prompted to **Log In** a
     couple of times.
