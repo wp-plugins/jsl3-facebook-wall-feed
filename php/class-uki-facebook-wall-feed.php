@@ -265,9 +265,11 @@ class UKI_Facebook_Wall_Feed {
                 $print_array[ 'fb_id' ] = $fb_feed[ $i ][ 'from' ][ 'id' ];
                 $print_array[ 'fb_name' ] = $fb_feed[ $i ][ 'from' ][ 'name' ];
                 $print_array[ 'video_length' ] = NULL;
-                if ( $fb_feed[ $i ][ 'type' ] == 'video' )
-                    $print_array[ 'video_length' ] =
-                        $fb_feed[ $i][ 'properties' ][ 0 ][ 'text' ];
+                if ( $fb_feed[ $i ][ 'type' ] == 'video' ) {
+                    if ( isset( $fb_feed[ $i ][ 'properties' ] ) )
+                        $print_array[ 'video_length' ] =
+                            $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ];
+                }
                 $print_array[ 'fb_photo' ] =
                     'http://graph.facebook.com/' .
                     $print_array[ 'fb_id' ] . '/picture';
@@ -424,14 +426,14 @@ class UKI_Facebook_Wall_Feed {
             if ( isset( $fb_info[ 'caption' ] ) )
                 $fb_cap = $fb_info[ 'caption' ];
             $fb_video_length = NULL;
-            if ( isset ( $fb_info[ 'video_length' ] ) )
+            if ( isset( $fb_info[ 'video_length' ] ) )
                 $fb_video_length = $fb_info[ 'video_length' ];
 ?>
     <div class="fb_link_post">
       <?php 
             if ( isset( $fb_picture ) && isset( $fb_source ) )
                 echo '<a href="' . $fb_source . '">';
-            elseif ( isset( $fb_picture ) && isset ( $fb_link ) )
+            elseif ( isset( $fb_picture ) && isset( $fb_link ) )
                 echo '<a href="' . $fb_link . '">';
       ?>
         <?php if ( isset( $fb_picture ) ) echo '<img src="' . $fb_picture . '" />'; ?>
