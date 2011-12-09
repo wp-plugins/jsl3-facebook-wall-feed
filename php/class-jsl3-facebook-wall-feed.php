@@ -148,7 +148,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'token'      => '',
                 'session'    => '',
                 'style'      => '',
-                'fb_id_only' => FALSE);
+                'fb_id_only' => FALSE,
+                'privacy'    => 'All' );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -170,6 +171,46 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $jsl3_fwf_admin_options );
             
             return $jsl3_fwf_admin_options;
+        }
+
+        // }}}
+        // {{{ setting_select_fn()
+
+        /**
+         * Prints an html drop down menu with associated label
+         *
+         * Prints an html drop down menu with an id and name set to the passed
+         * in option.  An associated label is created from the passed in
+         * label.  The options and values of the select box are passed in via
+         * an array.
+         *
+         * @param string $label the label for the checkbox.
+         * @param string $option the id and name of the checkbox.
+         * @param array $select_options the options and values for the select
+         *
+         * @access public
+         * @since Method available since Release 1.1
+         */
+        function setting_select_fn( $label, $option, $select_options ) {
+            $dev_options = $this->get_admin_options();
+?>
+<tr valign="top">
+  <th scope="row">
+    <label for="<?php echo $option; ?>"><?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?></label>
+  </th>
+  <td>
+    <select id="<?php echo $option; ?>" name="<?php echo $option; ?>">
+<?php
+            foreach ($select_options as $key => $value) {
+?>
+      <option value="<?php echo $key; ?>"<?php if ( $dev_options[ $option ] == $key ) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
+<?php
+            }
+?>
+    </select>
+  </td>
+</tr>
+<?php
         }
 
         // }}}
@@ -200,7 +241,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <span><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></span>
       </legend>
       <label for="<?php echo $option; ?>">
-        <input type="checkbox" id="<?php echo $option; ?>" name="<?php echo $option; ?>" value="1" <?php if ( $dev_options[ $option ] ) echo 'checked '; ?>/>
+        <input type="checkbox" id="<?php echo $option; ?>" name="<?php echo $option; ?>" value="1" <?php if ( $dev_options[ $option ] ) echo 'checked="checked" '; ?>/>
         <?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?>
       </label>
     </fieldset>
@@ -433,6 +474,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'fb_id_only' ] = FALSE;
 
+                // store the privacy setting
+                if ( isset( $_POST[ 'privacy' ] ) ) {
+                    $dev_options[ 'privacy' ] =
+                        apply_filters( 'content_save_pre',
+                            $_POST[ 'privacy' ] );
+                }
+
                 // store the admin options back to the WordPress database
                 update_option( $this->admin_options_name, $dev_options );
                 
@@ -467,6 +515,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             }
 
             // time to print the admin page
+            $sel_options = array(
+                'All'    => 'Show all wall posts',
+                'Public' => 'Show only wall posts labeled public' );
 ?>
 <div class=wrap>
   <h2><?php _e( 'JSL3 Facebook Wall Feed', 'JSL3_Facebook_Wall_Feed' ); ?></h2>
@@ -478,6 +529,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_text_fn( 'App Secret', 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( 'Access Token', 'token' ); ?>
         <?php $this->setting_checkbox2_fn( 'Only show posts made by this Facebook ID', 'fb_id_only', 'Facebook ID Only' ); ?>
+        <?php $this->setting_select_fn( 'Privacy', 'privacy', $sel_options ); ?>
         <?php $this->setting_textarea_fn( 'Modify the style sheet for the Facebook wall feed.', 'style', 'Style' ); ?>
       </tbody>
     </table>
@@ -654,7 +706,8 @@ Donate to Fedil Grogan
                 $dev_options[ 'app_secret' ],
                 $limit,
                 $dev_options[ 'token' ],
-                $dev_options[ 'fb_id_only' ] );
+                $dev_options[ 'fb_id_only' ],
+                $dev_options[ 'privacy' ] );
             $feed->get_fb_wall_feed();
 
             return $feed->display_fb_wall_feed();

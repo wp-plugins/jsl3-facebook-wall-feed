@@ -120,6 +120,15 @@ class UKI_Facebook_Wall_Feed {
      * @var boolean
      */
     var $fb_id_only;
+    
+    /**
+     * Facebook Privacy Settings
+     *
+     * Determines if all posts or only public posts are shown.
+     *
+     * @var string
+     */
+    var $fb_privacy;
 
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
@@ -139,13 +148,14 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function UKI_Facebook_Wall_Feed( $id, $app_id, $app_secret, $limit,
-        $token, $id_only ) {
+        $token, $id_only, $privacy ) {
         $this->fb_id        = $id;
         $this->app_id       = $app_id;
         $this->app_secret   = $app_secret;
         $this->fb_limit     = $limit;
         $this->access_token = $token;
         $this->fb_id_only   = $id_only;
+        $this->fb_privacy   = $privacy;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
     }
     
@@ -255,13 +265,29 @@ class UKI_Facebook_Wall_Feed {
                         $print_array[ 'likes' ] =
                             $fb_feed[ $i ][ 'likes' ][ 'count' ];
 
-                    //$this->print_fb_post( $fb_story_id, $fb_photo, $fb_id, $fb_name, $fb_msg, $this->parse_fb_timestamp( $fb_time ) );
+                    $privacy = 'Public';
+                    if ( isset(
+                        $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
+                        $privacy =
+                            $fb_feed[ $i ][ 'privacy' ][ 'description' ];
+
+                    $show_post = FALSE;
+                    if ( $this->fb_privacy == 'All' )
+                        $show_post = TRUE;
+                    elseif ( $this->fb_privacy == $privacy )
+                        $show_post = TRUE;
+                    
                     if ( $this->fb_id_only ) {
-                        if ( $this->fb_id == $print_array[ 'fb_id' ] )
-                            $result .= $this->print_fb_post( $print_array );
+                        if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
+                            if ( $show_post )
+                                $result .=
+                                    $this->print_fb_post( $print_array );
+                        }
                     } else {
-                        $result .= $this->print_fb_post( $print_array );
+                        if ( $show_post )
+                            $result .= $this->print_fb_post( $print_array );
                     }
+                    //$this->print_fb_post( $fb_story_id, $fb_photo, $fb_id, $fb_name, $fb_msg, $this->parse_fb_timestamp( $fb_time ) );
                 }
             
             // parse link and video messages
@@ -320,11 +346,24 @@ class UKI_Facebook_Wall_Feed {
                     $print_array[ 'likes' ] =
                         $fb_feed[ $i ][ 'likes' ][ 'count' ];
 
+                $privacy = 'Public';
+                if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
+                    $privacy = $fb_feed[ $i ][ 'privacy' ][ 'description' ];
+
+                $show_post = FALSE;
+                if ( $this->fb_privacy == 'All' )
+                    $show_post = TRUE;
+                elseif ( $this->fb_privacy == $privacy )
+                    $show_post = TRUE;
+                    
                 if ( $this->fb_id_only ) {
-                    if ( $this->fb_id == $print_array[ 'fb_id' ] )
-                        $result .= $this->print_fb_post( $print_array );
+                    if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
+                        if ( $show_post )
+                            $result .= $this->print_fb_post( $print_array );
+                    }
                 } else {
-                    $result .= $this->print_fb_post( $print_array );
+                    if ( $show_post )
+                        $result .= $this->print_fb_post( $print_array );
                 }
             
             // parse photo messages
@@ -363,11 +402,24 @@ class UKI_Facebook_Wall_Feed {
                     $print_array[ 'caption' ] =
                         $fb_feed[ $i ][ 'caption' ];
 
+                $privacy = 'Public';
+                if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
+                    $privacy = $fb_feed[ $i ][ 'privacy' ][ 'description' ];
+
+                $show_post = FALSE;
+                if ( $this->fb_privacy == 'All' )
+                    $show_post = TRUE;
+                elseif ( $this->fb_privacy == $privacy )
+                    $show_post = TRUE;
+                    
                 if ( $this->fb_id_only ) {
-                    if ( $this->fb_id == $print_array[ 'fb_id' ] )
-                        $result .= $this->print_fb_post( $print_array );
+                    if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
+                        if ( $show_post )
+                            $result .= $this->print_fb_post( $print_array );
+                    }
                 } else {
-                    $result .= $this->print_fb_post( $print_array );
+                    if ( $show_post )
+                        $result .= $this->print_fb_post( $print_array );
                 }
             } // End if
         } // End for
