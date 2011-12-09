@@ -2,8 +2,8 @@
 /* 
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
-Description: Displays your facebook wall as a widget. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a>.
-Version: 1.0
+Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a>.
+Version: 1.1
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2011  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.0
+ * @version    1.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -159,6 +159,9 @@ if ( isset( $jsl3_fwf ) ) {
     //Filters
     //add_filter( 'plugin_action_links', 'jsl3_fwf_plugin_action_links', 10, 2 );
     add_filter( 'plugin_action_links', 'jsl3_fwf_plugin_action_links', 10, 2 );
+    
+    //Shortcode
+    add_shortcode( 'jsl3_fwf', array( &$jsl3_fwf, 'shortcode_handler' ) );
 }
 
 ?>

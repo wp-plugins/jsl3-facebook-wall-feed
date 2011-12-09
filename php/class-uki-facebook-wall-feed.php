@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.0
+ * @version    1.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.0
+ * @version    1.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -111,6 +111,15 @@ class UKI_Facebook_Wall_Feed {
      * @var string
      */
     var $access_token;
+    
+    /**
+     * Facebook ID Only
+     *
+     * Determines if only posts made by this FacebookID are shown
+     *
+     * @var boolean
+     */
+    var $fb_id_only;
 
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
@@ -130,12 +139,13 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function UKI_Facebook_Wall_Feed( $id, $app_id, $app_secret, $limit,
-        $token ) {
+        $token, $id_only ) {
         $this->fb_id        = $id;
         $this->app_id       = $app_id;
         $this->app_secret   = $app_secret;
         $this->fb_limit     = $limit;
         $this->access_token = $token;
+        $this->fb_id_only   = $id_only;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
     }
     
@@ -195,16 +205,18 @@ class UKI_Facebook_Wall_Feed {
      * array. Calls print_fb_post() function to perform most of the  html
      * printing.
      *
+     * @return string the facebook wall as html
+     *
      * @access public
      * @since Method available since Release 1.0
      */
     function display_fb_wall_feed() {
         $fb_feed = $this->fb_wall_feed[ 'data' ];
-?>
-<div id="facebook_status_box">
-  <h2>Facebook Status</h2>
-  <div id="facebook_canvas">
-<?php
+
+        $result = '<div id="facebook_status_box">' .
+                  '  <h2>Facebook Status</h2>' .
+                  '  <div id="facebook_canvas">';
+
         // loop through each post in the feed
         for ( $i = 0; $i < count( $fb_feed ); $i++) {
             $print_array = array();
@@ -244,7 +256,12 @@ class UKI_Facebook_Wall_Feed {
                             $fb_feed[ $i ][ 'likes' ][ 'count' ];
 
                     //$this->print_fb_post( $fb_story_id, $fb_photo, $fb_id, $fb_name, $fb_msg, $this->parse_fb_timestamp( $fb_time ) );
-                    $this->print_fb_post( $print_array );
+                    if ( $this->fb_id_only ) {
+                        if ( $this->fb_id == $print_array[ 'fb_id' ] )
+                            $result .= $this->print_fb_post( $print_array );
+                    } else {
+                        $result .= $this->print_fb_post( $print_array );
+                    }
                 }
             
             // parse link and video messages
@@ -303,7 +320,12 @@ class UKI_Facebook_Wall_Feed {
                     $print_array[ 'likes' ] =
                         $fb_feed[ $i ][ 'likes' ][ 'count' ];
 
-                $this->print_fb_post( $print_array );
+                if ( $this->fb_id_only ) {
+                    if ( $this->fb_id == $print_array[ 'fb_id' ] )
+                        $result .= $this->print_fb_post( $print_array );
+                } else {
+                    $result .= $this->print_fb_post( $print_array );
+                }
             
             // parse photo messages
             } elseif ($fb_feed[ $i ][ 'type' ] == 'photo' ) {
@@ -341,13 +363,20 @@ class UKI_Facebook_Wall_Feed {
                     $print_array[ 'caption' ] =
                         $fb_feed[ $i ][ 'caption' ];
 
-                $this->print_fb_post( $print_array );
+                if ( $this->fb_id_only ) {
+                    if ( $this->fb_id == $print_array[ 'fb_id' ] )
+                        $result .= $this->print_fb_post( $print_array );
+                } else {
+                    $result .= $this->print_fb_post( $print_array );
+                }
             } // End if
         } // End for
-?>
-  </div>
-</div>
-<?php
+
+        $result .= '  </div>' .
+                   '</div>';
+
+        return $result;
+
     } // End display_fb_wall_feed function
     
     // }}}
@@ -360,6 +389,8 @@ class UKI_Facebook_Wall_Feed {
      * status, link, photo, video.
      *
      * @param array $fb_info an array of Facebook Wall feed data.
+     *
+     * @return string the facebook posts as html
      *
      * @access public
      * @since Method available since Release 1.0
@@ -382,27 +413,28 @@ class UKI_Facebook_Wall_Feed {
                 $fb_info[ 'fb_icon' ] . '" />';
 
         $comment_link = $this->fb_comment_link( $fb_story_id );
-?>
-<div class="fb_post">
-  <div class="fb_photoblock">
-    <div class="fb_photo">
-      <a href="http://www.facebook.com/profile.php?id=<?php echo $fb_id; ?>">
-        <img src="<?php echo $fb_photo; ?>" alt="Facebook Profile Pic" />
-      </a>
-    </div>
-    <div class="fb_photo_content">
-      <h5>
-        <a href="http://www.facebook.com/profile.php?id=<?php echo $fb_id; ?>"><?php echo $fb_name; ?></a>
-      </h5>
-      <div class="fb_time">
-        <?php if ( isset( $post_icon ) ) echo $post_icon ?>
-        <?php echo $post_time; ?>
-      </div>
-    </div>
-  </div>
-  <div class="fb_msg">
-    <?php if ( isset( $fb_msg ) ) echo "<p>$fb_msg</p>" ?>
-<?php
+
+        $result =
+                    '<div class="fb_post">' .
+                    '  <div class="fb_photoblock">' .
+                    '    <div class="fb_photo">' .
+                    '      <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
+                    '        <img src="' . $fb_photo . '" alt="Facebook Profile Pic" />' .
+                    '      </a>' .
+                    '    </div>' .
+                    '    <div class="fb_photo_content">' .
+                    '      <h5>' .
+                    '        <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_name . '</a>' .
+                    '      </h5>' .
+                    '      <div class="fb_time">';
+        if ( isset( $post_icon ) ) $result .= $post_icon;
+        $result .= $post_time .
+                    '      </div>' .
+                    '    </div>' .
+                    '  </div>' .
+                    '  <div class="fb_msg">';
+        if ( isset( $fb_msg ) ) $result .= "<p>$fb_msg</p>";
+        
         // print out the photo
         if ( $fb_info[ 'post_type' ] == 'link' ||
             $fb_info[ 'post_type' ] == 'photo' ||
@@ -428,40 +460,64 @@ class UKI_Facebook_Wall_Feed {
             $fb_video_length = NULL;
             if ( isset( $fb_info[ 'video_length' ] ) )
                 $fb_video_length = $fb_info[ 'video_length' ];
-?>
-    <div class="fb_link_post">
-      <?php 
+
+            $result .= 
+                    '    <div class="fb_link_post">';
+
             if ( isset( $fb_picture ) && isset( $fb_source ) )
-                echo '<a href="' . $fb_source . '">';
+                $result .=
+                    '      <a href="' . $fb_source . '">';
             elseif ( isset( $fb_picture ) && isset( $fb_link ) )
-                echo '<a href="' . $fb_link . '">';
-      ?>
-        <?php if ( isset( $fb_picture ) ) echo '<img src="' . $fb_picture . '" />'; ?>
-      <?php if ( isset( $fb_picture ) && ( isset( $fb_source ) || isset( $fb_link ) ) ) echo '</a>'; ?>
-      <?php if ( isset( $fb_link_name ) ) echo '<h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>'; ?>
-      <?php if ( isset( $fb_video_length ) ) echo '<p class="fb_vid_length">Length: <strong>' . $fb_video_length . '</strong></p>'; ?>
-      <?php if ( isset( $fb_cap ) ) echo '<p class="fb_cap">' . $fb_cap . '</p>'; ?>
-      <?php if ( isset( $fb_desc ) ) echo '<p class="fb_desc">' . $fb_desc . '</p>'; ?>
-      <?php if ( isset( $fb_caption ) ) echo '<p class="fb_link_caption"><a href="http://' . $fb_caption . '">' . $fb_caption . '</a></p>'; ?>
-      <?php if ( isset( $fb_description ) ) echo "<p>$fb_description</p>"; ?>
-    </div>
-<?php
+                $result .=
+                    '      <a href="' . $fb_link . '">';
+
+            if ( isset( $fb_picture ) )
+                $result .=
+                    '        <img src="' . $fb_picture . '" />';
+            if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
+                isset( $fb_link ) ) )
+                $result .=
+                    '      </a>';
+            if ( isset( $fb_link_name ) )
+                $result .=
+                    '      <h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>';
+            if ( isset( $fb_video_length ) )
+                $result .=
+                    '      <p class="fb_vid_length">Length: <strong>' . $fb_video_length . '</strong></p>';
+            if ( isset( $fb_cap ) )
+                $result .=
+                    '      <p class="fb_cap">' . $fb_cap . '</p>';
+            if ( isset( $fb_desc ) )
+                $result .=
+                    '      <p class="fb_desc">' . $fb_desc . '</p>';
+            if ( isset( $fb_caption ) )
+                $result .=
+                    '      <p class="fb_link_caption"><a href="http://' . $fb_caption . '">' . $fb_caption . '</a></p>';
+            if ( isset( $fb_description ) )
+                $result .=
+                    "      <p>$fb_description</p>";
+            $result .=
+                    '    </div>';
         }
 
         // print out the comment part of the post
-?>
-  </div>
-  <div class="fb_commLink">
-    <span class="fb_likes">
-      <?php if ( $fb_likes > 0 ) echo '<a class="tooltip" title="' . $fb_likes . ' people like this" href="#">' . $fb_likes . '</a>'; ?>
-    </span>
-    <span class="fb_comment">
-      <a href="<?php echo $comment_link; ?>">Comment</a>
-    </span>
-  </div>
-  <div style="clear: both;"></div>
-</div>
-<?php
+        $result .=
+                    '  </div>' .
+                    '  <div class="fb_commLink">' .
+                    '    <span class="fb_likes">';
+        if ( $fb_likes > 0 )
+            $result .=
+                    '      <a class="tooltip" title="' . $fb_likes . ' people like this" href="#">' . $fb_likes . '</a>';
+        $result .=
+                    '    </span>' .
+                    '    <span class="fb_comment">' .
+                    '      <a href="' . $comment_link . '">Comment</a>' .
+                    '    </span>' .
+                    '  </div>' .
+                    '  <div style="clear: both;"></div>' .
+                    '</div>';
+
+        return $result;
     } // End print_fb_post function
 
     // }}}
@@ -507,7 +563,7 @@ class UKI_Facebook_Wall_Feed {
         $date_str = $time_stamp[ 0 ];
         $date_str = date_format( date_create( $date_str ), 'l, F jS' );
 
-        $time_arr = explode( ':', $time_stamp[ 1 ]);
+        $time_arr = explode( ':', $time_stamp[ 1 ] );
         $time_hr = $time_arr[ 0 ] + get_option( 'gmt_offset' );
         if ( $time_hr < 0 )
             $time_hr = 24 + $time_hr;

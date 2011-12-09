@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.0
+ * @version    1.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -41,7 +41,8 @@
  * facebook app. Once the information is submitted, permissions are set on the
  * facebook app. Then an access token is requested from facebook. The admin
  * page also give the administrator the ability to modify the style sheet that
- * is applied to the associated widget.
+ * is applied to the associated widget. Also contains short code
+ * functionality.
  *
  * @category   WordPress_Plugin
  * @package    JSL3_FWF
@@ -49,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.0
+ * @version    1.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -146,7 +147,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'app_secret' => '', 
                 'token'      => '',
                 'session'    => '',
-                'style'      => '');
+                'style'      => '',
+                'fb_id_only' => FALSE);
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -168,6 +170,43 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $jsl3_fwf_admin_options );
             
             return $jsl3_fwf_admin_options;
+        }
+
+        // }}}
+        // {{{ setting_checkbox2_fn()
+
+        /**
+         * Prints an html checkbox with associated label
+         *
+         * Prints an html checkbox with an id and name set to the passed in
+         * option.  An associated label and legend is created from the passed
+         * in label and legend..
+         *
+         * @param string $label the label for the checkbox.
+         * @param string $option the id and name of the checkbox.
+         * @param string $legend the legend for the checkbox.
+         *
+         * @access public
+         * @since Method available since Release 1.1
+         */
+        function setting_checkbox2_fn( $label, $option, $legend ) {
+            $dev_options = $this->get_admin_options();
+?>
+<tr valign="top">
+  <th scope="row"><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></th>
+  <td>
+    <fieldset>
+      <legend class="screen-reader-text">
+        <span><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></span>
+      </legend>
+      <label for="<?php echo $option; ?>">
+        <input type="checkbox" id="<?php echo $option; ?>" name="<?php echo $option; ?>" value="1" <?php if ( $dev_options[ $option ] ) echo 'checked '; ?>/>
+        <?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?>
+      </label>
+    </fieldset>
+  </td>
+</tr>
+<?php
         }
 
         // }}}
@@ -329,50 +368,50 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
          */
         function print_admin_page() {
             $dev_options = $this->get_admin_options();
-            $is_changed = FALSE;
+            //$is_changed = FALSE;
 
             // check to see if a post-back has occured
             if ( isset( $_POST[ 'update_jsl3_fwf_settings' ] ) ) {
 
                 // store the Facebook ID if it has been changed
                 if ( isset( $_POST[ 'fb_id' ] ) ) {
-                    if ( $_POST[ 'fb_id' ] != $dev_options[ 'fb_id' ] ) {
-                        $is_changed = TRUE;
+                    //if ( $_POST[ 'fb_id' ] != $dev_options[ 'fb_id' ] ) {
+                        //$is_changed = TRUE;
                         $dev_options[ 'fb_id' ] =
                             apply_filters( 'content_save_pre',
                                 $_POST[ 'fb_id' ] );
-                    }
+                    //}
                 }
 
                 // store the App ID if it has been changed
                 if ( isset( $_POST[ 'app_id' ] ) ) {
-                    if ( $_POST[ 'app_id' ] != $dev_options[ 'app_id' ] ) {
-                        $is_changed = TRUE;
+                    //if ( $_POST[ 'app_id' ] != $dev_options[ 'app_id' ] ) {
+                        //$is_changed = TRUE;
                         $dev_options[ 'app_id' ] =
                             apply_filters( 'content_save_pre',
                                 $_POST[ 'app_id' ] );
-                    }
+                    //}
                 }
                 
                 // store the App Secret if it has been changed
                 if ( isset( $_POST[ 'app_secret' ] ) ) {
-                    if ( $_POST[ 'app_secret' ] !=
-                        $dev_options[ 'app_secret' ] ) {
-                        $is_changed = TRUE;
+                    //if ( $_POST[ 'app_secret' ] !=
+                    //    $dev_options[ 'app_secret' ] ) {
+                        //$is_changed = TRUE;
                         $dev_options[ 'app_secret' ] =
                             apply_filters( 'content_save_pre',
                                 $_POST[ 'app_secret' ] );
-                    }
+                    //}
                 }
                 
                 // store the access token if it has been changed
                 if ( isset( $_POST[ 'token' ] ) ) {
-                    if ( $_POST['token'] != $dev_options[ 'token' ] ) {
-                        $is_changed = TRUE;
+                    //if ( $_POST['token'] != $dev_options[ 'token' ] ) {
+                        //$is_changed = TRUE;
                         $dev_options[ 'token' ] =
                             apply_filters( 'content_save_pre',
                                 $_POST[ 'token' ] );
-                    }
+                    //}
                 }
                 
                 // store the stylesheet
@@ -387,6 +426,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'style' ] = $this->reset_style_fn();
                 }
 
+                // store facebook id posts only
+                if ( isset( $_POST[ 'fb_id_only' ] ) &&
+                    ( $_POST[ 'fb_id_only' ] == '1' ) )
+                        $dev_options[ 'fb_id_only' ] = TRUE;
+                else
+                    $dev_options[ 'fb_id_only' ] = FALSE;
+
                 // store the admin options back to the WordPress database
                 update_option( $this->admin_options_name, $dev_options );
                 
@@ -394,14 +440,14 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                  * if the admin options have been changed then we probably
                  * need to request permission for the Facebook app
                  */
-                if ( $is_changed ) {
+                //if ( $is_changed ) {
                     $dev_options[ 'session' ] = $this->set_access();
 
                     update_option( $this->admin_options_name, $dev_options );
-                }
+                //}
 
                 // notify the user that the settings have been changed
-                $this->saved_settings_fn();
+                //$this->saved_settings_fn();
             
             } // end if
 
@@ -416,7 +462,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 update_option( $this->admin_options_name, $dev_options );
 
                 // don't display the saved setting dialog twice
-                if ( ! isset( $_POST[ 'update_jsl3_fwf_settings' ] ) )
+                //if ( ! isset( $_POST[ 'update_jsl3_fwf_settings' ] ) )
                     $this->saved_settings_fn();
             }
 
@@ -431,6 +477,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_text_fn( 'App ID', 'app_id' ); ?>
         <?php $this->setting_text_fn( 'App Secret', 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( 'Access Token', 'token' ); ?>
+        <?php $this->setting_checkbox2_fn( 'Only show posts made by this Facebook ID', 'fb_id_only', 'Facebook ID Only' ); ?>
         <?php $this->setting_textarea_fn( 'Modify the style sheet for the Facebook wall feed.', 'style', 'Style' ); ?>
       </tbody>
     </table>
@@ -579,6 +626,42 @@ Donate to Fedil Grogan
         } // End get_token function
 
         // }}}
+        // {{{ shortcode_handler()
+
+        /**
+         * Displays the facebook wall where shortcode appears.
+         *
+         * Displays the facebook wall as html where shortcode appears.
+         * Shortcode exmaples:
+         * [jsl3_fwf] - Displays default wall
+         * [jsl3_fwf limit="50"] - Displays the default wall with 50 posts.
+         *
+         * @param array $atts an associative array of attributes
+         *
+         * @return string the html replacing the shortcode.
+         *
+         * @access public
+         * @since Method available since Release 1.1
+         */
+        function shortcode_handler( $atts ) {
+            extract( shortcode_atts(
+                array( 'limit' => JSL3_FWF_WIDGET_LIMIT ), $atts ) );
+
+            $dev_options = $this->get_admin_options();
+            $feed = new UKI_Facebook_Wall_Feed(
+                $dev_options[ 'fb_id' ],
+                $dev_options[ 'app_id' ],
+                $dev_options[ 'app_secret' ],
+                $limit,
+                $dev_options[ 'token' ],
+                $dev_options[ 'fb_id_only' ] );
+            $feed->get_fb_wall_feed();
+
+            return $feed->display_fb_wall_feed();
+        }
+
+        // }}}
+
 
     } // End JSL_Facebook_wall_feed class
 
