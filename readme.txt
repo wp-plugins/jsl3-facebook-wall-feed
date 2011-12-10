@@ -30,11 +30,11 @@ Just add a comment and I will do my best to help you.
 
 Switch to HTML view and add the following:
 
-    \[jsl3_fwf\]
+    \[jsl3\_fwf\]
 
 To limit the number of posts displayed add the 'limit' attribute:
 
-    \[jsl3_fwf limit="1"\]
+    \[jsl3\_fwf limit="1"\]
 
 = How do I get rid of the 'Facebook Status' box? =
 
@@ -42,7 +42,7 @@ To remove the 'Facebook Status' box add the following to the bottom of the
 style sheet on the settings page for the plugin.
 
     /\* Remove Facebook Status \*/
-    \#facebook_status_box h2
+    \#facebook\_status\_box h2
     \{
         display: none;
     \}
@@ -74,12 +74,12 @@ style sheet on the settings page for the plugin.
 
 11. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
 
-12. Give the widget a title (or leave it blank) and enter how many posts you
+12. Give the widget a title \(or leave it blank\) and enter how many posts you
     want to get from your wall.
 
 13. Go check out your Facebook Wall Feed on your WordPress site.
 
-14. Add the shortcode **`\[jsl3_fwf\]`** or **`\[jsl3_fwf limit="1"\]`** to the
+14. Add the shortcode **`\[jsl3\_fwf\]`** or **`\[jsl3\_fwf limit="1"\]`** to the
     **HTML** view of a post or page.
 
 15. View your Facebook Wall Feed on your WordPress post or page.
@@ -89,7 +89,7 @@ style sheet on the settings page for the plugin.
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
 * Added shortcode capability.
-* Added a property to limit posts to only the user (posts by other users are not displayed).
+* Added a property to limit posts to only the user \(posts by other users are not displayed\).
 * Added a privacy setting to limit the feed to only public posts.
 * Added contextual help.
 * Added better error handling.
@@ -143,14 +143,14 @@ This is the initial version.
 
 1. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
 
-1. Give the widget a title (or leave it blank) and enter how many posts you
+1. Give the widget a title \(or leave it blank\) and enter how many posts you
    want to get from your wall. Then click **Save**.
 
 1. Go check out your Facebook Wall Feed on your WordPress site.
 
 == Shortcode Usage ==
 
-1. Add the shortcode **`\[jsl3_fwf\]`** or **`\[jsl3_fwf limit="1"\]`** to the
+1. Add the shortcode **`\[jsl3\_fwf\]`** or **`\[jsl3\_fwf limit="1"\]`** to the
    **HTML** view of a post or page.
 
 1. View your Facebook Wall Feed on your WordPress post or page.
