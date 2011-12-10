@@ -30,22 +30,22 @@ Just add a comment and I will do my best to help you.
 
 Switch to HTML view and add the following:
 
-[jsl3_fwf]
+    \[jsl3_fwf\]
 
 To limit the number of posts displayed add the 'limit' attribute:
 
-[jsl3_fwf limit="1"]
+    \[jsl3_fwf limit="1"\]
 
 = How do I get rid of the 'Facebook Status' box? =
 
 To remove the 'Facebook Status' box add the following to the bottom of the
 style sheet on the settings page for the plugin.
 
-/* Remove Facebook Status */
-&num;facebook_status_box h2
-{
-display: none;
-}
+    /\* Remove Facebook Status \*/
+    \#facebook_status_box h2
+    \{
+        display: none;
+    \}
 
 == Screenshots ==
 
@@ -79,7 +79,7 @@ display: none;
 
 13. Go check out your Facebook Wall Feed on your WordPress site.
 
-14. Add the shortcode **[jsl3_fwf]** or **[jsl3_fwf limit="1"]** to the
+14. Add the shortcode **`\[jsl3_fwf\]`** or **`\[jsl3_fwf limit="1"\]`** to the
     **HTML** view of a post or page.
 
 15. View your Facebook Wall Feed on your WordPress post or page.
@@ -150,7 +150,7 @@ This is the initial version.
 
 == Shortcode Usage ==
 
-1. Add the shortcode **[jsl3_fwf]** or **[jsl3_fwf limit="1"]** to the
+1. Add the shortcode **`\[jsl3_fwf\]`** or **`\[jsl3_fwf limit="1"\]`** to the
    **HTML** view of a post or page.
 
 1. View your Facebook Wall Feed on your WordPress post or page.
