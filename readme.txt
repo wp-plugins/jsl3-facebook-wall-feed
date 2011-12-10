@@ -42,7 +42,7 @@ To remove the 'Facebook Status' box add the following to the bottom of the
 style sheet on the settings page for the plugin.
 
 /* Remove Facebook Status */
-#facebook_status_box h2
+&num;facebook_status_box h2
 {
 display: none;
 }
