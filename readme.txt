@@ -29,14 +29,18 @@ Just add a comment and I will do my best to help you.
 = How do I use shortcode to add the Facebook Wall Feed to a post or page? =
 
 Switch to HTML view and add the following:
+
     [jsl3_fwf]
+
 To limit the number of posts displayed add the 'limit' attribute:
+
     [jsl3_fwf limit="1"]
 
 = How do I get rid of the 'Facebook Status' box? =
 
 To remove the 'Facebook Status' box add the following to the bottom of the
 style sheet on the settings page for the plugin:
+
     /* Remove Facebook Status */
     #facebook_status_box h2
     {
@@ -85,8 +89,8 @@ style sheet on the settings page for the plugin:
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
 * Added shortcode capability.
-* Added a property to limit posts to only the user (posts by other users are
-  not displayed).
+* Added a property to limit posts to only the user (posts by other users
+  are not displayed).
 * Added a privacy setting to limit the feed to only public posts.
 * Added contextual help.
 * Added better error handling.
