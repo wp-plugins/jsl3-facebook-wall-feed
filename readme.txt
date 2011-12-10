@@ -85,7 +85,8 @@ style sheet on the settings page for the plugin:
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
 * Added shortcode capability.
-* Added a property to limit posts to only the user (posts by other users are not displayed).
+* Added a property to limit posts to only the user (posts by other users are
+  not displayed).
 * Added a privacy setting to limit the feed to only public posts.
 * Added contextual help.
 * Added better error handling.
