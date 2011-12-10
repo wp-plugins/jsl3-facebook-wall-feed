@@ -91,17 +91,252 @@ if ( class_exists( 'JSL3_Facebook_Wall_Feed' ) )
  */
 if ( ! function_exists( 'jsl3_facebook_wall_feed_ap' ) ) {
     function jsl3_facebook_wall_feed_ap() {
+        global $jsl3_fwf_plugin_hook;
         global $jsl3_fwf;
+
         if ( ! isset( $jsl3_fwf ) )
             return;
 
         if ( function_exists( 'add_options_page' ) ) {
-            add_options_page(
+            $jsl3_fwf_plugin_hook = add_options_page(
                 JSL3_FWF_TITLE,
                 JSL3_FWF_TITLE,
                 'manage_options',
                 JSL3_FWF_SLUG,
                 array( &$jsl3_fwf, 'print_admin_page' ) );
+    
+            if ( get_bloginfo( 'version' ) >= 3.3 )
+                add_action( "load-$jsl3_fwf_plugin_hook",
+                    'jsl3_fwf_help_tabs' );
+            else
+                add_filter( 'contextual_help', 'jsl3_fwf_help', 10, 3 );
+    
+        }
+    }   
+}
+
+// }}}
+// {{{ jsl3_fwf_print_menu()
+
+/**
+ * Print help menu
+ *
+ * Prints the contextual help menu.
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_print_menu' ) ) {
+    function jsl3_fwf_print_menu() {
+
+        return '<h2 id="jsl3_fwf_top">Menu</h2>' .
+               '<ul>' .
+               '  <li><a href="#jsl3_fwf_config">Configuration</a></li>' .
+               '  <li><a href="#jsl3_fwf_widget">Widget Usage</a></li>' .
+               '  <li><a href="#jsl3_fwf_short">Shortcode Usage</a></li>' .
+               '</ul>';
+    
+    }
+}
+
+// }}}
+// {{{ jsl3_fwf_print_config()
+
+/**
+ * Print the configuration help page
+ *
+ * Prints the configuration contextual help page.
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
+    function jsl3_fwf_print_config() {
+
+        return '<ol>' .
+               '  <li><a href="https://developers.facebook.com/apps">Create your Facebook App</a>.</li>' .
+               '  <li>' .
+               '    <strong>Allow</strong> Developer to access your basic information.<br />' .
+               '    <img title="Allow Developer to access your basic information." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-2.png" alt="Allow Developer to access your basic information."  />' .
+               '  </li>' .
+               '  <li>' .
+               '    Click <strong>Create New App</strong>.<br />' .
+               '    <img title="Click Create New App." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-3.png" alt="Click Create New App." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Enter any <strong>App Display Name</strong> and <strong>App Namespace</strong>. I suggest using the name of your blog. Agree to the Facebook Platform Policies and click <strong>Continue</strong>. You will be prompted with a security check.<br />' .
+               '    <img title="Enter any App Display Name and App Namespace." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-4.png" alt="Enter any App Display Name and App Namespace." />' .
+               '  </li>' .
+               '  <li>' .
+               '    On your App page, enter your <strong>App Domain</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website</strong> and enter your <strong>Site URL</strong>. Then save your changes.<br />' .
+               '    <img title="On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-5.png" alt="On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Record your <strong>App ID</strong> and <strong>App Secret</strong>. You will need these later.' .
+               '  </li>' .
+               '  <li>' .
+               '    Go to <strong>JSL3 Facebook Wall Feed</strong> under <strong>Settings</strong> on the Dashboard menu.<br />' .
+               '    <img title="Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-6.png" alt="Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Enter your <strong>Facebook ID</strong>. This is the number at the end of your Facebook profile URL.<br />' .
+               '    <img title="Enter your Facebook ID." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-7.png" alt="Enter your Facebook ID." /><br />' .
+               '    Enter the <strong>App ID</strong> and <strong>App Secret</strong> you recorded earlier. Click <strong>Save Changes</strong>.' .
+               '  </li>' .
+               '  <li>' .
+               '    You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.<br />' .
+               '    <img title="You will be redirected to Facebook. You may be prompted to Log In a couple of times." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="You will be redirected to Facebook. You may be prompted to Log In a couple of times." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Allow your Facebook App to have access to your Facebook profile.<br />' .
+               '    <img title="Allow your Facebook App to have access to your Facebook profile." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-9.png" alt="Allow your Facebook App to have access to your Facebook profile." />' .
+               '  </li>' .
+               '  <li>' .
+               '    You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong>.<br />' .
+               '    <img title="You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token." />' .
+               '  </li>' .
+               '</ol>';
+
+    }
+}
+
+// }}}
+// {{{ jsl3_fwf_print_widget()
+
+/**
+ * Print the widget usage help page
+ *
+ * Prints the widget usage contextual help page.
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_print_widget' ) ) {
+    function jsl3_fwf_print_widget() {
+
+        return '<ol>' .
+               '  <li>' .
+               '    Go to <strong>Widgets</strong> under <strong>Appearance</strong> on the Dashboard menu.' .
+               '  </li>' .
+               '  <li>' .
+               '    Drag the <strong>JSL3 Facebook Wall Feed</strong> widget to the sidebar of your choice.<br />' .
+               '    <img title="Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-11.png" alt="Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. Then click <strong>Save</strong>.<br />' .
+               '    <img title="Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-12.png" alt="Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall." />' .
+               '  </li>' .
+               '  <li>' .
+               '    Go check out your Facebook Wall Feed on your WordPress site.<br />' .
+               '    <img title="Go check out your Facebook Wall Feed on your WordPress site." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-13.png" alt="Go check out your Facebook Wall Feed on your WordPress site." />' .
+               '  </li>' .
+               '</ol>';
+
+    }
+}
+
+// }}}
+// {{{ jsl3_fwf_print_short()
+
+/**
+ * Print the shortcode usage help page
+ *
+ * Prints the shortcode usage contextual help page.
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_print_short' ) ) {
+    function jsl3_fwf_print_short() {
+
+        return '<ol>' .
+               '  <li>' .
+               '    Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="1"]</strong> to the <strong>HTML</strong> view of a post or page.<br />' .
+               '    <img title="Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-14.png" alt="Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page." />' .
+               '  </li>' .
+               '  <li>' .
+               '    View your Facebook Wall Feed on your WordPress post or page.<br />' .
+               '    <img title="View your Facebook Wall Feed on your WordPress post or page." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-15.png" alt="View your Facebook Wall Feed on your WordPress post or page." />' .
+               '  </li>' .
+               '</ol>';
+
+    }
+}
+
+// }}}
+// {{{ jsl3_fwf_help()
+
+/**
+ * Adds contextual help
+ *
+ * Adds contextual help to the admin page for the plugin on WordPress 3.2.1.
+ *
+ * @param string $contextual_help the existing contextual help.
+ * @param string $screen_id the screen ID.
+ * @param string $screen the screen name.
+ *
+ * @return string the new contextual help
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_help' ) ) {
+    function jsl3_fwf_help( $contextual_help, $screen_id, $screen ) {
+        global $jsl3_fwf_plugin_hook;
+
+        if ( $screen_id == $jsl3_fwf_plugin_hook ) {
+            $contextual_help =
+                jsl3_fwf_print_menu() .
+                '<h2 id="jsl3_fwf_config">Configuration</h2>' .
+                jsl3_fwf_print_config() .
+                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
+                '<h2 id="jsl3_fwf_widget">Widget Usage</h2>' .
+                jsl3_fwf_print_widget() .
+                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
+                '<h2 id="jsl3_fwf_short">Shortcode Usage</h2>' .
+                jsl3_fwf_print_short() .
+                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
+                $contextual_help;
+        }
+
+        return $contextual_help;
+    }   
+}
+
+// }}}
+// {{{ jsl3_fwf_help_tabs()
+
+/**
+ * Adds contextual help
+ *
+ * Adds contextual help to the admin page for the plugin on WordPress 3.3.
+ *
+ * @access public
+ * @since Method available since Release 1.1
+ */
+if ( ! function_exists( 'jsl3_fwf_help_tabs' ) ) {
+    function jsl3_fwf_help_tabs() {
+        global $jsl3_fwf_plugin_hook;
+
+        $screen = get_current_screen();
+
+        if ( $screen->id == $jsl3_fwf_plugin_hook ) {
+
+            $screen->add_help_tab( array(
+                'id' => 'jsl3-fwf-config',
+                'title' => __( 'Configuration', 'JSL3_Facebook_Wall_Feed' ),
+                'content' => jsl3_fwf_print_config() ) );
+
+            $screen->add_help_tab( array(
+                'id' => 'jsl3-fwf-widget',
+                'title' => __( 'Widget Usage', 'JSL3_Facebook_Wall_Feed' ),
+                'content' => jsl3_fwf_print_widget() ) );
+
+            $screen->add_help_tab( array(
+                'id' => 'jsl3-fwf-short',
+                'title' => __( 'Shortcode Usage', 'JSL3_Facebook_Wall_Feed' ),
+                'content' => jsl3_fwf_print_short() ) );
+        
         }
     }   
 }
@@ -116,7 +351,7 @@ if ( ! function_exists( 'jsl3_facebook_wall_feed_ap' ) ) {
  * page.
  *
  * @param array $links an array of plugin links.
- * @param string the basename of the plugin file.
+ * @param string $file the basename of the plugin file.
  *
  * @access public
  * @since Method available since Release 1.0
@@ -157,7 +392,6 @@ if ( isset( $jsl3_fwf ) ) {
     add_action( 'wp_print_styles', array(&$jsl3_fwf, 'enqueue_style' ) );
 
     //Filters
-    //add_filter( 'plugin_action_links', 'jsl3_fwf_plugin_action_links', 10, 2 );
     add_filter( 'plugin_action_links', 'jsl3_fwf_plugin_action_links', 10, 2 );
     
     //Shortcode
