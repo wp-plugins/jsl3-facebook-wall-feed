@@ -26,7 +26,7 @@ You can find support on the
 [JSL3 Facebook Wall Feed](http://takanudo.com/jsl3-facebook-wall-feed) page.
 Just add a comment and I will do my best to help you.
 
-= How do I use shortcode to add the Facebook Wall Feed to a post or page?
+= How do I use shortcode to add the Facebook Wall Feed to a post or page? =
 
 Switch to HTML view and add the following:
 
@@ -36,7 +36,7 @@ To limit the number of posts displayed add the 'limit' attribute:
 
 [jsl3_fwf limit="1"]
 
-= How do I get rid of the 'Facebook Status' box?
+= How do I get rid of the 'Facebook Status' box? =
 
 To remove the 'Facebook Status' box add the following to the bottom of the
 style sheet on the settings page for the plugin.
