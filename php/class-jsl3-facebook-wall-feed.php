@@ -521,6 +521,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 ?>
 <div class=wrap>
   <h2><?php _e( 'JSL3 Facebook Wall Feed', 'JSL3_Facebook_Wall_Feed' ); ?></h2>
+  For configuration and usage assistance click 'Help' in the upper right hand
+  corner of this page or go to the 
+  <a href="http://takanudo.com/jsl3-facebook-wall-feed">JSL3 Facebook Wall Feed</a> page.
   <form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
     <table class="form-table">
       <tbody>

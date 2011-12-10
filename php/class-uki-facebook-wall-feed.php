@@ -221,11 +221,30 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function display_fb_wall_feed() {
-        $fb_feed = $this->fb_wall_feed[ 'data' ];
+        if ( isset( $this->fb_wall_feed[ 'data' ] ) ) {
+            $fb_feed = $this->fb_wall_feed[ 'data' ];
+            $is_error = FALSE;
+        } else {
+            $fb_feed = $this->fb_wall_feed[ 'error' ];
+            $is_error = TRUE;
+        }
 
         $result = '<div id="facebook_status_box">' .
                   '  <h2>Facebook Status</h2>' .
                   '  <div id="facebook_canvas">';
+
+        if ( $is_error ) {
+            $result .=
+                  '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
+                  '      <strong>' .
+                  $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ] .
+                  '      </strong>' .
+                  '    </div>' .
+                  '  </div>' .
+                  '</div>';
+            
+            return $result;
+        }
 
         // loop through each post in the feed
         for ( $i = 0; $i < count( $fb_feed ); $i++) {
