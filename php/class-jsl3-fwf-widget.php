@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -65,8 +65,10 @@ class JSL3_FWF_Widget extends WP_Widget {
      * @since Method available since Release 1.0
      */
     function JSL3_FWF_Widget() {
-        parent::WP_Widget( false, $name = JSL3_FWF_TITLE,
-            array( 'description' => JSL3_FWF_DESCRIPTION ) );
+        parent::WP_Widget( false,
+            $name = __( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ),
+            array( 'description' =>
+                __( 'Display your facebook wall', JSL3_FWF_TEXT_DOMAIN ) ) );
 
     }
 
@@ -170,11 +172,11 @@ class JSL3_FWF_Widget extends WP_Widget {
 ?>
 <p>
   <label>
-    Title:
+    <?php _e( 'Title', JSL3_FWF_TEXT_DOMAIN ); ?>:
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
   </label>
   <label>
-    Number of wall posts to get:
+    <?php _e( 'Number of wall posts to get', JSL3_FWF_TEXT_DOMAIN ); ?>:
     <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" value="<?php echo $limit; ?>" />
   </label>
 </p>

@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,13 +50,14 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
 
 if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
     class JSL3_Facebook_Wall_Feed {
+
         // {{{ properties
 
         /**
@@ -196,7 +197,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 ?>
 <tr valign="top">
   <th scope="row">
-    <label for="<?php echo $option; ?>"><?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?></label>
+    <label for="<?php echo $option; ?>"><?php echo $label; ?></label>
   </th>
   <td>
     <select id="<?php echo $option; ?>" name="<?php echo $option; ?>">
@@ -234,15 +235,15 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             $dev_options = $this->get_admin_options();
 ?>
 <tr valign="top">
-  <th scope="row"><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></th>
+  <th scope="row"><?php echo $legend; ?></th>
   <td>
     <fieldset>
       <legend class="screen-reader-text">
-        <span><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></span>
+        <span><?php echo $legend; ?></span>
       </legend>
       <label for="<?php echo $option; ?>">
         <input type="checkbox" id="<?php echo $option; ?>" name="<?php echo $option; ?>" value="1" <?php if ( $dev_options[ $option ] ) echo 'checked="checked" '; ?>/>
-        <?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?>
+        <?php echo $label; ?>
       </label>
     </fieldset>
   </td>
@@ -270,7 +271,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 <p>
   <label for="<?php echo $option; ?>">
     <input type="checkbox" id="<?php echo $option; ?>" name="<?php echo $option; ?>" />
-    <?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?>
+    <?php echo $label; ?>
   </label>
 </p>
 <?php
@@ -299,19 +300,19 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             $dev_options = $this->get_admin_options();
 ?>
 <tr valign="top">
-  <th scope="row"><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' ); ?></th>
+  <th scope="row"><?php echo $legend; ?></th>
   <td>
     <fieldset>
       <legend class="screen-reader-text">
-        <span><?php _e( $legend, 'JSL3_Facebook_Wall_Feed' );  ?></span>
+        <span><?php echo $legend;  ?></span>
       </legend>
       <p>
-        <label for="<?php echo $option; ?>"><?php _e( $label, 'JSL3_Facebook_Wall_Feed' );  ?></label>
+        <label for="<?php echo $option; ?>"><?php echo $label;  ?></label>
       </p>
       <p>
         <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', stripslashes( $dev_options[ $option ] ) );  ?></textarea>
       </p>
-      <?php $this->setting_checkbox_fn( 'Tick this box if you wish to reset the style to default.', 'reset_style' ); ?>
+      <?php $this->setting_checkbox_fn( __('Tick this box if you wish to reset the style to default.', JSL3_FWF_TEXT_DOMAIN ), 'reset_style' ); ?>
     </fieldset>
   </td>
 </tr>
@@ -337,7 +338,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             $dev_options = $this->get_admin_options();
 ?>
 <tr valign="top">
-  <th scope="row"><label for="<?php echo $option; ?>"><?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?></label></th>
+  <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
   <td><input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', $dev_options[ $option ] ); ?>" /></td>
 </tr>
 <?php
@@ -362,7 +363,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             $dev_options = $this->get_admin_options();
 ?>
 <tr valign="top">
-  <th scope="row"><label for="<?php echo $option; ?>"><?php _e( $label, 'JSL3_Facebook_Wall_Feed' ); ?></label></th>
+  <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
   <td>
     <input id="<?php echo $option; ?>" name="<?php echo $option; ?>" type="hidden" value="<?php echo apply_filters( 'format_to_edit', $dev_options[ $option ] ); ?>" />
     <?php echo $dev_options[ $option ]; ?>
@@ -387,7 +388,31 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 ?>
 <div id="setting-error-settings_updated" class="updated settings-error">
   <p>
-    <strong><?php _e( 'Settings saved.', 'JSL3_Facebook_Wall_Feed' ); ?></strong>
+    <strong><?php _e( 'Settings saved.', JSL3_FWF_TEXT_DOMAIN ); ?></strong>
+  </p>
+</div>
+<?php
+        }
+
+        // }}}
+        // {{{ error_msg_fn()
+
+        /**
+         * Prints an html error message dialog box
+         *
+         * Prints an html error message dialog box at the top of the page
+         * to alert the user that an passed in error has occurred.
+         *
+         * @param string $msg the error message
+         *
+         * @access public
+         * @since Method available since Release 1.0
+         */
+        function error_msg_fn( $msg ) {
+?>
+<div id="setting-error-invalid_csrf" class="error settings-error">
+  <p>
+    <strong><?php echo $msg; ?></strong>
   </p>
 </div>
 <?php
@@ -420,7 +445,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                         //$is_changed = TRUE;
                         $dev_options[ 'fb_id' ] =
                             apply_filters( 'content_save_pre',
-                                $_POST[ 'fb_id' ] );
+                                trim( $_POST[ 'fb_id' ] ) );
                     //}
                 }
 
@@ -430,7 +455,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                         //$is_changed = TRUE;
                         $dev_options[ 'app_id' ] =
                             apply_filters( 'content_save_pre',
-                                $_POST[ 'app_id' ] );
+                                trim( $_POST[ 'app_id' ] ) );
                     //}
                 }
                 
@@ -441,7 +466,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                         //$is_changed = TRUE;
                         $dev_options[ 'app_secret' ] =
                             apply_filters( 'content_save_pre',
-                                $_POST[ 'app_secret' ] );
+                                trim( $_POST[ 'app_secret' ] ) );
                     //}
                 }
                 
@@ -511,51 +536,51 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 
                 // don't display the saved setting dialog twice
                 //if ( ! isset( $_POST[ 'update_jsl3_fwf_settings' ] ) )
+                if ( isset( $dev_options[ 'token' ] ) )
                     $this->saved_settings_fn();
             }
 
             // time to print the admin page
             $sel_options = array(
-                'All'    => 'Show all wall posts',
-                'Public' => 'Show only wall posts labeled public' );
+                'All'    => __( 'Show all wall posts', JSL3_FWF_TEXT_DOMAIN ),
+                'Public' => __( 'Show only wall posts labeled public',
+                    JSL3_FWF_TEXT_DOMAIN ) );
 ?>
 <div class=wrap>
-  <h2><?php _e( 'JSL3 Facebook Wall Feed', 'JSL3_Facebook_Wall_Feed' ); ?></h2>
-  For configuration and usage assistance click 'Help' in the upper right hand
-  corner of this page or go to the 
-  <a href="http://takanudo.com/jsl3-facebook-wall-feed">JSL3 Facebook Wall Feed</a> page.
+  <h2><?php _e( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ); ?></h2>
+  <?php _e( 'For configuration and usage assistance click "Help" in the upper right hand corner of this page or go to the <a href="http://takanudo.com/jsl3-facebook-wall-feed">JSL3 Facebook Wall Feed</a> page.', JSL3_FWF_TEXT_DOMAIN ); ?>
   <form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
     <table class="form-table">
       <tbody>
-        <?php $this->setting_text_fn( 'Facebook ID', 'fb_id' ); ?>
-        <?php $this->setting_text_fn( 'App ID', 'app_id' ); ?>
-        <?php $this->setting_text_fn( 'App Secret', 'app_secret' ); ?>
-        <?php $this->setting_hidden_fn( 'Access Token', 'token' ); ?>
-        <?php $this->setting_checkbox2_fn( 'Only show posts made by this Facebook ID', 'fb_id_only', 'Facebook ID Only' ); ?>
-        <?php $this->setting_select_fn( 'Privacy', 'privacy', $sel_options ); ?>
-        <?php $this->setting_textarea_fn( 'Modify the style sheet for the Facebook wall feed.', 'style', 'Style' ); ?>
+        <?php $this->setting_text_fn( __( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ), 'fb_id' ); ?>
+        <?php $this->setting_text_fn( __( 'App ID', JSL3_FWF_TEXT_DOMAIN ), 'app_id' ); ?>
+        <?php $this->setting_text_fn( __( 'App Secret', JSL3_FWF_TEXT_DOMAIN ), 'app_secret' ); ?>
+        <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_options ); ?>
+        <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
       </tbody>
     </table>
     <p class="submit">
-      <input id="submit" type="submit" name="update_jsl3_fwf_settings" class="button-primary" value="<?php _e('Save Changes', 'JSL3FacebookWallFeed') ?>" />
+      <input id="submit" type="submit" name="update_jsl3_fwf_settings" class="button-primary" value="<?php _e( 'Save Changes', JSL3_FWF_TEXT_DOMAIN ) ?>" />
     </p>
   </form>
 </div>
 <div style="text-align: center;">
-Donate to Tak
+<?php _e( 'Donate to Tak', JSL3_FWF_TEXT_DOMAIN ); ?>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="YQT4472ZPCLXN">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="<?php _e( 'PayPal - The safer, easier way to pay online!', JSL3_FWF_TEXT_DOMAIN ); ?>">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 </div>
 <div style="text-align: center;">
-Donate to Fedil Grogan
+<?php _e( 'Donate to Fedil Grogan', JSL3_FWF_TEXT_DOMAIN ); ?>
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="SDLFWRVWURBDQ">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="<?php _e( 'PayPal - The safer, easier way to pay online!', JSL3_FWF_TEXT_DOMAIN ); ?>">
 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"><br />
 </form>
 </div>
@@ -664,17 +689,16 @@ Donate to Fedil Grogan
                 $params = NULL;
                 parse_str( $response, $params );
 
-                $access_token = $params[ 'access_token' ];
+                if ( isset( $params[ 'access_token' ] ) )
+                    $access_token = $params[ 'access_token' ];
+                else
+                    $this->error_msg_fn(
+                        __( 'No access token returned.  Please double check you have correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
             
             // if the session doesn't match alert the user
             } else {
-?>
-<div id="setting-error-invalid_csrf" class="error settings-error">
-  <p>
-    <strong><?php _e( 'The state does not match. You may be a victim of CSRF.', 'JSL3_Facebook_Wall_Feed' ); ?></strong>
-  </p>
-</div>
-<?php
+                $this->error_msg_fn(
+                    __( 'The state does not match. You may be a victim of CSRF.', JSL3_FWF_TEXT_DOMAIN ) );
             }
 
             return $access_token;

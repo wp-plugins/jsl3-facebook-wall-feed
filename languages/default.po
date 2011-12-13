@@ -1,0 +1,288 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: jsl3_fwf\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-12 16:30-0800\n"
+"PO-Revision-Date: 2011-12-12 16:30-0800\n"
+"Last-Translator: Takanudo <fwf@takanudo.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: php\n"
+
+#: jsl3-facebook-wall-feed.php:102
+#: jsl3-facebook-wall-feed.php:103
+#: php/class-jsl3-fwf-widget.php:69
+#: php/class-jsl3-facebook-wall-feed.php:550
+msgid "JSL3 Facebook Wall Feed"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:135
+#: jsl3-facebook-wall-feed.php:296
+#: jsl3-facebook-wall-feed.php:341
+msgid "Configuration"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:137
+#: jsl3-facebook-wall-feed.php:302
+#: jsl3-facebook-wall-feed.php:346
+msgid "Widget Usage"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:139
+#: jsl3-facebook-wall-feed.php:308
+#: jsl3-facebook-wall-feed.php:351
+msgid "Shortcode Usage"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:161
+msgid "Create your Facebook App"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:164
+msgid "<strong>Allow</strong> Developer to access your basic information."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:165
+msgid "Allow Developer to access your basic information."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:168
+msgid "Click <strong>Create New App</strong>."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:169
+msgid "Click Create New App."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:172
+msgid "Enter any <strong>App Display Name</strong> and <strong>App Namespace</strong>. I suggest using the name of your blog. Agree to the Facebook Platform Policies and click <strong>Continue</strong>. You will be prompted with a security check."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:173
+msgid "Enter any App Display Name and App Namespace."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:176
+msgid "On your App page, enter your <strong>App Domain</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website</strong> and enter your <strong>Site URL</strong>. Then save your changes."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:177
+msgid "On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:180
+msgid "Record your <strong>App ID</strong> and <strong>App Secret</strong>. You will need these later."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:183
+msgid "Go to <strong>JSL3 Facebook Wall Feed</strong> under <strong>Settings</strong> on the Dashboard menu."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:184
+msgid "Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:187
+msgid "Enter your <strong>Facebook ID</strong>. This is the number at the end of your Facebook profile URL."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:188
+msgid "Enter your Facebook ID."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:189
+msgid "Enter the <strong>App ID</strong> and <strong>App Secret</strong> you recorded earlier. Click <strong>Save Changes</strong>."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:192
+msgid "You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:193
+msgid "You will be redirected to Facebook. You may be prompted to Log In a couple of times."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:196
+#: jsl3-facebook-wall-feed.php:197
+msgid "Allow your Facebook App to have access to your Facebook profile."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:200
+msgid "You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong>."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:201
+msgid "You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:224
+msgid "Go to <strong>Widgets</strong> under <strong>Appearance</strong> on the Dashboard menu."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:227
+msgid "Drag the <strong>JSL3 Facebook Wall Feed</strong> widget to the sidebar of your choice."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:228
+msgid "Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:231
+msgid "Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. Then click <strong>Save</strong>."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:232
+msgid "Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:235
+#: jsl3-facebook-wall-feed.php:236
+msgid "Go check out your Facebook Wall Feed on your WordPress site."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:259
+msgid "Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit=\"1\"]</strong> to the <strong>HTML</strong> view of a post or page."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:260
+msgid "Add the shortcode [jsl3_fwf] or [jsl3_fwf limit=\"1\"] to the HTML view of a post or page."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:263
+#: jsl3-facebook-wall-feed.php:264
+msgid "View your Facebook Wall Feed on your WordPress post or page."
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:299
+#: jsl3-facebook-wall-feed.php:305
+#: jsl3-facebook-wall-feed.php:311
+msgid "Back to top"
+msgstr ""
+
+#: jsl3-facebook-wall-feed.php:388
+msgid "Settings"
+msgstr ""
+
+#: php/class-jsl3-fwf-widget.php:71
+msgid "Display your facebook wall"
+msgstr ""
+
+#: php/class-jsl3-fwf-widget.php:175
+msgid "Title"
+msgstr ""
+
+#: php/class-jsl3-fwf-widget.php:179
+msgid "Number of wall posts to get"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:315
+msgid "Tick this box if you wish to reset the style to default."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:391
+msgid "Settings saved."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:545
+msgid "Show all wall posts"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:546
+msgid "Show only wall posts labeled public"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:551
+msgid "For configuration and usage assistance click \"Help\" in the upper right hand corner of this page or go to the <a href=\"http://takanudo.com/jsl3-facebook-wall-feed\">JSL3 Facebook Wall Feed</a> page."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:555
+msgid "Facebook ID"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:556
+msgid "App ID"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:557
+msgid "App Secret"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:558
+msgid "Access Token"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:559
+msgid "Only show posts made by this Facebook ID"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:559
+msgid "Facebook ID Only"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:560
+msgid "Privacy"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:561
+msgid "Modify the style sheet for the Facebook wall feed."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:561
+msgid "Style"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:565
+msgid "Save Changes"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:570
+msgid "Donate to Tak"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:574
+#: php/class-jsl3-facebook-wall-feed.php:583
+msgid "PayPal - The safer, easier way to pay online!"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:579
+msgid "Donate to Fedil Grogan"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:696
+msgid "No access token returned.  Please double check you have correct Facebook ID, App ID, and App Secret."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:701
+msgid "The state does not match. You may be a victim of CSRF."
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:239
+msgid "Facebook Status"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:504
+msgid "Facebook Profile Pic"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:568
+msgid "Length"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:592
+msgid "people like this"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:596
+msgid "Comment"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:655
+msgid "at"
+msgstr ""
+

@@ -25,7 +25,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -61,6 +61,12 @@ if ( ! defined( 'JSL3_FWF_PLUGIN_URL' ) )
         WP_PLUGIN_URL . '/' . JSL3_FWF_PLUGIN_NAME );
 
 /**
+ * Text domain
+ */
+ if ( ! defined( 'JSL3_FWF_TEXT_DOMAIN' ) )
+    define( 'JSL3_FWF_TEXT_DOMAIN', 'jsl3_fwf' );
+
+/**
  * The name of the admin options stored in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_ADMIN_OPTIONS' ) )
@@ -85,18 +91,6 @@ if ( ! defined( 'JSL3_FWF_WIDGET_LIMIT' ) )
     define( 'JSL3_FWF_WIDGET_LIMIT', 100 );
 
 /**
- * The title of this plugin
- */
-if ( ! defined( 'JSL3_FWF_TITLE' ) )
-    define( 'JSL3_FWF_TITLE', 'JSL3 Facebook Wall Feed' );
-
-/**
- * The description of this plugin
- */
-if ( ! defined( 'JSL3_FWF_DESCRIPTION' ) )
-    define( 'JSL3_FWF_DESCRIPTION', 'Display your facebook wall' );
-
-/**
  * The admin page slug
  */
 if ( ! defined( 'JSL3_FWF_SLUG' ) )
@@ -112,7 +106,7 @@ if ( ! defined( 'JSL3_FWF_VERSION_KEY' ) )
  * The version number used in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_VERSION_NUM' ) )
-    define( 'JSL3_FWF_VERSION_NUM', '1.1' );
+    define( 'JSL3_FWF_VERSION_NUM', '1.2' );
 
 /**
  * The file name used for the UKI files

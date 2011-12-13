@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -221,23 +221,34 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function display_fb_wall_feed() {
+        $fb_feed = array();
+        $is_error = FALSE;
         if ( isset( $this->fb_wall_feed[ 'data' ] ) ) {
             $fb_feed = $this->fb_wall_feed[ 'data' ];
             $is_error = FALSE;
-        } else {
+        } elseif ( isset( $this->fb_wall_feed[ 'error' ] ) ) {
             $fb_feed = $this->fb_wall_feed[ 'error' ];
+            $is_error = TRUE;
+        } else {
+            $fb_feed = json_encode( $this->fb_wall_feed );
             $is_error = TRUE;
         }
 
         $result = '<div id="facebook_status_box">' .
-                  '  <h2>Facebook Status</h2>' .
+                  '  <h2>' .
+                  __( 'Facebook Status', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                   '  <div id="facebook_canvas">';
 
         if ( $is_error ) {
             $result .=
                   '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
-                  '      <strong>' .
-                  $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ] .
+                  '      <strong>';
+            if ( isset( $fb_feed[ 'type' ] ) )
+                $result .=
+                    $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ];
+            else
+                $result .= $fb_feed;
+            $result .=
                   '      </strong>' .
                   '    </div>' .
                   '  </div>' .
@@ -490,7 +501,7 @@ class UKI_Facebook_Wall_Feed {
                     '  <div class="fb_photoblock">' .
                     '    <div class="fb_photo">' .
                     '      <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
-                    '        <img src="' . $fb_photo . '" alt="Facebook Profile Pic" />' .
+                    '        <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                     '      </a>' .
                     '    </div>' .
                     '    <div class="fb_photo_content">' .
@@ -554,7 +565,7 @@ class UKI_Facebook_Wall_Feed {
                     '      <h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>';
             if ( isset( $fb_video_length ) )
                 $result .=
-                    '      <p class="fb_vid_length">Length: <strong>' . $fb_video_length . '</strong></p>';
+                    '      <p class="fb_vid_length">' . __( 'Length', JSL3_FWF_TEXT_DOMAIN ) . ': <strong>' . $fb_video_length . '</strong></p>';
             if ( isset( $fb_cap ) )
                 $result .=
                     '      <p class="fb_cap">' . $fb_cap . '</p>';
@@ -578,11 +589,11 @@ class UKI_Facebook_Wall_Feed {
                     '    <span class="fb_likes">';
         if ( $fb_likes > 0 )
             $result .=
-                    '      <a class="tooltip" title="' . $fb_likes . ' people like this" href="#">' . $fb_likes . '</a>';
+                    '      <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="#">' . $fb_likes . '</a>';
         $result .=
                     '    </span>' .
                     '    <span class="fb_comment">' .
-                    '      <a href="' . $comment_link . '">Comment</a>' .
+                    '      <a href="' . $comment_link . '">' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
                     '    </span>' .
                     '  </div>' .
                     '  <div style="clear: both;"></div>' .
@@ -641,7 +652,7 @@ class UKI_Facebook_Wall_Feed {
         $time_str = $time_hr . ':' . $time_arr[ 1 ];
 
         //return "Posted: $time_str $date_str";
-        return "$date_str at $time_str";
+        return $date_str . ' ' . __( 'at', JSL3_FWF_TEXT_DOMAIN ) . ' ' . $time_str;
     }
 
     // }}}

@@ -3,7 +3,7 @@
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
 Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a>.
-Version: 1.1
+Version: 1.2
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2011  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.1
+ * @version    1.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -99,8 +99,8 @@ if ( ! function_exists( 'jsl3_facebook_wall_feed_ap' ) ) {
 
         if ( function_exists( 'add_options_page' ) ) {
             $jsl3_fwf_plugin_hook = add_options_page(
-                JSL3_FWF_TITLE,
-                JSL3_FWF_TITLE,
+                __( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ),
+                __( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ),
                 'manage_options',
                 JSL3_FWF_SLUG,
                 array( &$jsl3_fwf, 'print_admin_page' ) );
@@ -131,9 +131,12 @@ if ( ! function_exists( 'jsl3_fwf_print_menu' ) ) {
 
         return '<h2 id="jsl3_fwf_top">Menu</h2>' .
                '<ul>' .
-               '  <li><a href="#jsl3_fwf_config">Configuration</a></li>' .
-               '  <li><a href="#jsl3_fwf_widget">Widget Usage</a></li>' .
-               '  <li><a href="#jsl3_fwf_short">Shortcode Usage</a></li>' .
+               '  <li><a href="#jsl3_fwf_config">' .
+               __( 'Configuration', JSL3_FWF_TEXT_DOMAIN ) . '</a></li>' .
+               '  <li><a href="#jsl3_fwf_widget">' .
+               __( 'Widget Usage', JSL3_FWF_TEXT_DOMAIN ) . '</a></li>' .
+               '  <li><a href="#jsl3_fwf_short">' .
+               __( 'Shortcode Usage', JSL3_FWF_TEXT_DOMAIN ) . '</a></li>' .
                '</ul>';
     
     }
@@ -154,46 +157,48 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
     function jsl3_fwf_print_config() {
 
         return '<ol>' .
-               '  <li><a href="https://developers.facebook.com/apps">Create your Facebook App</a>.</li>' .
+               '  <li><a href="https://developers.facebook.com/apps">' .
+               __( 'Create your Facebook App', JSL3_FWF_TEXT_DOMAIN ) .
+               '</a>.</li>' .
                '  <li>' .
-               '    <strong>Allow</strong> Developer to access your basic information.<br />' .
-               '    <img title="Allow Developer to access your basic information." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-2.png" alt="Allow Developer to access your basic information."  />' .
+               __( '<strong>Allow</strong> Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Allow Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-2.png" alt="' . __( 'Allow Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '"  />' .
                '  </li>' .
                '  <li>' .
-               '    Click <strong>Create New App</strong>.<br />' .
-               '    <img title="Click Create New App." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-3.png" alt="Click Create New App." />' .
+               __( 'Click <strong>Create New App</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Click Create New App.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-3.png" alt="' . __( 'Click Create New App.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Enter any <strong>App Display Name</strong> and <strong>App Namespace</strong>. I suggest using the name of your blog. Agree to the Facebook Platform Policies and click <strong>Continue</strong>. You will be prompted with a security check.<br />' .
-               '    <img title="Enter any App Display Name and App Namespace." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-4.png" alt="Enter any App Display Name and App Namespace." />' .
+               __( 'Enter any <strong>App Display Name</strong> and <strong>App Namespace</strong>. I suggest using the name of your blog. Agree to the Facebook Platform Policies and click <strong>Continue</strong>. You will be prompted with a security check.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Enter any App Display Name and App Namespace.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-4.png" alt="' . __( 'Enter any App Display Name and App Namespace.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    On your App page, enter your <strong>App Domain</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website</strong> and enter your <strong>Site URL</strong>. Then save your changes.<br />' .
-               '    <img title="On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-5.png" alt="On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL." />' .
+               __( 'On your App page, enter your <strong>App Domain</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website</strong> and enter your <strong>Site URL</strong>. Then save your changes.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-5.png" alt="' . __( 'On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Record your <strong>App ID</strong> and <strong>App Secret</strong>. You will need these later.' .
+               __( 'Record your <strong>App ID</strong> and <strong>App Secret</strong>. You will need these later.', JSL3_FWF_TEXT_DOMAIN ) .
                '  </li>' .
                '  <li>' .
-               '    Go to <strong>JSL3 Facebook Wall Feed</strong> under <strong>Settings</strong> on the Dashboard menu.<br />' .
-               '    <img title="Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-6.png" alt="Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu." />' .
+               __( 'Go to <strong>JSL3 Facebook Wall Feed</strong> under <strong>Settings</strong> on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-6.png" alt="' . __( 'Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Enter your <strong>Facebook ID</strong>. This is the number at the end of your Facebook profile URL.<br />' .
-               '    <img title="Enter your Facebook ID." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-7.png" alt="Enter your Facebook ID." /><br />' .
-               '    Enter the <strong>App ID</strong> and <strong>App Secret</strong> you recorded earlier. Click <strong>Save Changes</strong>.' .
+               __( 'Enter your <strong>Facebook ID</strong>. This is the number at the end of your Facebook profile URL.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Enter your Facebook ID.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-7.png" alt="' . __( 'Enter your Facebook ID.', JSL3_FWF_TEXT_DOMAIN ) . '" /><br />' .
+               __( 'Enter the <strong>App ID</strong> and <strong>App Secret</strong> you recorded earlier. Click <strong>Save Changes</strong>.', JSL3_FWF_TEXT_DOMAIN )  .
                '  </li>' .
                '  <li>' .
-               '    You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.<br />' .
-               '    <img title="You will be redirected to Facebook. You may be prompted to Log In a couple of times." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="You will be redirected to Facebook. You may be prompted to Log In a couple of times." />' .
+               __( 'You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' .__( 'You will be redirected to Facebook. You may be prompted to Log In a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="' . __( 'You will be redirected to Facebook. You may be prompted to Log In a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Allow your Facebook App to have access to your Facebook profile.<br />' .
-               '    <img title="Allow your Facebook App to have access to your Facebook profile." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-9.png" alt="Allow your Facebook App to have access to your Facebook profile." />' .
+               __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-9.png" alt="' . __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong>.<br />' .
-               '    <img title="You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token." />' .
+               __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '</ol>';
 
@@ -216,19 +221,19 @@ if ( ! function_exists( 'jsl3_fwf_print_widget' ) ) {
 
         return '<ol>' .
                '  <li>' .
-               '    Go to <strong>Widgets</strong> under <strong>Appearance</strong> on the Dashboard menu.' .
+               __( 'Go to <strong>Widgets</strong> under <strong>Appearance</strong> on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) .
                '  </li>' .
                '  <li>' .
-               '    Drag the <strong>JSL3 Facebook Wall Feed</strong> widget to the sidebar of your choice.<br />' .
-               '    <img title="Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-11.png" alt="Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice." />' .
+               __( 'Drag the <strong>JSL3 Facebook Wall Feed</strong> widget to the sidebar of your choice.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-11.png" alt="' . __( 'Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. Then click <strong>Save</strong>.<br />' .
-               '    <img title="Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-12.png" alt="Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall." />' .
+               __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. Then click <strong>Save</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-12.png" alt="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    Go check out your Facebook Wall Feed on your WordPress site.<br />' .
-               '    <img title="Go check out your Facebook Wall Feed on your WordPress site." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-13.png" alt="Go check out your Facebook Wall Feed on your WordPress site." />' .
+               __( 'Go check out your Facebook Wall Feed on your WordPress site.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Go check out your Facebook Wall Feed on your WordPress site.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-13.png" alt="' . __( 'Go check out your Facebook Wall Feed on your WordPress site.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '</ol>';
 
@@ -251,12 +256,12 @@ if ( ! function_exists( 'jsl3_fwf_print_short' ) ) {
 
         return '<ol>' .
                '  <li>' .
-               '    Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="1"]</strong> to the <strong>HTML</strong> view of a post or page.<br />' .
-               '    <img title="Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-14.png" alt="Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page." />' .
+               __( 'Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="1"]</strong> to the <strong>HTML</strong> view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-14.png" alt="' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               '    View your Facebook Wall Feed on your WordPress post or page.<br />' .
-               '    <img title="View your Facebook Wall Feed on your WordPress post or page." src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-15.png" alt="View your Facebook Wall Feed on your WordPress post or page." />' .
+               __( 'View your Facebook Wall Feed on your WordPress post or page.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'View your Facebook Wall Feed on your WordPress post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-15.png" alt="' . __( 'View your Facebook Wall Feed on your WordPress post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '</ol>';
 
@@ -287,15 +292,24 @@ if ( ! function_exists( 'jsl3_fwf_help' ) ) {
         if ( $screen_id == $jsl3_fwf_plugin_hook ) {
             $contextual_help =
                 jsl3_fwf_print_menu() .
-                '<h2 id="jsl3_fwf_config">Configuration</h2>' .
+                '<h2 id="jsl3_fwf_config">' .
+                __( 'Configuration' , JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                 jsl3_fwf_print_config() .
-                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
-                '<h2 id="jsl3_fwf_widget">Widget Usage</h2>' .
+                '<a href="#jsl3_fwf_top">' .
+                __( 'Back to top', JSL3_FWF_TEXT_DOMAIN ) .
+                '</a><br /><br />' .
+                '<h2 id="jsl3_fwf_widget">' .
+                __( 'Widget Usage', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                 jsl3_fwf_print_widget() .
-                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
-                '<h2 id="jsl3_fwf_short">Shortcode Usage</h2>' .
+                '<a href="#jsl3_fwf_top">' .
+                __( 'Back to top', JSL3_FWF_TEXT_DOMAIN ) .
+                '</a><br /><br />' .
+                '<h2 id="jsl3_fwf_short">' .
+                __( 'Shortcode Usage', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                 jsl3_fwf_print_short() .
-                '<a href="#jsl3_fwf_top">Back to top</a><br /><br />' .
+                '<a href="#jsl3_fwf_top">' .
+                __( 'Back to top', JSL3_FWF_TEXT_DOMAIN ) .
+                '</a><br /><br />' .
                 $contextual_help;
         }
 
@@ -324,17 +338,17 @@ if ( ! function_exists( 'jsl3_fwf_help_tabs' ) ) {
 
             $screen->add_help_tab( array(
                 'id' => 'jsl3-fwf-config',
-                'title' => __( 'Configuration', 'JSL3_Facebook_Wall_Feed' ),
+                'title' => __( 'Configuration', JSL3_FWF_TEXT_DOMAIN ),
                 'content' => jsl3_fwf_print_config() ) );
 
             $screen->add_help_tab( array(
                 'id' => 'jsl3-fwf-widget',
-                'title' => __( 'Widget Usage', 'JSL3_Facebook_Wall_Feed' ),
+                'title' => __( 'Widget Usage', JSL3_FWF_TEXT_DOMAIN ),
                 'content' => jsl3_fwf_print_widget() ) );
 
             $screen->add_help_tab( array(
                 'id' => 'jsl3-fwf-short',
-                'title' => __( 'Shortcode Usage', 'JSL3_Facebook_Wall_Feed' ),
+                'title' => __( 'Shortcode Usage', JSL3_FWF_TEXT_DOMAIN ),
                 'content' => jsl3_fwf_print_short() ) );
         
         }
@@ -370,7 +384,8 @@ if ( ! function_exists( 'jsl3_fwf_plugin_action_links' ) ) {
             // this case equals "myplugin-settings".
             $settings_link =
                 '<a href="' . get_bloginfo('wpurl') .
-                '/wp-admin/admin.php?page=' . JSL3_FWF_SLUG .'">Settings</a>';
+                '/wp-admin/admin.php?page=' . JSL3_FWF_SLUG .'">' .
+                __( 'Settings', JSL3_FWF_TEXT_DOMAIN ) . '</a>';
             array_unshift( $links, $settings_link );
         }
 
@@ -382,6 +397,10 @@ if ( ! function_exists( 'jsl3_fwf_plugin_action_links' ) ) {
 
 //Actions and Filters
 if ( isset( $jsl3_fwf ) ) {
+    //Text Domain
+    load_plugin_textdomain( JSL3_FWF_TEXT_DOMAIN, FALSE,
+        dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
     //Actions
     add_action( 'admin_menu', 'jsl3_facebook_wall_feed_ap' );
     add_action( 'activate_' . JSL3_FWF_PLUGIN_NAME . '/' .
