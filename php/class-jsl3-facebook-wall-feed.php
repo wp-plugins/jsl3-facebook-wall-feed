@@ -735,9 +735,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'token' ],
                 $dev_options[ 'fb_id_only' ],
                 $dev_options[ 'privacy' ] );
-            $feed->get_fb_wall_feed();
+            return $feed->get_fb_wall_feed();
 
-            return $feed->display_fb_wall_feed();
+            //return $feed->display_fb_wall_feed();
         }
 
         // }}}
