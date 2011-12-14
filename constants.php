@@ -88,7 +88,7 @@ if ( ! defined( 'JSL3_FWF_WIDGET_TITLE' ) )
  * The default value of the widget limit
  */
 if ( ! defined( 'JSL3_FWF_WIDGET_LIMIT' ) )
-    define( 'JSL3_FWF_WIDGET_LIMIT', 100 );
+    define( 'JSL3_FWF_WIDGET_LIMIT', 25 );
 
 /**
  * The admin page slug

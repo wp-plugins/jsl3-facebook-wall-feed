@@ -170,8 +170,8 @@ class UKI_Facebook_Wall_Feed {
         // if limit is 0 then we are done
         if ( $limit == 0 ) {
             $result .=
-                   '  </div>' .
-                   '</div>';
+                  '  </div>' .
+                  '</div>';
 
             return $result;
         }
@@ -235,8 +235,9 @@ class UKI_Facebook_Wall_Feed {
 
         } while ( ! empty( $json_feed[ 'data' ] ) );
         
-        $result .= '  </div>' .
-                   '</div>';
+        $result .=
+                  '  </div>' .
+                  '</div>';
 
         return $result;
     
@@ -429,105 +430,83 @@ class UKI_Facebook_Wall_Feed {
         $fb_story_id = $fb_info[ 'fb_story_id' ];
         $fb_likes = $fb_info[ 'likes' ];
         $post_time = $fb_info[ 'fb_time' ];
-        $post_icon = NULL;
-        if ( isset( $fb_info[ 'fb_icon' ] ) )
-            $post_icon = '<img class="fb_post_icon" src="' .
-                $fb_info[ 'fb_icon' ] . '" />';
+        $post_icon = $fb_info[ 'fb_icon' ];
+        $fb_picture = $fb_info[ 'picture' ]; 
+        $fb_link = $fb_info[ 'link' ]; 
+        $fb_link_name = $fb_info[ 'link_name' ]; 
+        $fb_source = $fb_info[ 'source' ];
+        $fb_desc = $fb_info[ 'description' ];
+        $fb_cap = $fb_info[ 'caption' ];
+        $fb_video_length = $fb_info[ 'video_length' ];
 
         $comment_link = $this->fb_comment_link( $fb_story_id );
 
-        $result =
-                    '<div class="fb_post">' .
-                    '  <div class="fb_photoblock">' .
-                    '    <div class="fb_photo">' .
-                    '      <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
-                    '        <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
-                    '      </a>' .
-                    '    </div>' .
-                    '    <div class="fb_photo_content">' .
-                    '      <h5>' .
-                    '        <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_name . '</a>' .
-                    '      </h5>' .
-                    '      <div class="fb_time">';
-        if ( isset( $post_icon ) ) $result .= $post_icon;
-        $result .= $post_time .
-                    '      </div>' .
-                    '    </div>' .
-                    '  </div>' .
-                    '  <div class="fb_msg">';
-        if ( isset( $fb_msg ) ) $result .= "<p>$fb_msg</p>";
-        
-        // print out the photo
-        if ( $fb_info[ 'post_type' ] == 'link' ||
-            $fb_info[ 'post_type' ] == 'photo' ||
-            $fb_info[ 'post_type' ] == 'video' ||
-            $fb_info[ 'post_type' ] == 'swf' ) {
-            $fb_picture = $fb_info[ 'picture' ]; 
-            $fb_link = $fb_info[ 'link' ]; 
-            $fb_description = NULL;
-            $fb_link_name = $fb_info[ 'link_name' ]; 
-            $fb_source = NULL;
-            if ( isset( $fb_info[ 'source' ] ) )
-                $fb_source = $fb_info[ 'source' ];
-            $fb_desc = NULL;
-            if ( isset( $fb_info[ 'description' ] ) )
-                $fb_desc = $fb_info[ 'description' ];
-            $fb_cap = NULL;
-            if ( isset( $fb_info[ 'caption' ] ) )
-                $fb_cap = $fb_info[ 'caption' ];
-            $fb_video_length = NULL;
-            if ( isset( $fb_info[ 'video_length' ] ) )
-                $fb_video_length = $fb_info[ 'video_length' ];
-
-            $result .= 
-                    '    <div class="fb_link_post">';
-
-            if ( isset( $fb_picture ) && isset( $fb_source ) )
-                $result .=
-                    '      <a href="' . $fb_source . '">';
-            elseif ( isset( $fb_picture ) && isset( $fb_link ) )
-                $result .=
-                    '      <a href="' . $fb_link . '">';
-
-            if ( isset( $fb_picture ) )
-                $result .=
-                    '        <img src="' . $fb_picture . '" />';
-            if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
-                isset( $fb_link ) ) )
-                $result .=
-                    '      </a>';
-            if ( isset( $fb_link_name ) )
-                $result .=
-                    '      <h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>';
-            if ( isset( $fb_video_length ) )
-                $result .=
-                    '      <p class="fb_vid_length">' . __( 'Length', JSL3_FWF_TEXT_DOMAIN ) . ': <strong>' . $fb_video_length . '</strong></p>';
-            if ( isset( $fb_cap ) )
-                $result .=
-                    '      <p class="fb_cap">' . $fb_cap . '</p>';
-            if ( isset( $fb_desc ) )
-                $result .=
-                    '      <p class="fb_desc">' . $fb_desc . '</p>';
+        $result = '    <div class="fb_post">' .
+                  '      <div class="fb_photoblock">' .
+                  '        <div class="fb_photo">' .
+                  '          <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
+                  '            <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+                  '          </a>' .
+                  '        </div>' .
+                  '        <div class="fb_photo_content">' .
+                  '          <h5>' .
+                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_name . '</a>' .
+                  '          </h5>' .
+                  '          <div class="fb_time">';
+        if ( isset( $post_icon ) )
             $result .=
-                    '    </div>';
-        }
-
-        // print out the comment part of the post
+                  '            <img class="fb_post_icon" src="' . $post_icon . '" />';
+        $result .= $post_time .
+                  '          </div>' .
+                  '        </div>' .
+                  '      </div>' .
+                  '      <div class="fb_msg">';
+        if ( isset( $fb_msg ) )
+            $result .= 
+                  '        <p>' . $fb_msg . '</p>';
+        $result .= 
+                  '        <div class="fb_link_post">';
+        if ( isset( $fb_picture ) && isset( $fb_source ) )
+            $result .=
+                  '          <a href="' . $fb_source . '">';
+        elseif ( isset( $fb_picture ) && isset( $fb_link ) )
+            $result .=
+                  '          <a href="' . $fb_link . '">';
+        if ( isset( $fb_picture ) )
+            $result .=
+                  '            <img src="' . $fb_picture . '" />';
+        if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
+            isset( $fb_link ) ) )
+            $result .=
+                  '          </a>';
+        if ( isset( $fb_link_name ) )
+            $result .=
+                  '          <h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>';
+        if ( isset( $fb_video_length ) )
+            $result .=
+                  '          <p class="fb_vid_length">' . __( 'Length', JSL3_FWF_TEXT_DOMAIN ) . ': <strong>' . $fb_video_length . '</strong></p>';
+        if ( isset( $fb_cap ) )
+            $result .=
+                  '          <p class="fb_cap">' . $fb_cap . '</p>';
+        if ( isset( $fb_desc ) )
+            $result .=
+                  '          <p class="fb_desc">' . $fb_desc . '</p>';
         $result .=
-                    '  </div>' .
-                    '  <div class="fb_commLink">' .
-                    '    <span class="fb_likes">';
+                  '        </div>' .
+                  '      </div>' .
+                  '      <div class="fb_commLink">' .
+                  '        <span class="fb_likes">';
         if ( $fb_likes > 0 )
             $result .=
-                    '      <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="#">' . $fb_likes . '</a>';
+                  '          <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="#">' . $fb_likes . '</a>';
         $result .=
-                    '    </span>' .
-                    '    <span class="fb_comment">' .
-                    '      <a href="' . $comment_link . '">' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
-                    '    </span>' .
-                    '  </div>' .
-                    '  <div style="clear: both;"></div>' .
-                    '</div>';
+                  '        </span>' .
+                  '        <span class="fb_comment">' .
+                  '          <a href="' . $comment_link . '">' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
+                  '        </span>' .
+                  '      </div>' .
+                  '      <div style="clear: both;"></div>' .
+                  '    </div>';
 
         return $result;
     } // End print_fb_post function
