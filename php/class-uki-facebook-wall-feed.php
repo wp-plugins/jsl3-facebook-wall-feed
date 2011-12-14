@@ -110,6 +110,15 @@ class UKI_Facebook_Wall_Feed {
      */
     var $post_count;
 
+    /**
+     * Run thorough search
+     *
+     * Will make multiple class to facebook graph api to get posts.
+     *
+     * @var boolean
+     */
+    var $thorough;
+
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
 
@@ -124,18 +133,21 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $id_only     determines if posts by other usres are shown
      * @param string  $privacy     determines if only public or all posts are
      *                             show
+     * @param boolean $be_thorough determines if multiple calls to facebook
+     *                             graph will be made
      *
      * @access public
      * @since Method available since Release 1.0
      */
     function UKI_Facebook_Wall_Feed(
-        $id, $limit, $token, $id_only, $privacy ) {
-        
+        $id, $limit, $token, $id_only, $privacy, $be_thorough ) {
+
         $this->fb_id        = $id;
         $this->fb_limit     = $limit;
         $this->access_token = $token;
         $this->fb_id_only   = $id_only;
         $this->fb_privacy   = $privacy;
+        $this->thorough     = $be_thorough;
         $this->post_count   = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -177,7 +189,11 @@ class UKI_Facebook_Wall_Feed {
         }
 
         // inital facebook graph call
-        $fb_url = "https://graph.facebook.com/$id/feed?limit=100&$token";
+        if ( $this->thorough )
+            $fb_url = "https://graph.facebook.com/$id/feed?limit=100&$token";
+        else
+            $fb_url =
+                "https://graph.facebook.com/$id/feed?limit=$limit&$token";
         
         // loop until we have reached the limit or have the entire feed
         do {
@@ -232,6 +248,10 @@ class UKI_Facebook_Wall_Feed {
             
                 return $result;
             }
+
+            // if not makeing a thorough search then exit before loop
+            if ( ! $this->thorough )
+                break;
 
         } while ( ! empty( $json_feed[ 'data' ] ) );
         
@@ -333,115 +353,47 @@ class UKI_Facebook_Wall_Feed {
                 isset( $fb_feed[ $i ][ 'caption' ] ) ||
                 isset( $fb_feed[ $i ][ 'description' ] ) ) ) {
                     
-                $print_array[ 'fb_msg' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'message' ] ) )
-                    $print_array[ 'fb_msg' ] = $fb_feed[ $i ][ 'message' ];
-                    
-                $print_array[ 'fb_id' ] = $fb_id;
-                    
-                $print_array[ 'fb_name' ] = $fb_feed[ $i ][ 'from' ][ 'name' ];
-                    
-                $print_array[ 'video_length' ] = NULL;
-                if ( $fb_feed[ $i ][ 'type' ] == 'video' &&
-                    isset( $fb_feed[ $i ][ 'properties' ] ) &&
-                    isset( $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ] ) )
-                    $print_array[ 'video_length' ] =
-                        $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ];
-                    
-                $print_array[ 'fb_photo' ] =
-                    'http://graph.facebook.com/' . $fb_id . '/picture';
-                    
-                $print_array[ 'fb_time' ] =
+                $comment_link =
+                    $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
+                $fb_photo  =
+                    "http://graph.facebook.com/$fb_id/picture";
+                $post_time =
                     $this->parse_fb_timestamp(
                         $fb_feed[ $i ][ 'created_time' ] );
-                    
-                $print_array[ 'fb_story_id' ] = $fb_feed[ $i ][ 'id' ];
-                    
-                $print_array[ 'post_type' ] = $fb_feed[ $i ][ 'type' ];
-                    
-                $print_array[ 'fb_icon' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
-                    $print_array[ 'fb_icon' ] = $fb_feed[ $i ][ 'icon' ];
-
-                $print_array[ 'picture' ] = NULL;
+                $fb_picture = NULL;
                 if ( isset( $fb_feed[ $i ][ 'picture' ] ) )
-                    $print_array[ 'picture' ] = $fb_feed[ $i ][ 'picture' ];
-                    
-                $print_array[ 'link' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'link' ] ) )
-                    $print_array[ 'link' ] = $fb_feed[ $i ][ 'link' ];
-                    
-                $print_array[ 'link_name' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'name' ] ) )
-                    $print_array[ 'link_name' ] = $fb_feed[ $i ][ 'name' ];
-                    
-                $print_array[ 'caption' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
-                    $print_array[ 'caption' ] = $fb_feed[ $i ][ 'caption' ];
-                    
-                $print_array[ 'description' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'description' ] ) )
-                    $print_array[ 'description' ] =
-                        $fb_feed[ $i ][ 'description' ];
-                    
-                $print_array[ 'source' ] = NULL;
+                    $fb_picture = $fb_feed[ $i ][ 'picture' ];
+                $fb_source = NULL;
                 if ( isset( $fb_feed[ $i ][ 'source' ] ) )
-                    $print_array[ 'source' ] = $fb_feed[ $i][ 'source' ];
-                    
-                $print_array[ 'likes' ] = 0;
+                    $fb_source = $fb_feed[ $i][ 'source' ];
+                $fb_link = NULL;
+                if ( isset( $fb_feed[ $i ][ 'link' ] ) )
+                    $fb_link = $fb_feed[ $i ][ 'link' ];
+                $fb_likes = 0;
                 if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
-                    $print_array[ 'likes' ] =
-                        $fb_feed[ $i ][ 'likes' ][ 'count' ];
+                    $fb_likes = $fb_feed[ $i ][ 'likes' ][ 'count' ];
+                $fb_prop = FALSE;
+                $fb_prop_name = NULL;
+                $fb_prop_text = NULL;
+                $fb_prop_href = NULL;
+                if ( isset( $fb_feed[ $i ][ 'properties' ][ 0 ] ) ) {
+                    $fb_prop = TRUE;
+                    if ( isset(
+                        $fb_feed[ $i ][ 'properties' ][ 0 ][ 'name' ] ) )
+                        $fb_prop_name =
+                            $fb_feed[ $i ][ 'properties' ][ 0 ][ 'name' ];
+                    if ( isset(
+                        $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ] ) )
+                        $fb_prop_text =
+                            $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ];
+                    if ( isset(
+                        $fb_feed[ $i ][ 'properties' ][ 0 ][ 'href' ] ) )
+                        $fb_prop_href =
+                            $fb_feed[ $i ][ 'properties' ][ 0 ][ 'href' ];
+                }
 
-                    $result .= $this->print_fb_post( $print_array );
-                    $this->post_count++;
-                
-            } // end if
-            
-        } // End for
-
-        return $result;
-
-    } // End display_fb_wall_feed function
-    
-    // }}}
-    // {{{ print_fb_post()
-
-    /**
-     * Prints the Facebook Wall feed
-     *
-     * Prints out Facebook posts.  The different types of posts inlcude:
-     * status, link, photo, video.
-     *
-     * @param array $fb_info an array of Facebook Wall feed data.
-     *
-     * @return string the facebook posts as html
-     *
-     * @access public
-     * @since Method available since Release 1.0
-     */
-    //function print_fb_post( $fb_story_id, $fb_photo, $fb_id, $fb_name, $fb_msg, $post_time )
-    function print_fb_post( $fb_info ) {
-        // begin printing the post
-        $fb_msg = $fb_info[ 'fb_msg' ];
-        $fb_id = $fb_info[ 'fb_id' ];
-        $fb_name = $fb_info[ 'fb_name' ];
-        $fb_photo = $fb_info[ 'fb_photo' ];
-        $fb_story_id = $fb_info[ 'fb_story_id' ];
-        $fb_likes = $fb_info[ 'likes' ];
-        $post_time = $fb_info[ 'fb_time' ];
-        $post_icon = $fb_info[ 'fb_icon' ];
-        $fb_picture = $fb_info[ 'picture' ]; 
-        $fb_link = $fb_info[ 'link' ]; 
-        $fb_link_name = $fb_info[ 'link_name' ]; 
-        $fb_source = $fb_info[ 'source' ];
-        $fb_desc = $fb_info[ 'description' ];
-        $fb_cap = $fb_info[ 'caption' ];
-        $fb_video_length = $fb_info[ 'video_length' ];
-
-        $comment_link = $this->fb_comment_link( $fb_story_id );
-
-        $result = '    <div class="fb_post">' .
+                $result .=
+                  '    <div class="fb_post">' .
                   '      <div class="fb_photoblock">' .
                   '        <div class="fb_photo">' .
                   '          <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
@@ -450,56 +402,67 @@ class UKI_Facebook_Wall_Feed {
                   '        </div>' .
                   '        <div class="fb_photo_content">' .
                   '          <h5>' .
-                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_name . '</a>' .
+                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
                   '          </h5>' .
                   '          <div class="fb_time">';
-        if ( isset( $post_icon ) )
-            $result .=
-                  '            <img class="fb_post_icon" src="' . $post_icon . '" />';
-        $result .= $post_time .
+                if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
+                    $result .=
+                  '            <img class="fb_post_icon" src="' . $fb_feed[ $i ][ 'icon' ] . '" />';
+                $result .= $post_time .
                   '          </div>' .
                   '        </div>' .
                   '      </div>' .
                   '      <div class="fb_msg">';
-        if ( isset( $fb_msg ) )
-            $result .= 
-                  '        <p>' . $fb_msg . '</p>';
-        $result .= 
+                if ( isset( $fb_feed[ $i ][ 'message' ] ) )
+                    $result .= 
+                  '        <p>' . $fb_feed[ $i ][ 'message' ] . '</p>';
+                $result .= 
                   '        <div class="fb_link_post">';
-        if ( isset( $fb_picture ) && isset( $fb_source ) )
-            $result .=
+                if ( isset( $fb_picture ) && isset( $fb_source ) )
+                    $result .=
                   '          <a href="' . $fb_source . '">';
-        elseif ( isset( $fb_picture ) && isset( $fb_link ) )
-            $result .=
+                elseif ( isset( $fb_picture ) && isset( $fb_link ) )
+                    $result .=
                   '          <a href="' . $fb_link . '">';
-        if ( isset( $fb_picture ) )
-            $result .=
+                if ( isset( $fb_picture ) )
+                    $result .=
                   '            <img src="' . $fb_picture . '" />';
-        if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
-            isset( $fb_link ) ) )
-            $result .=
+                if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
+                    isset( $fb_link ) ) )
+                    $result .=
                   '          </a>';
-        if ( isset( $fb_link_name ) )
-            $result .=
-                  '          <h6><a href="' . $fb_link . '">' . $fb_link_name . '</a></h6>';
-        if ( isset( $fb_video_length ) )
-            $result .=
-                  '          <p class="fb_vid_length">' . __( 'Length', JSL3_FWF_TEXT_DOMAIN ) . ': <strong>' . $fb_video_length . '</strong></p>';
-        if ( isset( $fb_cap ) )
-            $result .=
-                  '          <p class="fb_cap">' . $fb_cap . '</p>';
-        if ( isset( $fb_desc ) )
-            $result .=
-                  '          <p class="fb_desc">' . $fb_desc . '</p>';
-        $result .=
+                if ( isset( $fb_feed[ $i ][ 'name' ] ) )
+                    $result .=
+                  '          <h6><a href="' . $fb_link . '">' . $fb_feed[ $i ][ 'name' ] . '</a></h6>';
+                if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
+                    $result .=
+                  '          <p class="fb_cap">' . $fb_feed[ $i ][ 'caption' ] . '</p>';
+                if ( isset( $fb_feed[ $i ][ 'description' ] ) )
+                    $result .=
+                  '          <p class="fb_desc">' . $fb_feed[ $i ][ 'description' ] . '</p>';
+                if ( $fb_prop )
+                    $result .=
+                  '          <p class="fb_vid_length">';
+                if ( isset( $fb_prop_name ) )
+                    $result .= $fb_prop_name . ': ';
+                if ( isset( $fb_prop_href ) )
+                    $result .= '<a href="' . $fb_prop_href . '">';
+                if ( isset( $fb_prop_text ) )
+                    $result .= $fb_prop_text;
+                if ( isset( $fb_prop_href ) )
+                    $result .= '</a>';
+                if ( $fb_prop )
+                    $result .=
+                  '          </p>';
+                $result .=
                   '        </div>' .
                   '      </div>' .
                   '      <div class="fb_commLink">' .
                   '        <span class="fb_likes">';
-        if ( $fb_likes > 0 )
-            $result .=
+                if ( $fb_likes > 0 )
+                    $result .=
                   '          <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="#">' . $fb_likes . '</a>';
-        $result .=
+                $result .=
                   '        </span>' .
                   '        <span class="fb_comment">' .
                   '          <a href="' . $comment_link . '">' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
@@ -507,10 +470,17 @@ class UKI_Facebook_Wall_Feed {
                   '      </div>' .
                   '      <div style="clear: both;"></div>' .
                   '    </div>';
+                
+                $this->post_count++;
+
+            } // end if
+            
+        } // End for
 
         return $result;
-    } // End print_fb_post function
 
+    } // End display_fb_wall_feed function
+    
     // }}}
     // {{{ fb_comment_link()
 
