@@ -65,35 +65,6 @@ class UKI_Facebook_Wall_Feed {
     var $fb_id;
     
     /**
-     * Parsed JSON of the Facebook Wall feed
-     *
-     * Holds the array of a parsed JSON object of the Facebook Wall feed.
-     *
-     * @var array
-     */
-    var $fb_wall_feed;
-    
-    /**
-     * App Secret
-     *
-     * Secret string of the Facebook App that will access the Facebook
-     * profile.
-     *
-     * @var string
-     */
-    var $app_secret;
-    
-    /**
-     * App ID
-     *
-     * ID string of the Facebook App that will access the Facebook
-     * profile.
-     *
-     * @var string
-     */
-    var $app_id;
-    
-    /**
      * Limit of wall posts
      *
      * Holds the top number of facebook wall posts to get.
@@ -147,26 +118,27 @@ class UKI_Facebook_Wall_Feed {
      *
      * Constructor initializes class variables.
      *
-     * @param string $id          the ID of the Facebook profile.
-     * @param string $app_id      the Facebook App ID
-     * @param string $app_secret  the Facebook App Secret
-     * @param int    $limit       the number of posts to get from the wall
-     * @param string $token       the Facebook access token
+     * @param string  $id          the ID of the Facebook profile.
+     * @param int     $limit       the number of posts to get from the wall
+     * @param string  $token       the Facebook access token
+     * @param boolean $id_only     determines if posts by other usres are shown
+     * @param string  $privacy     determines if only public or all posts are
+     *                             show
      *
      * @access public
      * @since Method available since Release 1.0
      */
-    function UKI_Facebook_Wall_Feed( $id, $app_id, $app_secret, $limit,
-        $token, $id_only, $privacy ) {
+    function UKI_Facebook_Wall_Feed(
+        $id, $limit, $token, $id_only, $privacy ) {
+        
         $this->fb_id        = $id;
-        $this->app_id       = $app_id;
-        $this->app_secret   = $app_secret;
         $this->fb_limit     = $limit;
         $this->access_token = $token;
         $this->fb_id_only   = $id_only;
         $this->fb_privacy   = $privacy;
         $this->post_count   = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
+
     }
     
     // }}}
@@ -186,44 +158,16 @@ class UKI_Facebook_Wall_Feed {
     function get_fb_wall_feed() {
         //echo 'Contacting FaceBook...<br />';
         $id = $this->fb_id;
-        //$secret = $this->app_secret;
-        //$client_id = $this->app_id;
         $limit = $this->fb_limit;
-
-        // Make call to get authentication token
-        //$cht = curl_init();
-        //curl_setopt( $cht, CURLOPT_URL,
-        //    "https://graph.facebook.com/oauth/access_token?" .
-        //   "grant_type=client_credentials&client_id=$client_id&" .
-        //    "client_secret=$secret" );
-        //curl_setopt( $cht, CURLOPT_RETURNTRANSFER, 1 );
-        //$token = curl_exec( $cht );
-        //$t_file = get_template_directory() . '/fb_access_token.txt';
-        //$token_file = fopen( $t_file, 'r' );
-        //$token = fread( $token_file, filesize( $t_file ) );
         $token = 'access_token=' . $this->access_token;
-        //fclose( $token_file ); 
-        //curl_close( $cht );
 
-        // Now make call to get the wall feed
-        /*
-        $ch = curl_init();
-        curl_setopt( $ch, CURLOPT_URL,
-            "https://graph.facebook.com/$id/feed?limit=$limit&$token" );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-        $result = curl_exec( $ch );
-        $this->fb_wall_feed = json_decode( $result, TRUE );
-        //error_log( $result );
-        //print_r( $this->fb_wall_feed );
-        curl_close( $ch );
-        */
-
-
+        // start building facebool wall feed
         $result = '<div id="facebook_status_box">' .
                   '  <h2>' .
                   __( 'Facebook Status', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                   '  <div id="facebook_canvas">';
 
+        // if limit is 0 then we are done
         if ( $limit == 0 ) {
             $result .=
                    '  </div>' .
@@ -232,30 +176,45 @@ class UKI_Facebook_Wall_Feed {
             return $result;
         }
 
+        // inital facebook graph call
         $fb_url = "https://graph.facebook.com/$id/feed?limit=100&$token";
+        
+        // loop until we have reached the limit or have the entire feed
         do {
+            
+            // get the next page
             if ( isset( $json_feed[ 'paging' ] ) )
                 $fb_url = $json_feed[ 'paging' ][ 'next' ];
             
             //error_log( $fb_url );
             $raw_feed = $this->get_json_feed( $fb_url );
             //error_log( $raw_feed );
+            $raw_feed = str_replace( '\n', '\u003cbr \/\u003e', $raw_feed );
+            //error_log( $raw_feed );
             $json_feed = json_decode( $raw_feed, TRUE );
 
+            // get the data from the feed
             if ( isset( $json_feed[ 'data' ] ) ) {
                 $result .=
                     $this->display_fb_wall_feed( $json_feed[ 'data' ] );
+                
+                // if we have reached the limit the exit
                 if ( $this->post_count >= $limit )
                     break;
                 $is_error = FALSE;
+            
+            // grab an error messages
             } elseif ( isset( $json_feed[ 'error' ] ) ) {
                 $fb_feed = $json_feed[ 'error' ];
                 $is_error = TRUE;
+            
+            // check if something else was sent from facebook
             } else {
                 $fb_feed = json_encode( $json_feed );
                 $is_error = TRUE;
             }
         
+            // display error message
             if ( $is_error ) {
                 $result .=
                   '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
@@ -303,9 +262,6 @@ class UKI_Facebook_Wall_Feed {
         curl_setopt( $ch, CURLOPT_URL, $url );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
         $result = curl_exec( $ch );
-        //$this->fb_wall_feed = json_decode( $result, TRUE );
-        //error_log( $result );
-        //print_r( $this->fb_wall_feed );
         curl_close( $ch );
 
         return $result;
@@ -330,299 +286,118 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function display_fb_wall_feed( $fb_feed ) {
-        //$fb_feed = array();
-        //$is_error = FALSE;
-        /*
-        if ( isset( $this->fb_wall_feed[ 'data' ] ) ) {
-            $fb_feed = $this->fb_wall_feed[ 'data' ];
-            $is_error = FALSE;
-        } elseif ( isset( $this->fb_wall_feed[ 'error' ] ) ) {
-            $fb_feed = $this->fb_wall_feed[ 'error' ];
-            $is_error = TRUE;
-        } else {
-            $fb_feed = json_encode( $this->fb_wall_feed );
-            $is_error = TRUE;
-        }
-        */
-        /*
-        if ( isset( $json_feed[ 'data' ] ) ) {
-            $fb_feed = $json_feed[ 'data' ];
-            $is_error = FALSE;
-        } elseif ( isset( $json_feed[ 'error' ] ) ) {
-            $fb_feed = $json_feed[ 'error' ];
-            $is_error = TRUE;
-        } else {
-            $fb_feed = json_encode( $json_feed );
-            $is_error = TRUE;
-        }
-
-
-        $result = '<div id="facebook_status_box">' .
-                  '  <h2>' .
-                  __( 'Facebook Status', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
-                  '  <div id="facebook_canvas">';
-
-        if ( $is_error ) {
-            $result .=
-                  '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
-                  '      <strong>';
-            if ( isset( $fb_feed[ 'type' ] ) )
-                $result .=
-                    $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ];
-            else
-                $result .= $fb_feed;
-            $result .=
-                  '      </strong>' .
-                  '    </div>' .
-                  '  </div>' .
-                  '</div>';
-            
-            return $result;
-        }
-        */
 
         $result = '';
 
         // loop through each post in the feed
         for ( $i = 0; $i < count( $fb_feed ); $i++) {
+            
+            // exit the loop if we have reached the limit
             if ( $this->post_count >= $this->fb_limit )
                 break;
 
             $print_array = array();
 
-            // parse status messages
-            if ($fb_feed[ $i ][ 'type' ] == 'status') {
-                //$fb_msg = NULL;
-                //if ( isset( $fb_feed[ $i ][ 'message' ] ) ) {
-                //    $fb_msg = $fb_feed[ $i ][ 'message' ];
-                //    $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
-                //    $fb_name = $fb_feed[ $i ][ 'from' ][ 'name' ];
-                //    $fb_photo = "http://graph.facebook.com/$fb_id/picture";
-                //    $fb_time = $fb_feed[ $i ][ 'created_time' ];
-                //    $fb_story_id = $fb_feed[ $i ][ 'id' ];
-                //}
+            $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
 
-                // don't display status posts without a message
-                // they are just usually "is now friends with" posts
-                $print_array[ 'fb_msg' ] = NULL;
-                if ( isset( $fb_feed[ $i ][ 'message' ] ) ) {
-                    $print_array[ 'fb_msg' ] = $fb_feed[ $i ][ 'message' ];
-                    $print_array[ 'fb_id' ] = $fb_feed[ $i ][ 'from' ][ 'id' ];
-                    $print_array[ 'fb_name' ] =
-                        $fb_feed[ $i ][ 'from' ][ 'name' ];
-                    $print_array[ 'fb_photo' ] =
-                        'http://graph.facebook.com/' .
-                        $print_array[ 'fb_id' ] . '/picture';
-                    $print_array[ 'fb_time' ] =
-                        $this->parse_fb_timestamp(
-                            $fb_feed[ $i ][ 'created_time' ] );
-                    $print_array[ 'fb_story_id' ] = $fb_feed[ $i ][ 'id' ];
-                    $print_array[ 'fb_icon' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
-                        $print_array[ 'fb_icon' ] = $fb_feed[ $i ][ 'icon' ];
-                    $print_array[ 'post_type' ] = 'status';
-                    $print_array[ 'likes' ] = 0;
-                    if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
-                        $print_array[ 'likes' ] =
-                            $fb_feed[ $i ][ 'likes' ][ 'count' ];
+            // privacy check, if no privacy then assume public
+            $privacy = 'Public';
+            if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
+                $privacy = $fb_feed[ $i ][ 'privacy' ][ 'description' ];
 
-                    // privacy check, if no privacy then assume public
-                    $privacy = 'Public';
-                    if ( isset(
-                        $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
-                        $privacy =
-                            $fb_feed[ $i ][ 'privacy' ][ 'description' ];
-
-                    $show_post = FALSE;
-                    if ( $this->fb_privacy == 'All' )
-                        $show_post = TRUE;
-                    elseif ( $this->fb_privacy == $privacy )
-                        $show_post = TRUE;
+            $privacy_good = FALSE;
+            if ( $this->fb_privacy == 'All' )
+                $privacy_good = TRUE;
+            elseif ( $this->fb_privacy == $privacy )
+                $privacy_good = TRUE;
                     
-                    // check to see if we are not getting posts by other
-                    // facebook friends
-                    if ( $this->fb_id_only ) {
-                        if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
-                            if ( $show_post ) {
-                                $result .=
-                                    $this->print_fb_post( $print_array );
-                                $this->post_count++;
-                            }
-                        }
-                    } else {
-                        if ( $show_post ) {
-                            $result .= $this->print_fb_post( $print_array );
-                            $this->post_count++;
-                        }
-                    }
-                    //$this->print_fb_post( $fb_story_id, $fb_photo, $fb_id, $fb_name, $fb_msg, $this->parse_fb_timestamp( $fb_time ) );
+            // check to see if we are not getting posts by other facebook
+            // friends
+            $show_post = FALSE;
+            if ( $this->fb_id_only ) {
+                if ( $this->fb_id == $fb_id ) {
+                    if ( $privacy_good )
+                        $show_post = TRUE;
                 }
-            
-            // parse link, swf,  and video messages
-            } elseif ( $fb_feed[ $i ][ 'type' ] == 'link' ||
-                $fb_feed[ $i ][ 'type' ] == 'video' ||
-                $fb_feed[ $i ][ 'type' ] == 'swf' ) {
-                //$fb_msg = NULL;
-                //if ( isset( $fb_feed[ $i ][ 'message' ] ) )
-                //    $fb_msg = $fb_feed[ $i ][ 'message' ];
-                //$fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
-                //$fb_name = $fb_feed[ $i ][ 'from' ][ 'name' ];
-                //$fb_photo = "http://graph.facebook.com/$fb_id/picture";
-                //$fb_time = $fb_feed[ $i ][ 'created_time' ];
-                //$fb_story_id = $fb_feed[ $i ][ 'id' ];
-
-                // don't display link posts without a message, name, caption,
-                // or description they are just usually "is now friends with"
-                // posts
-                if ( isset( $fb_feed[ $i ][ 'message' ] ) ||
-                    isset( $fb_feed[ $i ][ 'name' ] ) ||
-                    isset( $fb_feed[ $i ][ 'caption' ] ) ||
-                    isset( $fb_feed[ $i ][ 'description' ] ) ) {
-                    $print_array[ 'fb_msg' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'message' ] ) )
-                        $print_array[ 'fb_msg' ] = $fb_feed[ $i ][ 'message' ];
-                    $print_array[ 'fb_id' ] = $fb_feed[ $i ][ 'from' ][ 'id' ];
-                    $print_array[ 'fb_name' ] =
-                        $fb_feed[ $i ][ 'from' ][ 'name' ];
-                    $print_array[ 'video_length' ] = NULL;
-                    if ( $fb_feed[ $i ][ 'type' ] == 'video' ) {
-                        if ( isset( $fb_feed[ $i ][ 'properties' ] ) )
-                            $print_array[ 'video_length' ] =
-                                $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ];
-                    }
-                    $print_array[ 'fb_photo' ] =
-                        'http://graph.facebook.com/' .
-                        $print_array[ 'fb_id' ] . '/picture';
-                    $print_array[ 'fb_time' ] =
-                        $this->parse_fb_timestamp(
-                            $fb_feed[ $i ][ 'created_time' ] );
-                    $print_array[ 'fb_story_id' ] = $fb_feed[ $i ][ 'id' ];
-                    $print_array[ 'post_type' ] = $fb_feed[ $i ][ 'type' ];
-                    if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
-                        $print_array[ 'fb_icon' ] = $fb_feed[ $i ][ 'icon' ];
-
-                    $print_array[ 'picture' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'picture' ] ) )
-                        $print_array[ 'picture' ] =
-                            $fb_feed[ $i ][ 'picture' ];
-                    $print_array[ 'link' ] = $fb_feed[ $i ][ 'link' ];
-                    $print_array[ 'link_name' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'name' ] ) )
-                        $print_array[ 'link_name' ] = $fb_feed[ $i ][ 'name' ];
-                    $print_array[ 'link_caption' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
-                        $print_array[ 'link_caption' ] =
-                            $fb_feed[ $i ][ 'caption' ];
-                    $print_array[ 'link_description' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'description' ] ) )
-                        $print_array[ 'link_description' ] =
-                            $fb_feed[ $i ][ 'description' ];
-                    $print_array[ 'source' ] = NULL;
-                    if ( isset( $fb_feed[ $i ][ 'source' ] ) )
-                        $print_array[ 'source' ] = $fb_feed[ $i][ 'source' ];
-                    $print_array[ 'likes' ] = 0;
-                    if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
-                        $print_array[ 'likes' ] =
-                            $fb_feed[ $i ][ 'likes' ][ 'count' ];
-
-                    // privacy check, if no privacy then assume public
-                    $privacy = 'Public';
-                    if (
-                        isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
-                        $privacy =
-                            $fb_feed[ $i ][ 'privacy' ][ 'description' ];
-
-                    $show_post = FALSE;
-                    if ( $this->fb_privacy == 'All' )
-                        $show_post = TRUE;
-                    elseif ( $this->fb_privacy == $privacy )
-                        $show_post = TRUE;
+            } else {
+                if ( $privacy_good )
+                    $show_post = TRUE;
+            }
+                
+            // don't display posts without a message, name, caption,
+            // or description they are just usually "is now friends with"
+            // posts
+            if ( $show_post && ( isset( $fb_feed[ $i ][ 'message' ] ) ||
+                isset( $fb_feed[ $i ][ 'name' ] ) ||
+                isset( $fb_feed[ $i ][ 'caption' ] ) ||
+                isset( $fb_feed[ $i ][ 'description' ] ) ) ) {
                     
-                    // check to see if we are not getting posts by other
-                    // facebook friends
-                    if ( $this->fb_id_only ) {
-                        if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
-                            if ( $show_post ) {
-                                $result .=
-                                    $this->print_fb_post( $print_array );
-                                $this->post_count++;
-                            }
-                        }
-                    } else {
-                        if ( $show_post ) {
-                            $result .= $this->print_fb_post( $print_array );
-                            $this->post_count++;
-                        }
-                    }
-                }
-            
-            // parse photo messages
-            } elseif ($fb_feed[ $i ][ 'type' ] == 'photo' ) {
                 $print_array[ 'fb_msg' ] = NULL;
                 if ( isset( $fb_feed[ $i ][ 'message' ] ) )
                     $print_array[ 'fb_msg' ] = $fb_feed[ $i ][ 'message' ];
-                $print_array[ 'fb_id' ] = $fb_feed[ $i ][ 'from' ][ 'id' ];
+                    
+                $print_array[ 'fb_id' ] = $fb_id;
+                    
                 $print_array[ 'fb_name' ] = $fb_feed[ $i ][ 'from' ][ 'name' ];
+                    
+                $print_array[ 'video_length' ] = NULL;
+                if ( $fb_feed[ $i ][ 'type' ] == 'video' &&
+                    isset( $fb_feed[ $i ][ 'properties' ] ) &&
+                    isset( $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ] ) )
+                    $print_array[ 'video_length' ] =
+                        $fb_feed[ $i ][ 'properties' ][ 0 ][ 'text' ];
+                    
                 $print_array[ 'fb_photo' ] =
-                    'http://graph.facebook.com/' .
-                    $print_array[ 'fb_id' ] . '/picture';
+                    'http://graph.facebook.com/' . $fb_id . '/picture';
+                    
                 $print_array[ 'fb_time' ] =
                     $this->parse_fb_timestamp(
                         $fb_feed[ $i ][ 'created_time' ] );
+                    
                 $print_array[ 'fb_story_id' ] = $fb_feed[ $i ][ 'id' ];
-                $print_array[ 'post_type' ] = 'photo';
-                $print_array[ 'fb_icon' ] = $fb_feed[ $i ][ 'icon' ];
+                    
+                $print_array[ 'post_type' ] = $fb_feed[ $i ][ 'type' ];
+                    
+                $print_array[ 'fb_icon' ] = NULL;
+                if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
+                    $print_array[ 'fb_icon' ] = $fb_feed[ $i ][ 'icon' ];
 
                 $print_array[ 'picture' ] = NULL;
                 if ( isset( $fb_feed[ $i ][ 'picture' ] ) )
                     $print_array[ 'picture' ] = $fb_feed[ $i ][ 'picture' ];
-                $print_array[ 'link' ] = $fb_feed[ $i ][ 'link' ];
+                    
+                $print_array[ 'link' ] = NULL;
+                if ( isset( $fb_feed[ $i ][ 'link' ] ) )
+                    $print_array[ 'link' ] = $fb_feed[ $i ][ 'link' ];
+                    
                 $print_array[ 'link_name' ] = NULL;
                 if ( isset( $fb_feed[ $i ][ 'name' ] ) )
                     $print_array[ 'link_name' ] = $fb_feed[ $i ][ 'name' ];
-                $print_array[ 'likes' ] = 0;
-                if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
-                    $print_array[ 'likes' ] =
-                        $fb_feed[ $i ][ 'likes' ][ 'count' ];
+                    
+                $print_array[ 'caption' ] = NULL;
+                if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
+                    $print_array[ 'caption' ] = $fb_feed[ $i ][ 'caption' ];
+                    
                 $print_array[ 'description' ] = NULL;
                 if ( isset( $fb_feed[ $i ][ 'description' ] ) )
                     $print_array[ 'description' ] =
                         $fb_feed[ $i ][ 'description' ];
-                if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
-                    $print_array[ 'caption' ] =
-                        $fb_feed[ $i ][ 'caption' ];
-
-                $privacy = 'Public';
-                if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
-                    $privacy = $fb_feed[ $i ][ 'privacy' ][ 'description' ];
-
-                // privacy check, if no privacy then assume public
-                $show_post = FALSE;
-                if ( $this->fb_privacy == 'All' )
-                    $show_post = TRUE;
-                elseif ( $this->fb_privacy == $privacy )
-                    $show_post = TRUE;
                     
-                // check to see if we are not getting posts by other
-                // facebook friends
-                if ( $this->fb_id_only ) {
-                    if ( $this->fb_id == $print_array[ 'fb_id' ] ) {
-                        if ( $show_post ) {
-                            $result .= $this->print_fb_post( $print_array );
-                            $this->post_count++;
-                        }
-                    }
-                } else {
-                    if ( $show_post ) {
-                        $result .= $this->print_fb_post( $print_array );
-                        $this->post_count++;
-                    }
-                }
-            } // End if
-        } // End for
+                $print_array[ 'source' ] = NULL;
+                if ( isset( $fb_feed[ $i ][ 'source' ] ) )
+                    $print_array[ 'source' ] = $fb_feed[ $i][ 'source' ];
+                    
+                $print_array[ 'likes' ] = 0;
+                if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
+                    $print_array[ 'likes' ] =
+                        $fb_feed[ $i ][ 'likes' ][ 'count' ];
 
-        //$result .= '  </div>' .
-        //           '</div>';
+                    $result .= $this->print_fb_post( $print_array );
+                    $this->post_count++;
+                
+            } // end if
+            
+        } // End for
 
         return $result;
 
@@ -651,11 +426,9 @@ class UKI_Facebook_Wall_Feed {
         $fb_id = $fb_info[ 'fb_id' ];
         $fb_name = $fb_info[ 'fb_name' ];
         $fb_photo = $fb_info[ 'fb_photo' ];
-        $fb_time = $fb_info[ 'fb_time' ];
         $fb_story_id = $fb_info[ 'fb_story_id' ];
         $fb_likes = $fb_info[ 'likes' ];
         $post_time = $fb_info[ 'fb_time' ];
-        //if ( $fb_info[ 'fb_icon' ] != '')
         $post_icon = NULL;
         if ( isset( $fb_info[ 'fb_icon' ] ) )
             $post_icon = '<img class="fb_post_icon" src="' .
@@ -692,12 +465,7 @@ class UKI_Facebook_Wall_Feed {
             $fb_picture = $fb_info[ 'picture' ]; 
             $fb_link = $fb_info[ 'link' ]; 
             $fb_description = NULL;
-            if ( isset( $fb_info[ 'link_description' ] ) )
-                $fb_description = $fb_info[ 'link_description' ]; 
             $fb_link_name = $fb_info[ 'link_name' ]; 
-            $fb_caption = NULL; 
-            if ( isset( $fb_info[ 'link_caption' ] ) )
-                $fb_caption = $fb_info[ 'link_caption' ];
             $fb_source = NULL;
             if ( isset( $fb_info[ 'source' ] ) )
                 $fb_source = $fb_info[ 'source' ];
@@ -740,12 +508,6 @@ class UKI_Facebook_Wall_Feed {
             if ( isset( $fb_desc ) )
                 $result .=
                     '      <p class="fb_desc">' . $fb_desc . '</p>';
-            if ( isset( $fb_caption ) )
-                $result .=
-                    '      <p class="fb_link_caption"><a href="http://' . $fb_caption . '">' . $fb_caption . '</a></p>';
-            if ( isset( $fb_description ) )
-                $result .=
-                    "      <p>$fb_description</p>";
             $result .=
                     '    </div>';
         }
@@ -819,7 +581,6 @@ class UKI_Facebook_Wall_Feed {
             $time_hr = 24 + $time_hr;
         $time_str = $time_hr . ':' . $time_arr[ 1 ];
 
-        //return "Posted: $time_str $date_str";
         return $date_str . ' ' . __( 'at', JSL3_FWF_TEXT_DOMAIN ) . ' ' . $time_str;
     }
 
