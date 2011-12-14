@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: jsl3_fwf\n"
+"Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-12 16:30-0800\n"
-"PO-Revision-Date: 2011-12-12 16:30-0800\n"
+"POT-Creation-Date: 2011-12-14 10:07-0800\n"
+"PO-Revision-Date: 2011-12-14 10:07-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -173,11 +173,11 @@ msgstr ""
 msgid "Display your facebook wall"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:175
+#: php/class-jsl3-fwf-widget.php:176
 msgid "Title"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:179
+#: php/class-jsl3-fwf-widget.php:180
 msgid "Number of wall posts to get"
 msgstr ""
 
@@ -262,27 +262,27 @@ msgstr ""
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:239
+#: php/class-uki-facebook-wall-feed.php:167
 msgid "Facebook Status"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:504
+#: php/class-uki-facebook-wall-feed.php:444
 msgid "Facebook Profile Pic"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:568
+#: php/class-uki-facebook-wall-feed.php:504
 msgid "Length"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:592
+#: php/class-uki-facebook-wall-feed.php:522
 msgid "people like this"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:596
+#: php/class-uki-facebook-wall-feed.php:526
 msgid "Comment"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:655
+#: php/class-uki-facebook-wall-feed.php:584
 msgid "at"
 msgstr ""
 

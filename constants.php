@@ -64,7 +64,7 @@ if ( ! defined( 'JSL3_FWF_PLUGIN_URL' ) )
  * Text domain
  */
  if ( ! defined( 'JSL3_FWF_TEXT_DOMAIN' ) )
-    define( 'JSL3_FWF_TEXT_DOMAIN', 'jsl3_fwf' );
+    define( 'JSL3_FWF_TEXT_DOMAIN', 'jsl3-fwf' );
 
 /**
  * The name of the admin options stored in the WordPress database
