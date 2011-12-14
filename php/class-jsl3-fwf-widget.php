@@ -142,9 +142,13 @@ class JSL3_FWF_Widget extends WP_Widget {
      */
     function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
-        $instance[ 'title' ] = strip_tags( $new_instance[ 'title' ] );
-        $instance[ 'limit' ] = strip_tags( $new_instance[ 'limit' ] );
-
+        $instance[ 'title' ] = strip_tags( trim( $new_instance[ 'title' ] ) );
+        $limit = strip_tags( trim( $new_instance[ 'limit' ] ) );
+        if ( is_numeric( $limit ) && $limit >= 0 )
+            $instance[ 'limit' ] = $limit;
+        else
+            $instance[ 'limit' ] = JSL3_FWF_WIDGET_LIMIT;
+            
         return $instance;
     }
 
