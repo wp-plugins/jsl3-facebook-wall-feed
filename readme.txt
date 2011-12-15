@@ -47,6 +47,36 @@ style sheet on the settings page for the plugin:
         display: none;
     }
 
+= How can I adjust the width of the Facebook Wall Feed? =
+
+To adjust the width of the Facebook Wall Feed add the following to the bottom
+of the style sheet on the settings page for the plugin:
+
+    /* Adjust width */
+    #facebook_status_box
+    {
+        width: 225px;
+    }
+
+Change the number in front of "px" to one that fits for you.
+
+= What does the error "OAuthException: An access token is required to request this resource" mean? =
+
+It usually means you do not have an access token.  Check that your App ID and
+App Secret are correct and that there are no extra spaces in front or after
+them.  Then click "Save Changes" on the settings page for the plugin.
+
+= What does the error "Exception: No node specified" mean? =
+
+It usually means you have not set your Facebook ID.  Check that you have
+entered your Facebook ID on the settings page for the plugin.
+
+= What does a pink box with a red outline with either ":" or "n: n" in it mean? =
+
+It usually means you have some extra spaces in front or after your Facebook ID.
+Remove the spaces and then click "Save Changes" on the settings page for the
+plugin.
+
 == Screenshots ==
 
 1. **Activate** the plugin through the 'Plugins' menu in WordPress.
