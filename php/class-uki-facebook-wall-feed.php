@@ -119,6 +119,15 @@ class UKI_Facebook_Wall_Feed {
      */
     var $thorough;
 
+    /**
+     * Open links in a new window
+     *
+     * Will add 'target="_blank"' to all anchor tags
+     *
+     * @var boolean
+     */
+    var $new_win;
+
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
 
@@ -128,6 +137,8 @@ class UKI_Facebook_Wall_Feed {
      * Constructor initializes class variables.
      *
      * @param string  $id          the ID of the Facebook profile.
+     * @param string  $app_id      the Facebook App ID (deprecated)
+     * @param string  $app_secret  the Facebook App Secret (deprecated)
      * @param int     $limit       the number of posts to get from the wall
      * @param string  $token       the Facebook access token
      * @param boolean $id_only     determines if posts by other usres are shown
@@ -135,12 +146,15 @@ class UKI_Facebook_Wall_Feed {
      *                             show
      * @param boolean $be_thorough determines if multiple calls to facebook
      *                             graph will be made
+     * @param boolean $new_window  determines if links open in a new window
      *
      * @access public
      * @since Method available since Release 1.0
      */
     function UKI_Facebook_Wall_Feed(
-        $id, $limit, $token, $id_only, $privacy, $be_thorough ) {
+        $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
+        $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
+        $new_window = FALSE ) {
 
         $this->fb_id        = $id;
         $this->fb_limit     = $limit;
@@ -148,6 +162,7 @@ class UKI_Facebook_Wall_Feed {
         $this->fb_id_only   = $id_only;
         $this->fb_privacy   = $privacy;
         $this->thorough     = $be_thorough;
+        $this->new_win      = $new_window;
         $this->post_count   = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -309,6 +324,9 @@ class UKI_Facebook_Wall_Feed {
     function display_fb_wall_feed( $fb_feed ) {
 
         $result = '';
+        $target = '';
+        if ( $this->new_win )
+            $target = ' target="_blank"';
 
         // loop through each post in the feed
         for ( $i = 0; $i < count( $fb_feed ); $i++) {
@@ -396,13 +414,13 @@ class UKI_Facebook_Wall_Feed {
                   '    <div class="fb_post">' .
                   '      <div class="fb_photoblock">' .
                   '        <div class="fb_photo">' .
-                  '          <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '">' .
+                  '          <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
                   '            <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                   '          </a>' .
                   '        </div>' .
                   '        <div class="fb_photo_content">' .
                   '          <h5>' .
-                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '">' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
                   '          </h5>' .
                   '          <div class="fb_time">';
                 if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
@@ -420,10 +438,10 @@ class UKI_Facebook_Wall_Feed {
                   '        <div class="fb_link_post">';
                 if ( isset( $fb_picture ) && isset( $fb_source ) )
                     $result .=
-                  '          <a href="' . $fb_source . '">';
+                  '          <a href="' . $fb_source . '"' . $target . '>';
                 elseif ( isset( $fb_picture ) && isset( $fb_link ) )
                     $result .=
-                  '          <a href="' . $fb_link . '">';
+                  '          <a href="' . $fb_link . '"' . $target . '>';
                 if ( isset( $fb_picture ) )
                     $result .=
                   '            <img src="' . $fb_picture . '" />';
@@ -433,7 +451,7 @@ class UKI_Facebook_Wall_Feed {
                   '          </a>';
                 if ( isset( $fb_feed[ $i ][ 'name' ] ) )
                     $result .=
-                  '          <h6><a href="' . $fb_link . '">' . $fb_feed[ $i ][ 'name' ] . '</a></h6>';
+                  '          <h6><a href="' . $fb_link . '"' . $target . '>' . $fb_feed[ $i ][ 'name' ] . '</a></h6>';
                 if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
                     $result .=
                   '          <p class="fb_cap">' . $fb_feed[ $i ][ 'caption' ] . '</p>';
@@ -446,7 +464,7 @@ class UKI_Facebook_Wall_Feed {
                 if ( isset( $fb_prop_name ) )
                     $result .= $fb_prop_name . ': ';
                 if ( isset( $fb_prop_href ) )
-                    $result .= '<a href="' . $fb_prop_href . '">';
+                    $result .= '<a href="' . $fb_prop_href . '"' . $target . '>';
                 if ( isset( $fb_prop_text ) )
                     $result .= $fb_prop_text;
                 if ( isset( $fb_prop_href ) )
@@ -465,7 +483,7 @@ class UKI_Facebook_Wall_Feed {
                 $result .=
                   '        </span>' .
                   '        <span class="fb_comment">' .
-                  '          <a href="' . $comment_link . '">' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
+                  '          <a href="' . $comment_link . '"' . $target . '>' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
                   '        </span>' .
                   '      </div>' .
                   '      <div style="clear: both;"></div>' .

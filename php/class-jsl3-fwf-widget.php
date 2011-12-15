@@ -109,11 +109,14 @@ class JSL3_FWF_Widget extends WP_Widget {
         $dev_options = $jsl3_fwf->get_admin_options();
         $feed = new UKI_Facebook_Wall_Feed(
             $dev_options[ 'fb_id' ],
+            FALSE,
+            FALSE,
             $limit,
             $dev_options[ 'token' ],
             $dev_options[ 'fb_id_only' ],
             $dev_options[ 'privacy' ],
-            $dev_options[ 'thorough' ] );
+            $dev_options[ 'thorough' ],
+            $dev_options[ 'new_window' ] );
         echo $feed->get_fb_wall_feed();
 
         // After widget
