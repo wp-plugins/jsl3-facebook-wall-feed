@@ -126,10 +126,11 @@ found.  NOTE: This will slow down the feed.
 == Changelog ==
 
 = 1.2 =
-* Added thoroughness check.
 * Added default.po file to support localization.
+* Added thoroughness check.
 * Added ability to open links in a new window or tab.
 * Feed will now display a greater variety of wall posts.
+* Accounted for newline character.
 
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
