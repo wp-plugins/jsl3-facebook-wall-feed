@@ -60,6 +60,11 @@ of the style sheet on the settings page for the plugin:
 
 Change the number in front of "px" to one that fits for you.
 
+= What does the error “OAuthException: Error validating access token: The session has been invalidated because the user has changed the password” mean? =
+
+It usually means you changed your password recently. Go to the settings page
+for the plugin and click “Save Changes” to validate your session.
+
 = What does the error "OAuthException: An access token is required to request this resource" mean? =
 
 It usually means you do not have an access token.  Check that your App ID and
@@ -79,12 +84,17 @@ plugin.
 
 = Why is my feed blank? =
 
-The JSL3 Facebook Wall Feed filters out status messages (stuff like "person1 is
-now friends with person2").  If your wall feed contains many status messages,
-facebook might not be sending any actual wall posts in your feed.  Checking the
-"Thorougness" option in the settings page of the plugin, will force the JSL3
-Facebook Wall Feed to continue contacting Facebook until actual wall posts are
-found.  NOTE: This will slow down the feed.
+First, it could mean you have an invalid value set for the "limit" in the
+shortcode or the "number of wall posts to get" in the widget.  Please make sure
+you have a valid number greater than zero with no spaces in front or after the
+number.
+
+Second, the JSL3 Facebook Wall Feed filters out status messages (stuff like
+"person1 is now friends with person2").  If your wall feed contains many status
+messages, facebook might not be sending any actual wall posts in your feed.
+Checking the "Thorougness" option in the settings page of the plugin, will
+force the JSL3 Facebook Wall Feed to continue contacting Facebook until actual
+wall posts are found.  NOTE: This will slow down the feed.
 
 == Screenshots ==
 

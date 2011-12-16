@@ -744,6 +744,10 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             extract( shortcode_atts(
                 array( 'limit' => JSL3_FWF_WIDGET_LIMIT ), $atts ) );
 
+            $limit = trim( $limit );
+            if ( ! is_numeric( $limit ) || $limit < 0 )
+                $limit = JSL3_FWF_WIDGET_LIMIT;
+
             $dev_options = $this->get_admin_options();
             
             $feed = new UKI_Facebook_Wall_Feed(
