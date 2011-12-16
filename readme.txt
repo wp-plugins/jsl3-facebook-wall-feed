@@ -77,6 +77,15 @@ It usually means you have some extra spaces in front or after your Facebook ID.
 Remove the spaces and then click "Save Changes" on the settings page for the
 plugin.
 
+= Why is my feed blank? =
+
+The JSL3 Facebook Wall Feed filters out status messages (stuff like "person1 is
+now friends with person2").  If your wall feed contains many status messages,
+facebook might not be sending any actual wall posts in your feed.  Checking the
+"Thorougness" option in the settings page of the plugin, will force the JSL3
+Facebook Wall Feed to continue contacting Facebook until actual wall posts are
+found.  NOTE: This will slow down the feed.
+
 == Screenshots ==
 
 1. **Activate** the plugin through the 'Plugins' menu in WordPress.
@@ -116,6 +125,12 @@ plugin.
 
 == Changelog ==
 
+= 1.2 =
+* Added thoroughness check.
+* Added default.po file to support localization.
+* Added ability to open links in a new window or tab.
+* Feed will now display a greater variety of wall posts.
+
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
 * Added shortcode capability.
@@ -129,6 +144,11 @@ plugin.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.2 =
+This upgrade provides support for localization.  Feel free to use the
+'default.po' file in the 'languages' directory to create a translation of the
+plugin.
 
 = 1.1 =
 This upgrade provides added security measures and better error handling.
