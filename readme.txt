@@ -60,12 +60,14 @@ of the style sheet on the settings page for the plugin:
 
 Change the number in front of "px" to one that fits for you.
 
-= What does the error “OAuthException: Error validating access token: The session has been invalidated because the user has changed the password” mean? =
+= What does the error "OAuthException: Error validating access token: The
+session has been invalidated because the user has changed the password" mean? =
 
 It usually means you changed your password recently. Go to the settings page
-for the plugin and click “Save Changes” to validate your session.
+for the plugin and click "Save Changes" to validate your session.
 
-= What does the error "OAuthException: An access token is required to request this resource" mean? =
+= What does the error "OAuthException: An access token is required to request
+this resource" mean? =
 
 It usually means you do not have an access token.  Check that your App ID and
 App Secret are correct and that there are no extra spaces in front or after
@@ -76,11 +78,29 @@ them.  Then click "Save Changes" on the settings page for the plugin.
 It usually means you have not set your Facebook ID.  Check that you have
 entered your Facebook ID on the settings page for the plugin.
 
-= What does a pink box with a red outline with either ":" or "n: n" in it mean? =
+= What does a pink box with a red outline with either ":" or "n: n" in it
+mean? =
 
 It usually means you have some extra spaces in front or after your Facebook ID.
 Remove the spaces and then click "Save Changes" on the settings page for the
 plugin.
+
+= What does "An error occurred with [Your App Name]. Please try again later"
+mean? =
+
+This is a Facebook error and may also include the following message:
+
+> API Error Code: 191
+> API Error Description: The specified URL is not owned by the application
+> Error Message: Invalid redirect_uri: Given URL is not allowed by the Application configuration. 
+
+This error means that the App Domain and Site URL for your Facebook App do not
+match the domain of the website where you are using the plugin. Go to
+[https://developers.facebook.com/apps](https://developers.facebook.com/apps)
+and click "Edit Settings". Under "Basic Info", change your "App Domain" to
+match the domain of the website where the plugin is located. In the "Select how
+your app integrates with Facebook" section, under "Website", change your "Site
+URL" to match the URL of the website where the plugin is located.
 
 = Why is my feed blank? =
 
