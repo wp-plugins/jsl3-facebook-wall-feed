@@ -63,8 +63,8 @@ Change the number in front of "px" to one that fits for you.
 = What does the error "OAuthException: Error validating access token: The
 session has been invalidated because the user has changed the password" mean? =
 
-It usually means you changed your password recently. Go to the settings page
-for the plugin and click "Save Changes" to validate your session.
+It usually means you changed your Facebook password recently. Go to the
+settings page for the plugin and click "Save Changes" to validate your session.
 
 = What does the error "OAuthException: An access token is required to request
 this resource" mean? =
@@ -76,7 +76,8 @@ them.  Then click "Save Changes" on the settings page for the plugin.
 = What does the error "Exception: No node specified" mean? =
 
 It usually means you have not set your Facebook ID.  Check that you have
-entered your Facebook ID on the settings page for the plugin.
+entered your Facebook ID on the settings page for the plugin. Then click "Save
+Changes" on the settings page for the plugin.
 
 = What does a pink box with a red outline with either ":" or "n: n" in it
 mean? =
