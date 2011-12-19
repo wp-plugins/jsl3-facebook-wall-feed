@@ -153,7 +153,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'privacy'       => 'All',
                 'thorough'      => FALSE,
                 'new_window'    => FALSE,
-                'show_staus'    => FALSE,
+                'show_status'   => FALSE,
                 'show_comments' => FALSE );
 
             // get default stylesheet
