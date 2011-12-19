@@ -159,6 +159,8 @@ wall posts are found.  NOTE: This will slow down the feed.
 = 1.2 =
 * Added default.po file to support localization.
 * Added thoroughness check.
+* Added ability to show status messages.
+* Added ability to show post comments.
 * Added ability to open links in a new window or tab.
 * Feed will now display a greater variety of wall posts.
 * Accounted for newline character.

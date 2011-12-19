@@ -120,6 +120,24 @@ class UKI_Facebook_Wall_Feed {
     var $thorough;
 
     /**
+     * Show status messages
+     *
+     * Will show all status messages.
+     *
+     * @var boolean
+     */
+    var $show_status;
+
+    /**
+     * Show comments
+     *
+     * Will show comments made on a post.
+     *
+     * @var boolean
+     */
+    var $show_comments;
+
+    /**
      * Open links in a new window
      *
      * Will add 'target="_blank"' to all anchor tags
@@ -147,6 +165,8 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $be_thorough determines if multiple calls to facebook
      *                             graph will be made
      * @param boolean $new_window  determines if links open in a new window
+     * @param boolean $show_all    determines if all status messages are shown
+     * @param boolean $show_comm   determines if post comments are shown
      *
      * @access public
      * @since Method available since Release 1.0
@@ -154,16 +174,18 @@ class UKI_Facebook_Wall_Feed {
     function UKI_Facebook_Wall_Feed(
         $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
-        $new_window = FALSE ) {
+        $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE ) {
 
-        $this->fb_id        = $id;
-        $this->fb_limit     = $limit;
-        $this->access_token = $token;
-        $this->fb_id_only   = $id_only;
-        $this->fb_privacy   = $privacy;
-        $this->thorough     = $be_thorough;
-        $this->new_win      = $new_window;
-        $this->post_count   = 0;
+        $this->fb_id         = $id;
+        $this->fb_limit      = $limit;
+        $this->access_token  = $token;
+        $this->fb_id_only    = $id_only;
+        $this->fb_privacy    = $privacy;
+        $this->thorough      = $be_thorough;
+        $this->new_win       = $new_window;
+        $this->show_status   = $show_all;
+        $this->show_comments = $show_comm;
+        $this->post_count    = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
     }
@@ -310,9 +332,7 @@ class UKI_Facebook_Wall_Feed {
     /**
      * Displays the Facebook Wall feed
      *
-     * Parses the Facebook Wall feed data and stored the data into a print
-     * array. Calls print_fb_post() function to perform most of the  html
-     * printing.
+     * Parses the Facebook Wall feed data and prints out the wall feed html.
      *
      * @param array $fb_feed an array of Facebook Wall feed data.
      *
@@ -334,8 +354,6 @@ class UKI_Facebook_Wall_Feed {
             // exit the loop if we have reached the limit
             if ( $this->post_count >= $this->fb_limit )
                 break;
-
-            $print_array = array();
 
             $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
 
@@ -362,17 +380,23 @@ class UKI_Facebook_Wall_Feed {
                 if ( $privacy_good )
                     $show_post = TRUE;
             }
+
+            $is_status = TRUE;
+            if ( isset( $fb_feed[ $i ][ 'message' ] ) ||
+                isset( $fb_feed[ $i ][ 'name' ] ) ||
+                isset( $fb_feed[ $i ][ 'caption' ] ) ||
+                isset( $fb_feed[ $i ][ 'description' ] ) )
+                $is_status = FALSE;
                 
             // don't display posts without a message, name, caption,
             // or description they are just usually "is now friends with"
             // posts
-            if ( $show_post && ( isset( $fb_feed[ $i ][ 'message' ] ) ||
-                isset( $fb_feed[ $i ][ 'name' ] ) ||
-                isset( $fb_feed[ $i ][ 'caption' ] ) ||
-                isset( $fb_feed[ $i ][ 'description' ] ) ) ) {
+            if ( $show_post && ( $this->show_status || ! $is_status ) ) {
                     
                 $comment_link =
                     $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
+                $like_link =
+                    $this->fb_like_link( $fb_feed[ $i ][ 'id' ] );
                 $fb_photo  =
                     "http://graph.facebook.com/$fb_id/picture";
                 $post_time =
@@ -431,6 +455,9 @@ class UKI_Facebook_Wall_Feed {
                   '        </div>' .
                   '      </div>' .
                   '      <div class="fb_msg">';
+                if ( isset( $fb_feed[ $i ][ 'story' ] ) )
+                    $result .= 
+                  '        <p class="fb_story">' . $fb_feed[ $i ][ 'story' ] . '</p>';
                 if ( isset( $fb_feed[ $i ][ 'message' ] ) )
                     $result .= 
                   '        <p>' . $fb_feed[ $i ][ 'message' ] . '</p>';
@@ -474,12 +501,17 @@ class UKI_Facebook_Wall_Feed {
                   '          </p>';
                 $result .=
                   '        </div>' .
-                  '      </div>' .
+                  '      </div>';
+                if ( $this->show_comments &&
+                    isset( $fb_feed[ $i ][ 'comments' ][ 'data' ] ) )
+                    $result .= $this->display_comments(
+                        $fb_feed[ $i ][ 'comments' ][ 'data' ] );
+                $result .=
                   '      <div class="fb_commLink">' .
                   '        <span class="fb_likes">';
                 if ( $fb_likes > 0 )
                     $result .=
-                  '          <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="#">' . $fb_likes . '</a>';
+                  '          <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="' . $like_link . '"' . $target . '>' . $fb_likes . '</a>';
                 $result .=
                   '        </span>' .
                   '        <span class="fb_comment">' .
@@ -500,6 +532,75 @@ class UKI_Facebook_Wall_Feed {
     } // End display_fb_wall_feed function
     
     // }}}
+    // {{{ display_comments()
+
+    /**
+     * Displays comments
+     *
+     * Parses the comments for a particular post and prints out the html.
+     *
+     * @param array $fb_feed an array of comment data.
+     *
+     * @return string the comments as html
+     *
+     * @access public
+     * @since Method available since Release 1.2
+     */
+    function display_comments( $fb_feed ) {
+
+        $result = '';
+        $target = '';
+        if ( $this->new_win )
+            $target = ' target="_blank"';
+
+        // loop through each post in the feed
+        for ( $i = 0; $i < count( $fb_feed ); $i++) {
+            
+            $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
+
+            // check to see if we are not getting posts by other facebook
+            // friends
+            $show_post = FALSE;
+            if ( $this->fb_id_only ) {
+                if ( $this->fb_id == $fb_id )
+                    $show_post = TRUE;
+            } else {
+                $show_post = TRUE;
+            }
+
+            if ( $show_post ) {
+            
+                $fb_photo  = "http://graph.facebook.com/$fb_id/picture";
+                $post_time = $this->parse_fb_timestamp(
+                    $fb_feed[ $i ][ 'created_time' ] );
+                
+                $result .=
+              '          <div class="fb_comments">' .
+              '            <div class="fb_photo">' .
+              '              <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
+              '                <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+              '              </a>' .
+              '            </div>' .
+              '            <div class="fb_photo_content">' .
+              '              <p>' .
+              '                <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+              '                ' . $fb_feed[ $i ][ 'message' ] .
+              '              </p>' .
+              '              <p class="fb_time">';
+                $result .= $post_time .
+              '              </p>' .
+              '            </div>' .
+              '          </div>';
+
+            } // End if
+            
+        } // End for
+
+        return $result;
+
+    } // End display_comments function
+    
+    // }}}
     // {{{ fb_comment_link()
 
     /**
@@ -518,6 +619,29 @@ class UKI_Facebook_Wall_Feed {
         $link = 'http://www.facebook.com/permalink.php?';
         $split_id = explode( '_', $fb_story_id );
         $link .= 'id=' . $split_id[ 0 ] . '&story_fbid=' . $split_id[ 1 ];
+
+        return $link;
+    }
+
+    // }}}
+    // {{{ fb_like_link()
+
+    /**
+     * Forms a Facebook like link
+     *
+     * Forms a Facebook like link by parsing the ID of the post.
+     *
+     * @param string $fb_story_id the id of the post to be parsed.
+     *
+     * @return string the parsed comment link
+     *
+     * @access public
+     * @since Method available since Release 1.2
+     */
+    function fb_like_link( $fb_story_id ) {
+        $link = 'http://www.facebook.com/';
+        $split_id = explode( '_', $fb_story_id );
+        $link .= $split_id[ 0 ] . '/posts/' . $split_id[ 1 ];
 
         return $link;
     }

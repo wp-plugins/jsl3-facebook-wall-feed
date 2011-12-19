@@ -80,6 +80,7 @@
 #facebook_status_box .fb_post .fb_photo_content {
   font-size: 11px;
   float: left;
+  width: 85%;
 }
 #facebook_status_box .fb_post .fb_msg {
   clear: both;
@@ -150,4 +151,22 @@
   background-position: -11px -172px;
   height: 14px;
   padding-left: 18px;
+}
+#facebook_status_box .fb_msg p.fb_story {
+  font-size: 10px;
+  color: #999999;
+}
+#facebook_status_box .fb_post .fb_comments {
+  background-color: #EDEFF4;
+  font-size: 11px;
+  border-bottom: 1px solid #e6e6fa;
+  overflow: hidden;
+  padding: 7px;
+  margin: 0;
+}
+#facebook_status_box .fb_post .fb_comments p {
+  font-size: 11px;
+  margin: 0;
+  padding: 0;
+  float: left;
 }

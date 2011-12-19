@@ -116,7 +116,9 @@ class JSL3_FWF_Widget extends WP_Widget {
             $dev_options[ 'fb_id_only' ],
             $dev_options[ 'privacy' ],
             $dev_options[ 'thorough' ],
-            $dev_options[ 'new_window' ] );
+            $dev_options[ 'new_window' ],
+            $dev_options[ 'show_status' ],
+            $dev_options[ 'show_comments' ] );
         echo $feed->get_fb_wall_feed();
 
         // After widget

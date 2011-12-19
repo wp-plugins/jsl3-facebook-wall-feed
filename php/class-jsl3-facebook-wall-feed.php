@@ -143,16 +143,18 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         function get_admin_options() {
             // set default values
             $jsl3_fwf_admin_options = array(
-                'fb_id'      => '',
-                'app_id'     => '',
-                'app_secret' => '', 
-                'token'      => '',
-                'session'    => '',
-                'style'      => '',
-                'fb_id_only' => FALSE,
-                'privacy'    => 'All',
-                'thorough'   => FALSE,
-                'new_window' => FALSE );
+                'fb_id'         => '',
+                'app_id'        => '',
+                'app_secret'    => '', 
+                'token'         => '',
+                'session'       => '',
+                'style'         => '',
+                'fb_id_only'    => FALSE,
+                'privacy'       => 'All',
+                'thorough'      => FALSE,
+                'new_window'    => FALSE,
+                'show_staus'    => FALSE,
+                'show_comments' => FALSE );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -522,6 +524,20 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'new_window' ] = FALSE;
 
+                // store show all status messages check
+                if ( isset( $_POST[ 'show_status' ] ) &&
+                    ( $_POST[ 'show_status' ] == '1' ) )
+                    $dev_options[ 'show_status' ] = TRUE;
+                else
+                    $dev_options[ 'show_status' ] = FALSE;
+
+                // store show all post comments check
+                if ( isset( $_POST[ 'show_comments' ] ) &&
+                    ( $_POST[ 'show_comments' ] == '1' ) )
+                    $dev_options[ 'show_comments' ] = TRUE;
+                else
+                    $dev_options[ 'show_comments' ] = FALSE;
+
                 // store the admin options back to the WordPress database
                 update_option( $this->admin_options_name, $dev_options );
                 
@@ -574,6 +590,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_options ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Show all status messages.', JSL3_FWF_TEXT_DOMAIN ), 'show_status', __( 'Recent Activity', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Open links in a new window or tab.', JSL3_FWF_TEXT_DOMAIN ), 'new_window', __( 'Links', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)', JSL3_FWF_TEXT_DOMAIN ), 'thorough', __( 'Thoroughness', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
@@ -759,7 +777,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'fb_id_only' ],
                 $dev_options[ 'privacy' ],
                 $dev_options[ 'thorough' ],
-                $dev_options[ 'new_window' ] );
+                $dev_options[ 'new_window' ],
+                $dev_options[ 'show_status' ],
+                $dev_options[ 'show_comments' ] );
             
             return $feed->get_fb_wall_feed();
         }
