@@ -60,6 +60,34 @@ of the style sheet on the settings page for the plugin:
 
 Change the number in front of "px" to one that fits for you.
 
+= Why do comments look so bad? =
+
+To fix the formatting of the comments, add the following to the bottom of the
+style sheet on the settings page for the plugin:
+
+    /* Format comments */
+    #facebook_status_box .fb_msg p.fb_story {
+        font-size: 10px;
+        color: #999999;
+    }
+    #facebook_status_box .fb_post .fb_comments {
+        background-color: #EDEFF4;
+        font-size: 11px;
+        border-bottom: 1px solid #e6e6fa;
+        overflow: hidden;
+        padding: 7px;
+        margin: 0;
+    }
+    #facebook_status_box .fb_post .fb_comments p {
+        font-size: 11px;
+        margin: 0;
+        padding: 0;
+        float: left;
+    }
+    #facebook_status_box .fb_post .fp_photo_content {
+        width: 85%
+    }
+
 = What does the error "OAuthException: Error validating access token: The
 session has been invalidated because the user has changed the password" mean? =
 
