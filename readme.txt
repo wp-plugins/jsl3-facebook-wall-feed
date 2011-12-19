@@ -84,6 +84,10 @@ style sheet on the settings page for the plugin:
         padding: 0;
         float: left;
     }
+    #facebook_status_box .fb_post .fb_comments a {
+        color: #0A7A98;
+        text-decoration: none;
+    }
     #facebook_status_box .fb_post .fp_photo_content {
         width: 85%
     }
