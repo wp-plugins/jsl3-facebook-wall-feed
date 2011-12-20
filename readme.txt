@@ -66,11 +66,13 @@ To fix the formatting of the comments, add the following to the bottom of the
 style sheet on the settings page for the plugin:
 
     /* Format comments */
-    #facebook_status_box .fb_msg p.fb_story {
+    #facebook_status_box .fb_msg p.fb_story
+    {
         font-size: 10px;
         color: #999999;
     }
-    #facebook_status_box .fb_post .fb_comments {
+    #facebook_status_box .fb_post .fb_comments
+    {
         background-color: #EDEFF4;
         font-size: 11px;
         border-bottom: 1px solid #e6e6fa;
@@ -78,28 +80,29 @@ style sheet on the settings page for the plugin:
         padding: 7px;
         margin: 0;
     }
-    #facebook_status_box .fb_post .fb_comments p {
+    #facebook_status_box .fb_post .fb_comments p
+    {
         font-size: 11px;
         margin: 0;
         padding: 0;
         float: left;
     }
-    #facebook_status_box .fb_post .fb_comments a {
+    #facebook_status_box .fb_post .fb_comments a
+    {
         color: #0A7A98;
         text-decoration: none;
     }
-    #facebook_status_box .fb_post .fp_photo_content {
+    #facebook_status_box .fb_post .fp_photo_content
+    {
         width: 85%
     }
 
-= What does the error "OAuthException: Error validating access token: The
-session has been invalidated because the user has changed the password" mean? =
+= What does the error "OAuthException: Error validating access token: The session has been invalidated because the user has changed the password" mean? =
 
 It usually means you changed your Facebook password recently. Go to the
 settings page for the plugin and click "Save Changes" to validate your session.
 
-= What does the error "OAuthException: An access token is required to request
-this resource" mean? =
+= What does the error "OAuthException: An access token is required to request this resource" mean? =
 
 It usually means you do not have an access token.  Check that your App ID and
 App Secret are correct and that there are no extra spaces in front or after
@@ -111,15 +114,13 @@ It usually means you have not set your Facebook ID.  Check that you have
 entered your Facebook ID on the settings page for the plugin. Then click "Save
 Changes" on the settings page for the plugin.
 
-= What does a pink box with a red outline with either ":" or "n: n" in it
-mean? =
+= What does a pink box with a red outline with either ":" or "n: n" in it mean? =
 
 It usually means you have some extra spaces in front or after your Facebook ID.
 Remove the spaces and then click "Save Changes" on the settings page for the
 plugin.
 
-= What does "An error occurred with [Your App Name]. Please try again later"
-mean? =
+= What does "An error occurred with [Your App Name]. Please try again later" mean? =
 
 This is a Facebook error and may also include the following message:
 
@@ -200,8 +201,8 @@ wall posts are found.  NOTE: This will slow down the feed.
 = 1.1 =
 * Fixed a PHP Notice error when displaying video posts.
 * Added shortcode capability.
-* Added a property to limit posts to only the user (posts by other users are
-  not displayed).
+* Added a property to limit posts to only the user (posts by other users
+  are not displayed).
 * Added a privacy setting to limit the feed to only public posts.
 * Added contextual help.
 * Added better error handling.
@@ -213,8 +214,8 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 = 1.2 =
 This upgrade provides support for localization.  Feel free to use the
-'default.po' file in the 'languages' directory to create a translation of the
-plugin.
+'default.po' file in the 'languages' directory to create a translation of
+the plugin.
 
 = 1.1 =
 This upgrade provides added security measures and better error handling.
