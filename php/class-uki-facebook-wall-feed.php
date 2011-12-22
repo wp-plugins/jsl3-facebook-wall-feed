@@ -242,7 +242,7 @@ class UKI_Facebook_Wall_Feed {
             //error_log( $fb_url );
             $raw_feed = $this->get_json_feed( $fb_url );
             //error_log( $raw_feed );
-            $raw_feed = str_replace( '\n', '\u003cbr \/\u003e', $raw_feed );
+            $raw_feed = str_replace( '\n', '\u003cjsl3fwfbr \/\u003e', $raw_feed );
             //error_log( $raw_feed );
             $json_feed = json_decode( $raw_feed, TRUE );
 
@@ -296,7 +296,7 @@ class UKI_Facebook_Wall_Feed {
                   '  </div>' .
                   '</div>';
 
-        return $result;
+        return str_replace( '&lt;jsl3fwfbr /&gt;', '<br />', $result );
     
     } // End get_fb_wall_feed function
     
@@ -449,7 +449,7 @@ class UKI_Facebook_Wall_Feed {
                   '          <div class="fb_time">';
                 if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
                     $result .=
-                  '            <img class="fb_post_icon" src="' . $fb_feed[ $i ][ 'icon' ] . '" />';
+                  '            <img class="fb_post_icon" src="' . htmlentities( $fb_feed[ $i ][ 'icon' ] ) . '" alt="' . __( 'Facebook Icon', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 $result .= $post_time .
                   '          </div>' .
                   '        </div>' .
@@ -457,41 +457,41 @@ class UKI_Facebook_Wall_Feed {
                   '      <div class="fb_msg">';
                 if ( isset( $fb_feed[ $i ][ 'story' ] ) )
                     $result .= 
-                  '        <p class="fb_story">' . $fb_feed[ $i ][ 'story' ] . '</p>';
+                  '        <p class="fb_story">' . htmlentities( $fb_feed[ $i ][ 'story' ], ENT_QUOTES, 'UTF-8' ) . '</p>';
                 if ( isset( $fb_feed[ $i ][ 'message' ] ) )
                     $result .= 
-                  '        <p>' . $fb_feed[ $i ][ 'message' ] . '</p>';
+                  '        <p>' . htmlentities( $fb_feed[ $i ][ 'message' ], ENT_QUOTES, 'UTF-8' ) . '</p>';
                 $result .= 
                   '        <div class="fb_link_post">';
                 if ( isset( $fb_picture ) && isset( $fb_source ) )
                     $result .=
-                  '          <a href="' . $fb_source . '"' . $target . '>';
+                  '          <a href="' . htmlentities( $fb_source ) . '"' . $target . '>';
                 elseif ( isset( $fb_picture ) && isset( $fb_link ) )
                     $result .=
-                  '          <a href="' . $fb_link . '"' . $target . '>';
+                  '          <a href="' . htmlentities( $fb_link ) . '"' . $target . '>';
                 if ( isset( $fb_picture ) )
                     $result .=
-                  '            <img src="' . $fb_picture . '" />';
+                  '            <img src="' . htmlentities( $fb_picture ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
                     isset( $fb_link ) ) )
                     $result .=
                   '          </a>';
                 if ( isset( $fb_feed[ $i ][ 'name' ] ) )
                     $result .=
-                  '          <h6><a href="' . $fb_link . '"' . $target . '>' . $fb_feed[ $i ][ 'name' ] . '</a></h6>';
+                  '          <h6><a href="' . htmlentities( $fb_link ) . '"' . $target . '>' . htmlentities( $fb_feed[ $i ][ 'name' ], ENT_QUOTES, 'UTF-8' ) . '</a></h6>';
                 if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
                     $result .=
-                  '          <p class="fb_cap">' . $fb_feed[ $i ][ 'caption' ] . '</p>';
+                  '          <p class="fb_cap">' . htmlentities( $fb_feed[ $i ][ 'caption' ], ENT_QUOTES, 'UTF-8' ) . '</p>';
                 if ( isset( $fb_feed[ $i ][ 'description' ] ) )
                     $result .=
-                  '          <p class="fb_desc">' . $fb_feed[ $i ][ 'description' ] . '</p>';
+                  '          <p class="fb_desc">' . htmlentities( $fb_feed[ $i ][ 'description' ], ENT_QUOTES, 'UTF-8' ) . '</p>';
                 if ( $fb_prop )
                     $result .=
                   '          <p class="fb_vid_length">';
                 if ( isset( $fb_prop_name ) )
                     $result .= $fb_prop_name . ': ';
                 if ( isset( $fb_prop_href ) )
-                    $result .= '<a href="' . $fb_prop_href . '"' . $target . '>';
+                    $result .= '<a href="' . htmlentities( $fb_prop_href ) . '"' . $target . '>';
                 if ( isset( $fb_prop_text ) )
                     $result .= $fb_prop_text;
                 if ( isset( $fb_prop_href ) )
@@ -584,7 +584,7 @@ class UKI_Facebook_Wall_Feed {
               '            <div class="fb_photo_content">' .
               '              <p>' .
               '                <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
-              '                ' . $fb_feed[ $i ][ 'message' ] .
+              '                ' . htmlentities( $fb_feed[ $i ][ 'message' ], ENT_QUOTES, 'UTF-8' ) .
               '              </p>' .
               '              <p class="fb_time">';
                 $result .= $post_time .
@@ -618,7 +618,7 @@ class UKI_Facebook_Wall_Feed {
     function fb_comment_link( $fb_story_id ) {
         $link = 'http://www.facebook.com/permalink.php?';
         $split_id = explode( '_', $fb_story_id );
-        $link .= 'id=' . $split_id[ 0 ] . '&story_fbid=' . $split_id[ 1 ];
+        $link .= 'id=' . $split_id[ 0 ] . '&amp;story_fbid=' . $split_id[ 1 ];
 
         return $link;
     }

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-18 16:52-0800\n"
-"PO-Revision-Date: 2011-12-18 16:54-0800\n"
+"POT-Creation-Date: 2011-12-21 18:52-0800\n"
+"PO-Revision-Date: 2011-12-21 18:52-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -287,7 +287,7 @@ msgid "Donate to Fedil Grogan"
 msgstr ""
 
 #: php/class-jsl3-facebook-wall-feed.php:732
-msgid "No access token returned.  Please double check you have correct Facebook ID, App ID, and App Secret."
+msgid "No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
 #: php/class-jsl3-facebook-wall-feed.php:737
@@ -301,6 +301,14 @@ msgstr ""
 #: php/class-uki-facebook-wall-feed.php:442
 #: php/class-uki-facebook-wall-feed.php:581
 msgid "Facebook Profile Pic"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:452
+msgid "Facebook Icon"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:474
+msgid "Facebook Picture"
 msgstr ""
 
 #: php/class-uki-facebook-wall-feed.php:514

@@ -41,8 +41,6 @@
   margin: 10px 4px;
   border: 1px solid #C4CDE0;
   padding: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   border-radius: 3px;
 }
 #facebook_status_box .fb_post h5 {

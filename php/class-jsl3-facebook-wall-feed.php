@@ -729,7 +729,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $access_token = $params[ 'access_token' ];
                 else
                     $this->error_msg_fn(
-                        __( 'No access token returned.  Please double check you have correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
+                        __( 'No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
             
             // if the session doesn't match alert the user
             } else {

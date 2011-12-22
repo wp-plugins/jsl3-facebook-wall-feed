@@ -189,6 +189,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.3 =
+* Made the feed validate XHTML 1.0 Strict.
+
 = 1.2 =
 * Added default.po file to support localization.
 * Added thoroughness check.
@@ -211,6 +214,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.3 =
+This update should validate under XHTML 1.0 Strict.
 
 = 1.2 =
 This upgrade provides support for localization.  Feel free to use the
