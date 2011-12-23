@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.2
+ * @version    1.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.2
+ * @version    1.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -708,28 +708,48 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     "&code=$code&redirect_uri=" . get_bloginfo('wpurl') .
                     "/wp-admin/admin.php?page=" . JSL3_FWF_SLUG;
 
-                //$response = file_get_contents($token_url);
-                $ch = curl_init();
+                // check if cURL is loaded
+                if ( in_array( 'curl', get_loaded_extensions() ) ) {
+                    $ch = curl_init();
 
-                curl_setopt( $ch, CURLOPT_URL, $token_url );
-                curl_setopt( $ch, CURLOPT_HEADER, 0 );
+                    curl_setopt( $ch, CURLOPT_URL, $token_url );
+                    curl_setopt( $ch, CURLOPT_HEADER, 0 );
 
-                ob_start();
+                    ob_start();
 
-                curl_exec( $ch );
-                curl_close( $ch );
-                $response = ob_get_contents();
+                    curl_exec( $ch );
+                    curl_close( $ch );
+                    $response = ob_get_contents();
 
-                ob_end_clean();
+                    ob_end_clean();
+                
+                // check if allow_url_fopen is on
+                } elseif ( ini_get( 'allow_url_fopen' ) == 1 ) {
+                    $response = file_get_contents( $token_url );
+                
+                // no way to get the access token
+                } else {
+                    $this->error_msg_fn(
+                        __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN ) );
+
+                    return $access_token;
+                }
 
                 $params = NULL;
                 parse_str( $response, $params );
 
-                if ( isset( $params[ 'access_token' ] ) )
+                if ( isset( $params[ 'access_token' ] ) ) {
                     $access_token = $params[ 'access_token' ];
-                else
-                    $this->error_msg_fn(
-                        __( 'No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
+                } else {
+                    $response = json_decode( $response, TRUE );
+                    if ( isset( $response[ 'error' ] ) )
+                        $this->error_msg_fn(
+                            $response[ 'error' ][ 'type' ] . ': ' .
+                            $response[ 'error' ][ 'message' ] );
+                    else
+                        $this->error_msg_fn(
+                            __( 'No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
+                }
             
             // if the session doesn't match alert the user
             } else {

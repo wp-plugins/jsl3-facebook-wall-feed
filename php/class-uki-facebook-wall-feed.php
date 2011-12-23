@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.2
+ * @version    1.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.2
+ * @version    1.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -242,7 +242,8 @@ class UKI_Facebook_Wall_Feed {
             //error_log( $fb_url );
             $raw_feed = $this->get_json_feed( $fb_url );
             //error_log( $raw_feed );
-            $raw_feed = str_replace( '\n', '\u003cjsl3fwfbr \/\u003e', $raw_feed );
+            $raw_feed =
+                str_replace( '\n', '\u003cjsl3fwfbr \/\u003e', $raw_feed );
             //error_log( $raw_feed );
             $json_feed = json_decode( $raw_feed, TRUE );
 
@@ -272,7 +273,10 @@ class UKI_Facebook_Wall_Feed {
                 $result .=
                   '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
                   '      <strong>';
-                if ( isset( $fb_feed[ 'type' ] ) )
+                if ( $raw_feed == 'SERVER_CONFIG_ERROR' )
+                    $result .=
+                        __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN );
+                elseif ( isset( $fb_feed[ 'type' ] ) )
                     $result .=
                         $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ];
                 else
@@ -316,11 +320,23 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.2
      */
     function get_json_feed( $url ) {
-        $ch = curl_init();
-        curl_setopt( $ch, CURLOPT_URL, $url );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-        $result = curl_exec( $ch );
-        curl_close( $ch );
+        
+        // check if cURL is loaded
+        if ( in_array( 'curl', get_loaded_extensions() ) ) {
+            $ch = curl_init();
+            curl_setopt( $ch, CURLOPT_URL, $url );
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+            $result = curl_exec( $ch );
+            curl_close( $ch );
+        
+        // check if allow_url_fopen is on
+        } elseif ( ini_get( 'allow_url_fopen' ) == 1 ) {
+            $result = file_get_contents( $url );
+        
+        // no way to get the feed
+        } else {
+            return 'SERVER_CONFIG_ERROR';
+        }
 
         return $result;
 

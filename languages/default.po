@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-21 18:52-0800\n"
-"PO-Revision-Date: 2011-12-21 18:52-0800\n"
+"POT-Creation-Date: 2011-12-22 16:50-0800\n"
+"PO-Revision-Date: 2011-12-22 16:50-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -286,11 +286,16 @@ msgstr ""
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:732
+#: php/class-jsl3-facebook-wall-feed.php:733
+#: php/class-uki-facebook-wall-feed.php:278
+msgid "Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:751
 msgid "No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:737
+#: php/class-jsl3-facebook-wall-feed.php:757
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
@@ -298,28 +303,28 @@ msgstr ""
 msgid "Facebook Status"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:442
-#: php/class-uki-facebook-wall-feed.php:581
+#: php/class-uki-facebook-wall-feed.php:458
+#: php/class-uki-facebook-wall-feed.php:597
 msgid "Facebook Profile Pic"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:452
+#: php/class-uki-facebook-wall-feed.php:468
 msgid "Facebook Icon"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:474
+#: php/class-uki-facebook-wall-feed.php:490
 msgid "Facebook Picture"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:514
+#: php/class-uki-facebook-wall-feed.php:530
 msgid "people like this"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:518
+#: php/class-uki-facebook-wall-feed.php:534
 msgid "Comment"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:675
+#: php/class-uki-facebook-wall-feed.php:691
 msgid "at"
 msgstr ""
 

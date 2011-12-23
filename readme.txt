@@ -191,6 +191,7 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 = 1.3 =
 * Made the feed validate XHTML 1.0 Strict.
+* Made a cURL and allow_url_fopen check.
 
 = 1.2 =
 * Added default.po file to support localization.
@@ -216,7 +217,8 @@ wall posts are found.  NOTE: This will slow down the feed.
 == Upgrade Notice ==
 
 = 1.3 =
-This update should validate under XHTML 1.0 Strict.
+This update should validate under XHTML 1.0 Strict.  It also checks to see if
+cURL is loaded or allow_url_fopen is on.
 
 = 1.2 =
 This upgrade provides support for localization.  Feel free to use the
