@@ -713,19 +713,29 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $ch = curl_init();
 
                     curl_setopt( $ch, CURLOPT_URL, $token_url );
-                    curl_setopt( $ch, CURLOPT_HEADER, 0 );
+                    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
 
-                    ob_start();
+                    $response = curl_exec( $ch );
 
-                    curl_exec( $ch );
-                    curl_close( $ch );
-                    $response = ob_get_contents();
-
-                    ob_end_clean();
+                    if ( curl_errno( $ch ) ) {
+                        $this->error_msg_fn( curl_error( $ch ) );
+                        curl_close( $ch );
+                        
+                        return $access_token;
+                    }
                 
+                    curl_close( $ch );
+
                 // check if allow_url_fopen is on
-                } elseif ( ini_get( 'allow_url_fopen' ) == 1 ) {
+                } elseif ( ini_get( 'allow_url_fopen' ) ) {
                     $response = file_get_contents( $token_url );
+
+                    if ( ! $response ) {
+                        $this->error_msg_fn(
+                            __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN ) );
+                        
+                        return $access_token;
+                    }
                 
                 // no way to get the access token
                 } else {

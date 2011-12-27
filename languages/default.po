@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-22 16:50-0800\n"
-"PO-Revision-Date: 2011-12-22 16:50-0800\n"
+"POT-Creation-Date: 2011-12-27 11:34-0800\n"
+"PO-Revision-Date: 2011-12-27 11:34-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -286,16 +286,21 @@ msgstr ""
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:733
-#: php/class-uki-facebook-wall-feed.php:278
+#: php/class-jsl3-facebook-wall-feed.php:735
+#: php/class-uki-facebook-wall-feed.php:345
+msgid "file_get_contents failed to open URL."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:743
+#: php/class-uki-facebook-wall-feed.php:277
 msgid "Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:751
+#: php/class-jsl3-facebook-wall-feed.php:761
 msgid "No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:757
+#: php/class-jsl3-facebook-wall-feed.php:767
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
@@ -303,28 +308,32 @@ msgstr ""
 msgid "Facebook Status"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:458
-#: php/class-uki-facebook-wall-feed.php:597
+#: php/class-uki-facebook-wall-feed.php:282
+msgid "No feed returned. Please double check you have the correct Facebook ID, App ID, and App Secret."
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:469
+#: php/class-uki-facebook-wall-feed.php:608
 msgid "Facebook Profile Pic"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:468
+#: php/class-uki-facebook-wall-feed.php:479
 msgid "Facebook Icon"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:490
+#: php/class-uki-facebook-wall-feed.php:501
 msgid "Facebook Picture"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:530
+#: php/class-uki-facebook-wall-feed.php:541
 msgid "people like this"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:534
+#: php/class-uki-facebook-wall-feed.php:545
 msgid "Comment"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:691
+#: php/class-uki-facebook-wall-feed.php:702
 msgid "at"
 msgstr ""
 

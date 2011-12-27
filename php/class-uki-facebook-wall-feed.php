@@ -264,7 +264,6 @@ class UKI_Facebook_Wall_Feed {
             
             // check if something else was sent from facebook
             } else {
-                $fb_feed = json_encode( $json_feed );
                 $is_error = TRUE;
             }
         
@@ -279,8 +278,10 @@ class UKI_Facebook_Wall_Feed {
                 elseif ( isset( $fb_feed[ 'type' ] ) )
                     $result .=
                         $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ];
+                elseif ( empty( $raw_feed ) )
+                    $result .= __( 'No feed returned. Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN );
                 else
-                    $result .= $fb_feed;
+                    $result .= $raw_feed;
                 $result .=
                   '      </strong>' .
                   '    </div>' .
@@ -324,18 +325,28 @@ class UKI_Facebook_Wall_Feed {
         // check if cURL is loaded
         if ( in_array( 'curl', get_loaded_extensions() ) ) {
             $ch = curl_init();
+            
             curl_setopt( $ch, CURLOPT_URL, $url );
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+            
             $result = curl_exec( $ch );
+
+            if ( curl_errno( $ch ) ) 
+                $result = curl_error( $ch );
+
             curl_close( $ch );
         
         // check if allow_url_fopen is on
-        } elseif ( ini_get( 'allow_url_fopen' ) == 1 ) {
+        } elseif ( ini_get( 'allow_url_fopen' ) ) {
             $result = file_get_contents( $url );
+
+            if ( ! $result )
+                $result =
+                    __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN );
         
         // no way to get the feed
         } else {
-            return 'SERVER_CONFIG_ERROR';
+            $result = 'SERVER_CONFIG_ERROR';
         }
 
         return $result;
@@ -465,7 +476,7 @@ class UKI_Facebook_Wall_Feed {
                   '          <div class="fb_time">';
                 if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
                     $result .=
-                  '            <img class="fb_post_icon" src="' . htmlentities( $fb_feed[ $i ][ 'icon' ] ) . '" alt="' . __( 'Facebook Icon', JSL3_FWF_TEXT_DOMAIN ) . '" />';
+                  '            <img class="fb_post_icon" src="' . htmlentities( $fb_feed[ $i ][ 'icon' ], ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Icon', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 $result .= $post_time .
                   '          </div>' .
                   '        </div>' .
@@ -481,20 +492,20 @@ class UKI_Facebook_Wall_Feed {
                   '        <div class="fb_link_post">';
                 if ( isset( $fb_picture ) && isset( $fb_source ) )
                     $result .=
-                  '          <a href="' . htmlentities( $fb_source ) . '"' . $target . '>';
+                  '          <a href="' . htmlentities( $fb_source, ENT_QUOTES, 'UTF-8' ) . '"' . $target . '>';
                 elseif ( isset( $fb_picture ) && isset( $fb_link ) )
                     $result .=
-                  '          <a href="' . htmlentities( $fb_link ) . '"' . $target . '>';
+                  '          <a href="' . htmlentities( $fb_link, ENT_QUOTES, 'UTF-8' ) . '"' . $target . '>';
                 if ( isset( $fb_picture ) )
                     $result .=
-                  '            <img src="' . htmlentities( $fb_picture ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" />';
+                  '            <img src="' . htmlentities( $fb_picture, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
                     isset( $fb_link ) ) )
                     $result .=
                   '          </a>';
                 if ( isset( $fb_feed[ $i ][ 'name' ] ) )
                     $result .=
-                  '          <h6><a href="' . htmlentities( $fb_link ) . '"' . $target . '>' . htmlentities( $fb_feed[ $i ][ 'name' ], ENT_QUOTES, 'UTF-8' ) . '</a></h6>';
+                  '          <h6><a href="' . htmlentities( $fb_link, ENT_QUOTES, 'UTF-8' ) . '"' . $target . '>' . htmlentities( $fb_feed[ $i ][ 'name' ], ENT_QUOTES, 'UTF-8' ) . '</a></h6>';
                 if ( isset( $fb_feed[ $i ][ 'caption' ] ) )
                     $result .=
                   '          <p class="fb_cap">' . htmlentities( $fb_feed[ $i ][ 'caption' ], ENT_QUOTES, 'UTF-8' ) . '</p>';
@@ -507,7 +518,7 @@ class UKI_Facebook_Wall_Feed {
                 if ( isset( $fb_prop_name ) )
                     $result .= $fb_prop_name . ': ';
                 if ( isset( $fb_prop_href ) )
-                    $result .= '<a href="' . htmlentities( $fb_prop_href ) . '"' . $target . '>';
+                    $result .= '<a href="' . htmlentities( $fb_prop_href, ENT_QUOTES, 'UTF-8' ) . '"' . $target . '>';
                 if ( isset( $fb_prop_text ) )
                     $result .= $fb_prop_text;
                 if ( isset( $fb_prop_href ) )
