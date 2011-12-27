@@ -270,7 +270,7 @@ class UKI_Facebook_Wall_Feed {
             // display error message
             if ( $is_error ) {
                 $result .=
-                  '    <div style="margin: 5px 0 15px; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
+                  '    <div style="margin: 5px 0 15px; color: #000000; background-color: #FFEBE8; border-color: #CC0000; border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em;">' .
                   '      <strong>';
                 if ( $raw_feed == 'SERVER_CONFIG_ERROR' )
                     $result .=
@@ -279,7 +279,8 @@ class UKI_Facebook_Wall_Feed {
                     $result .=
                         $fb_feed[ 'type' ] . ': ' . $fb_feed[ 'message' ];
                 elseif ( empty( $raw_feed ) )
-                    $result .= __( 'No feed returned. Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN );
+                    $result .=
+                        __( 'No feed returned. Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN );
                 else
                     $result .= $raw_feed;
                 $result .=
