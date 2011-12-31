@@ -332,8 +332,8 @@ class UKI_Facebook_Wall_Feed {
             
             $result = curl_exec( $ch );
 
-            if ( curl_errno( $ch ) ) 
-                $result = curl_error( $ch );
+            if ( ! $result ) 
+                $result = '[' . curl_errno( $ch ) . '] ' . curl_error( $ch );
 
             curl_close( $ch );
         

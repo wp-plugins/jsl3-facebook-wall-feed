@@ -717,8 +717,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 
                     $response = curl_exec( $ch );
 
-                    if ( curl_errno( $ch ) ) {
-                        $this->error_msg_fn( curl_error( $ch ) );
+                    if ( ! $response ) {
+                        $this->error_msg_fn( '[' . curl_errno( $ch ) . '] ' .
+                            curl_error( $ch ) );
                         curl_close( $ch );
                         
                         return $access_token;
