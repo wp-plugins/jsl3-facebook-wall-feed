@@ -399,7 +399,7 @@ class UKI_Facebook_Wall_Feed {
             $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
 
             // privacy check, if no privacy then assume public
-            $privacy = 'Public';
+            $privacy = 'EVERYONE';
             if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'value' ] ) )
                 $privacy = $fb_feed[ $i ][ 'privacy' ][ 'value' ];
 
