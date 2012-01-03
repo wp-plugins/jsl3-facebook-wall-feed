@@ -36,6 +36,21 @@ To limit the number of posts displayed add the 'limit' attribute:
 
     [jsl3_fwf limit="1"]
 
+= Can I translate the plugin? =
+
+I would be happy if you translated the plugin.  You can use the 'default.po'
+file found in the 'wp-content/plugins/jsl3-facebook-wall-feed/languages'
+directory.  Use [Poedit](http://www.poedit.net) to translate the plugin into
+your language and then save the PO file using the text domain ('jsl3-fwf'),
+language code and country code as the name.  For example, if you translate the
+plugin into German, you should save the file as 'jsl3-fwf-de_DE.po'.  Finally,
+place the translated PO file and its corresponding MO file in the
+'wp-content/plugins/jsl3-facebook-wall-feed/languages' directory.
+
+Let me know the URL of the site with the translated plugin by posting a comment
+on the [JSL3 Facebook Wall Feed](http://takanudo.com/jsl3-facebook-wall-feed)
+page.
+
 = How do I get rid of the 'Facebook Status' box? =
 
 To remove the 'Facebook Status' box add the following to the bottom of the
@@ -192,6 +207,7 @@ wall posts are found.  NOTE: This will slow down the feed.
 = 1.3 =
 * Made the feed validate XHTML 1.0 Strict.
 * Made a cURL and allow_url_fopen check.
+* Feed will now use the same locale as WordPress.
 
 = 1.2 =
 * Added default.po file to support localization.
@@ -218,7 +234,8 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 = 1.3 =
 This update should validate under XHTML 1.0 Strict.  It also checks to see if
-cURL is loaded or allow_url_fopen is on.
+cURL is loaded or allow_url_fopen is on.  The feed will now use the same locale
+setting that WordPress is using.
 
 = 1.2 =
 This upgrade provides support for localization.  Feel free to use the

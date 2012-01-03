@@ -145,6 +145,15 @@ class UKI_Facebook_Wall_Feed {
      * @var boolean
      */
     var $new_win;
+    
+    /**
+     * Facebook Locale Settings
+     *
+     * Determines the locale of the facebook feed.
+     *
+     * @var string
+     */
+    var $fb_locale;
 
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
@@ -174,7 +183,8 @@ class UKI_Facebook_Wall_Feed {
     function UKI_Facebook_Wall_Feed(
         $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
-        $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE ) {
+        $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE,
+        $locale = 'en_US' ) {
 
         $this->fb_id         = $id;
         $this->fb_limit      = $limit;
@@ -185,6 +195,7 @@ class UKI_Facebook_Wall_Feed {
         $this->new_win       = $new_window;
         $this->show_status   = $show_all;
         $this->show_comments = $show_comm;
+        $this->fb_locale     = $locale;
         $this->post_count    = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -208,6 +219,7 @@ class UKI_Facebook_Wall_Feed {
         //echo 'Contacting FaceBook...<br />';
         $id = $this->fb_id;
         $limit = $this->fb_limit;
+        $locale = $this->fb_locale;
         $token = 'access_token=' . $this->access_token;
 
         // start building facebool wall feed
@@ -227,10 +239,11 @@ class UKI_Facebook_Wall_Feed {
 
         // inital facebook graph call
         if ( $this->thorough )
-            $fb_url = "https://graph.facebook.com/$id/feed?limit=100&$token";
+            $fb_url = "https://graph.facebook.com/$id/feed?" .
+                "locale=$locale&limit=100&$token";
         else
-            $fb_url =
-                "https://graph.facebook.com/$id/feed?limit=$limit&$token";
+            $fb_url = "https://graph.facebook.com/$id/feed?" .
+                "locale=$locale&limit=$limit&$token";
         
         // loop until we have reached the limit or have the entire feed
         do {
@@ -387,8 +400,8 @@ class UKI_Facebook_Wall_Feed {
 
             // privacy check, if no privacy then assume public
             $privacy = 'Public';
-            if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'description' ] ) )
-                $privacy = $fb_feed[ $i ][ 'privacy' ][ 'description' ];
+            if ( isset( $fb_feed[ $i ][ 'privacy' ][ 'value' ] ) )
+                $privacy = $fb_feed[ $i ][ 'privacy' ][ 'value' ];
 
             $privacy_good = FALSE;
             if ( $this->fb_privacy == 'All' )
@@ -692,13 +705,19 @@ class UKI_Facebook_Wall_Feed {
     function parse_fb_timestamp( $fb_time ) {
         $time_stamp = explode( 'T', $fb_time );
         $date_str = $time_stamp[ 0 ];
-        $date_str = date_format( date_create( $date_str ), 'l, F jS' );
-
+        $date_items = explode( '-', $date_str );
         $time_arr = explode( ':', $time_stamp[ 1 ] );
         $time_hr = $time_arr[ 0 ] + get_option( 'gmt_offset' );
-        if ( $time_hr < 0 )
-            $time_hr = 24 + $time_hr;
-        $time_str = $time_hr . ':' . $time_arr[ 1 ];
+        if ( $time_hr < 0 ) {
+            $time_hr += 24;
+            $date_items[ 2 ]--;
+        }
+
+        $unix_time_stamp = mktime( $time_hr, $time_arr[ 1 ], 0,
+                    $date_items[ 1 ], $date_items[ 2 ], $date_items[ 0 ] );
+        $date_str = date_i18n( get_option( 'date_format'), $unix_time_stamp );
+
+        $time_str = date( get_option( 'time_format' ), $unix_time_stamp );
 
         return $date_str . ' ' . __( 'at', JSL3_FWF_TEXT_DOMAIN ) . ' ' . $time_str;
     }

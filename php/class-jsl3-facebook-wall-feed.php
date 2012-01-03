@@ -154,7 +154,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'thorough'      => FALSE,
                 'new_window'    => FALSE,
                 'show_status'   => FALSE,
-                'show_comments' => FALSE );
+                'show_comments' => FALSE,
+                'locale'        => get_locale() );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -537,6 +538,16 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'show_comments' ] = TRUE;
                 else
                     $dev_options[ 'show_comments' ] = FALSE;
+                
+                // store the locale setting
+                $dev_options[ 'locale' ] = get_locale();
+                /*
+                if ( isset( $_POST[ 'locale' ] ) ) {
+                    $dev_options[ 'locale' ] =
+                        apply_filters( 'content_save_pre',
+                            $_POST[ 'locale' ] );
+                }
+                */
 
                 // store the admin options back to the WordPress database
                 update_option( $this->admin_options_name, $dev_options );
@@ -573,10 +584,41 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             }
 
             // time to print the admin page
-            $sel_options = array(
+            $sel_privacy_options = array(
                 'All'    => __( 'Show all wall posts', JSL3_FWF_TEXT_DOMAIN ),
-                'Public' => __( 'Show only wall posts labeled public',
+                'EVERYONE' => __( 'Show only wall posts labeled public',
                     JSL3_FWF_TEXT_DOMAIN ) );
+
+            /*
+            $sel_locale_options = array();
+            $xml_url =
+                'http://www.facebook.com/translations/FacebookLocales.xml';
+
+            if ( in_array( 'curl', get_loaded_extensions() ) ) {
+                $ch = curl_init();
+
+                curl_setopt( $ch, CURLOPT_URL, $xml_url );
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+
+                $xml_string = curl_exec( $ch );
+
+                curl_close( $ch );
+            } elseif ( ini_get( 'allow_url_fopen' ) ) {
+                $xml_string = file_get_contents( $xml_url );
+            }
+                
+            if ( ! $xml_string )
+                $xml_string =
+                    '<?xml version="1.0"?><locales><locale><englishName>English (US)</englishName><codes><code><standard><name>FB</name><representation>en_US</representation></standard></code></codes></locale></locales>'; ?><?php
+            
+            $xml = simplexml_load_string( $xml_string );
+            foreach ( $xml->locale as $locale ) {
+                $locale_str =
+                    (string) $locale->codes->code->standard->representation;
+                $sel_locale_options[ $locale_str ] =
+                        $locale->englishName . ' [' . $locale_str . ']';
+            }
+            */
 ?>
 <div class=wrap>
   <h2><?php _e( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ); ?></h2>
@@ -588,8 +630,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_text_fn( __( 'App ID', JSL3_FWF_TEXT_DOMAIN ), 'app_id' ); ?>
         <?php $this->setting_text_fn( __( 'App Secret', JSL3_FWF_TEXT_DOMAIN ), 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
+        <?php //$this->setting_select_fn( __( 'Locale', JSL3_FWF_TEXT_DOMAIN ), 'locale', $sel_locale_options ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
-        <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_options ); ?>
+        <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_privacy_options ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all status messages.', JSL3_FWF_TEXT_DOMAIN ), 'show_status', __( 'Recent Activity', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Open links in a new window or tab.', JSL3_FWF_TEXT_DOMAIN ), 'new_window', __( 'Links', JSL3_FWF_TEXT_DOMAIN ) ); ?>
@@ -810,7 +853,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'thorough' ],
                 $dev_options[ 'new_window' ],
                 $dev_options[ 'show_status' ],
-                $dev_options[ 'show_comments' ] );
+                $dev_options[ 'show_comments' ],
+                $dev_options[ 'locale' ] );
             
             return $feed->get_fb_wall_feed();
         }
