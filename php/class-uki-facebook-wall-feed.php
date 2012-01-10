@@ -335,6 +335,8 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.2
      */
     function get_json_feed( $url ) {
+        $err_msg = '';
+        $result = FALSE;
         
         // check if cURL is loaded
         if ( in_array( 'curl', get_loaded_extensions() ) ) {
@@ -346,22 +348,27 @@ class UKI_Facebook_Wall_Feed {
             $result = curl_exec( $ch );
 
             if ( ! $result ) 
-                $result = '[' . curl_errno( $ch ) . '] ' . curl_error( $ch );
+                $err_msg = '[' . curl_errno( $ch ) . '] ' . curl_error( $ch );
 
             curl_close( $ch );
+        }
         
         // check if allow_url_fopen is on
-        } elseif ( ini_get( 'allow_url_fopen' ) ) {
+        if ( ! $result && ini_get( 'allow_url_fopen' ) ) {
             $result = file_get_contents( $url );
 
-            if ( ! $result )
-                $result =
+            if ( ! $result && empty( $err_msg ) )
+                $err_msg =
                     __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN );
         
-        // no way to get the feed
-        } else {
-            $result = 'SERVER_CONFIG_ERROR';
         }
+
+        // no way to get the feed
+        if ( ! $result && empty( $err_msg ) )
+            $err_msg = 'SERVER_CONFIG_ERROR';
+
+        if ( ! $result && ! empty( $err_msg ) )
+            $result = $err_msg;
 
         return $result;
 

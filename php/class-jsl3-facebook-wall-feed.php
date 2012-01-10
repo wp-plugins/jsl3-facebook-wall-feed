@@ -751,6 +751,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     "&code=$code&redirect_uri=" . get_bloginfo('wpurl') .
                     "/wp-admin/admin.php?page=" . JSL3_FWF_SLUG;
 
+                $err_msg = '';
+                $response = FALSE;
+                
                 // check if cURL is loaded
                 if ( in_array( 'curl', get_loaded_extensions() ) ) {
                     $ch = curl_init();
@@ -761,30 +764,46 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $response = curl_exec( $ch );
 
                     if ( ! $response ) {
-                        $this->error_msg_fn( '[' . curl_errno( $ch ) . '] ' .
-                            curl_error( $ch ) );
+                        $err_msg = '[' . curl_errno( $ch ) . '] ' .
+                            curl_error( $ch );
+                        
+                        /*
+                        $this->error_msg_fn( '[' . curl_errno( $ch ) . '] '
+                            . curl_error( $ch ) );
                         curl_close( $ch );
                         
                         return $access_token;
+                        */
                     }
                 
                     curl_close( $ch );
-
+                }
+                
                 // check if allow_url_fopen is on
-                } elseif ( ini_get( 'allow_url_fopen' ) ) {
+                if ( ! $response && ini_get( 'allow_url_fopen' ) ) {
                     $response = file_get_contents( $token_url );
 
-                    if ( ! $response ) {
+                    if ( ! $response && empty( $err_msg ) ) {
+                        $err_msg = 
+                            __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN );
+
+                        /*
                         $this->error_msg_fn(
-                            __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN ) );
+                            __( 'file_get_contents failed to open URL.',
+                            JSL3_FWF_TEXT_DOMAIN ) );
                         
                         return $access_token;
+                        */
                     }
-                
+                }
+
                 // no way to get the access token
-                } else {
-                    $this->error_msg_fn(
-                        __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN ) );
+                if ( ! $response && empty( $err_msg ) )
+                    $err_msg =
+                        __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN );
+                    
+                if ( ! $response && ! empty( $err_msg ) ) {
+                    $this->error_msg_fn( $err_msg );
 
                     return $access_token;
                 }
