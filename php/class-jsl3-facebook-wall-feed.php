@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.3
+ * @version    1.3.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.3
+ * @version    1.3.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -155,7 +155,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'new_window'    => FALSE,
                 'show_status'   => FALSE,
                 'show_comments' => FALSE,
-                'locale'        => get_locale() );
+                'locale'        => get_locale(),
+                'verify'        => TRUE,
+                'profile'       => FALSE );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -172,6 +174,10 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $jsl3_fwf_admin_options[ $key ] = $option;
             }
 
+            // reset privacy setting
+            if ( $jsl3_fwf_admin_options[ 'privacy' ] == 'Public' )
+                $jsl3_fwf_admin_options[ 'privacy' ] = 'EVERYONE';
+            
             // store values back in the WordPress database
             update_option( $this->admin_options_name,
                 $jsl3_fwf_admin_options );
@@ -539,6 +545,20 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'show_comments' ] = FALSE;
                 
+                // store SSL verify peer check
+                if ( isset( $_POST[ 'verify' ] ) &&
+                    ( $_POST[ 'verify' ] == '1' ) )
+                    $dev_options[ 'verify' ] = TRUE;
+                else
+                    $dev_options[ 'verify' ] = FALSE;
+                
+                // store profile check
+                if ( isset( $_POST[ 'profile' ] ) &&
+                    ( $_POST[ 'profile' ] == '1' ) )
+                    $dev_options[ 'profile' ] = TRUE;
+                else
+                    $dev_options[ 'profile' ] = FALSE;
+                
                 // store the locale setting
                 $dev_options[ 'locale' ] = get_locale();
                 /*
@@ -637,6 +657,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Open links in a new window or tab.', JSL3_FWF_TEXT_DOMAIN ), 'new_window', __( 'Links', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)', JSL3_FWF_TEXT_DOMAIN ), 'thorough', __( 'Thoroughness', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)', JSL3_FWF_TEXT_DOMAIN ), 'verify', __( 'Verify SSL Peer', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)', JSL3_FWF_TEXT_DOMAIN ), 'profile', __( 'Profile Picture', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
       </tbody>
     </table>
@@ -760,6 +782,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 
                     curl_setopt( $ch, CURLOPT_URL, $token_url );
                     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+                    curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER,
+                        $dev_options[ 'verify' ] );
 
                     $response = curl_exec( $ch );
 
@@ -781,7 +805,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 
                 // check if allow_url_fopen is on
                 if ( ! $response && ini_get( 'allow_url_fopen' ) ) {
-                    $response = file_get_contents( $token_url );
+                    $response = @file_get_contents( $token_url );
 
                     if ( ! $response && empty( $err_msg ) ) {
                         $err_msg = 
@@ -873,7 +897,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'new_window' ],
                 $dev_options[ 'show_status' ],
                 $dev_options[ 'show_comments' ],
-                $dev_options[ 'locale' ] );
+                $dev_options[ 'locale' ],
+                $dev_options[ 'verify' ],
+                $dev_options[ 'profile' ] );
             
             return $feed->get_fb_wall_feed();
         }

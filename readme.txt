@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
 Tested up to: 3.3.1
-Stable tag: 1.2
+Stable tag: 1.3.1
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -50,6 +50,14 @@ place the translated PO file and its corresponding MO file in the
 Let me know the URL of the site with the translated plugin by posting a comment
 on the [JSL3 Facebook Wall Feed](http://takanudo.com/jsl3-facebook-wall-feed)
 page.
+
+= How do I find my Facebook ID? =
+
+Click on any image in your facebook photos and note the URL. It should look
+something like this: http://www.facebook.com/media/set/?set=a.123456789012.123456.XXXXXXXXX&type=3
+
+The “XXXXXXXXX” is your Facebook ID. Even if you see more sets of numbers than the
+above, the last set is your Facebook ID.
 
 = How do I get rid of the 'Facebook Status' box? =
 
@@ -129,6 +137,11 @@ It usually means you have not set your Facebook ID.  Check that you have
 entered your Facebook ID on the settings page for the plugin. Then click "Save
 Changes" on the settings page for the plugin.
 
+= What does the error "Exception: SETTINGS: Unrecognized pref_type 0 for NullProfileSettings pref name default_non_connection_tab" mean? =
+
+It usually means are using an incorrect Facebook ID.  Check that your Facebook
+ID is correct.  Then click "Save Changes" on the settings page for the plugin.
+
 = What does a pink box with a red outline with either ":" or "n: n" in it mean? =
 
 It usually means you have some extra spaces in front or after your Facebook ID.
@@ -204,10 +217,13 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
-= 1.3 =
+= 1.3.1 =
 * Made the feed validate XHTML 1.0 Strict.
 * Made a cURL and allow_url_fopen check.
 * Feed will now use the same locale as WordPress.
+* Added ability to turn of SSL certificate verification.
+* Added ability to display profile picture from Facebook pages with
+  demographic restrictions.
 
 = 1.2 =
 * Added default.po file to support localization.

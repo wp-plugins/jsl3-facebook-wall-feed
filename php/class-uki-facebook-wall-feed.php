@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.3
+ * @version    1.3.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.3
+ * @version    1.3.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -154,6 +154,25 @@ class UKI_Facebook_Wall_Feed {
      * @var string
      */
     var $fb_locale;
+    
+    /**
+     * cURL SSL Verification
+     *
+     * Determines if cURL will verify SSL certificates.
+     *
+     * @var boolean
+     */
+    var $verify;
+    
+    /**
+     * Gets Profile Picture
+     *
+     * Determines if access token will be used to get profile picture from
+     * a Facebook page with demographic restrictions.
+     *
+     * @var boolean
+     */
+    var $profile;
 
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
@@ -176,6 +195,9 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $new_window  determines if links open in a new window
      * @param boolean $show_all    determines if all status messages are shown
      * @param boolean $show_comm   determines if post comments are shown
+     * @param boolean $verify      determines if SSL verification takes place
+     * @param boolean $profile     determines if access token is used to get
+     *                             profile picture
      *
      * @access public
      * @since Method available since Release 1.0
@@ -184,7 +206,7 @@ class UKI_Facebook_Wall_Feed {
         $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
         $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE,
-        $locale = 'en_US' ) {
+        $locale = 'en_US', $verify_ssl = TRUE, $get_profile = FALSE ) {
 
         $this->fb_id         = $id;
         $this->fb_limit      = $limit;
@@ -196,6 +218,8 @@ class UKI_Facebook_Wall_Feed {
         $this->show_status   = $show_all;
         $this->show_comments = $show_comm;
         $this->fb_locale     = $locale;
+        $this->verify        = $verify_ssl;
+        $this->profile       = $get_profile;
         $this->post_count    = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -344,8 +368,11 @@ class UKI_Facebook_Wall_Feed {
             
             curl_setopt( $ch, CURLOPT_URL, $url );
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, $this->verify );
             
             $result = curl_exec( $ch );
+
+            //print_r( curl_getinfo( $ch ) );
 
             if ( ! $result ) 
                 $err_msg = '[' . curl_errno( $ch ) . '] ' . curl_error( $ch );
@@ -355,7 +382,7 @@ class UKI_Facebook_Wall_Feed {
         
         // check if allow_url_fopen is on
         if ( ! $result && ini_get( 'allow_url_fopen' ) ) {
-            $result = file_get_contents( $url );
+            $result = @file_get_contents( $url );
 
             if ( ! $result && empty( $err_msg ) )
                 $err_msg =
@@ -445,8 +472,13 @@ class UKI_Facebook_Wall_Feed {
                     $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
                 $like_link =
                     $this->fb_like_link( $fb_feed[ $i ][ 'id' ] );
-                $fb_photo  =
-                    "http://graph.facebook.com/$fb_id/picture";
+                if ( $this->profile )
+                    $fb_photo  =
+                        'https://graph.facebook.com/' . $fb_id .
+                        '/picture?access_token=' . $this->access_token;
+                else
+                    $fb_photo  =
+                        "http://graph.facebook.com/$fb_id/picture";
                 $post_time =
                     $this->parse_fb_timestamp(
                         $fb_feed[ $i ][ 'created_time' ] );
@@ -618,7 +650,11 @@ class UKI_Facebook_Wall_Feed {
 
             if ( $show_post ) {
             
-                $fb_photo  = "http://graph.facebook.com/$fb_id/picture";
+                if ( $this->profile )
+                    $fb_photo  = 'https://graph.facebook.com/' . $fb_id .
+                        '/picture?access_token=' . $this->access_token;
+                else
+                    $fb_photo  = "http://graph.facebook.com/$fb_id/picture";
                 $post_time = $this->parse_fb_timestamp(
                     $fb_feed[ $i ][ 'created_time' ] );
                 
