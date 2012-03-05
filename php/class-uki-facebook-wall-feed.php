@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.3.1
+ * @version    1.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.3.1
+ * @version    1.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -484,7 +484,8 @@ class UKI_Facebook_Wall_Feed {
                         $fb_feed[ $i ][ 'created_time' ] );
                 $fb_picture = NULL;
                 if ( isset( $fb_feed[ $i ][ 'picture' ] ) )
-                    $fb_picture = $fb_feed[ $i ][ 'picture' ];
+                    $fb_picture =
+                        $this->fb_fix( $fb_feed[ $i ][ 'picture' ] );
                 $fb_source = NULL;
                 if ( isset( $fb_feed[ $i ][ 'source' ] ) )
                     $fb_source = $fb_feed[ $i][ 'source' ];
@@ -550,8 +551,8 @@ class UKI_Facebook_Wall_Feed {
                     $result .=
                   '          <a href="' . htmlentities( $fb_link, ENT_QUOTES, 'UTF-8' ) . '"' . $target . '>';
                 if ( isset( $fb_picture ) )
-                    $result .=
-                  '            <img src="' . htmlentities( $fb_picture, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" />';
+                    $result .= $fb_picture;
+                  //'            <img src="' . htmlentities( $fb_picture, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 if ( isset( $fb_picture ) && ( isset( $fb_source ) ||
                     isset( $fb_link ) ) )
                     $result .=
@@ -763,6 +764,31 @@ class UKI_Facebook_Wall_Feed {
         $time_str = date( get_option( 'time_format' ), $unix_time_stamp );
 
         return $date_str . ' ' . __( 'at', JSL3_FWF_TEXT_DOMAIN ) . ' ' . $time_str;
+    }
+
+    // }}}
+    // {{{ fb_fix()
+
+    /**
+     * Facebook image fix
+     *
+     * Fixes issue with safe_image.php displaying 1 pixel image..
+     *
+     * @param string $str the image url
+     *
+     * @return string the fixed image url.
+     *
+     * @access public
+     * @since Method available since Release 1.4
+     */
+    function fb_fix( $str ) {
+        $pos = strpos( $str, 'safe_image.php' );
+        if( $pos !== FALSE ) {
+            parse_str( $str );
+            $str = $url;
+        }
+
+        return '<img src="' . htmlentities( $str, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" width="' . $w . '" height="' . $h . '" />';
     }
 
     // }}}
