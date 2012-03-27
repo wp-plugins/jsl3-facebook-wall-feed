@@ -394,6 +394,26 @@ if ( ! function_exists( 'jsl3_fwf_plugin_action_links' ) ) {
 }
 
 // }}}
+// {{{ jsl3_fwf_more_schedules()
+
+/**
+ * Add more cron schedules.
+ *
+ * Adds a "Bi-monthly" schedule to Wordress Cron.
+ *
+ * @access public
+ * @since Method available since Release 1.4
+ */
+if ( ! function_exists( 'jsl3_fwf_more_schedules' ) ) {
+    function jsl3_fwf_more_schedules() {
+        return array(
+            'jsl3_fwf_bimonthly' => array(
+                'interval' => 60 * 60 * 24 * 60,
+                'display' => 'Once Bimonthly' ) );
+    }
+}
+
+// }}}
 
 //Actions and Filters
 if ( isset( $jsl3_fwf ) ) {
@@ -408,13 +428,19 @@ if ( isset( $jsl3_fwf ) ) {
     add_action( 'widgets_init',
         create_function( '',
             "return register_widget( '" . JSL3_FWF_WIDGET . "' );" ) );
-    add_action( 'wp_print_styles', array(&$jsl3_fwf, 'enqueue_style' ) );
+    add_action( 'wp_print_styles', array( &$jsl3_fwf, 'enqueue_style' ) );
+    add_action( JSL3_FWF_SCHED_HOOK, array( &$jsl3_fwf, 'renew_token' ) );
 
     //Filters
     add_filter( 'plugin_action_links', 'jsl3_fwf_plugin_action_links', 10, 2 );
+    add_filter( 'cron_schedules', 'jsl3_fwf_more_schedules' );
     
     //Shortcode
     add_shortcode( 'jsl3_fwf', array( &$jsl3_fwf, 'shortcode_handler' ) );
+
+    //Create initial schedule
+    //if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
+    //    wp_schedule_event( time(), 'jsl3_fwf_bimonthly', JSL3_FWF_SCHED_HOOK );
 }
 
 ?>

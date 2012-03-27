@@ -126,6 +126,12 @@ if ( ! defined( 'UKI_FWF_VERSION_KEY' ) )
 if ( ! defined( 'UKI_FWF_VERSION_NUM' ) )
     define( 'UKI_FWF_VERSION_NUM', '0.9.5' );
 
+/**
+ * The WordPress CRON scheduling hook
+ */
+if ( ! defined( 'JSL3_FWF_SCHED_HOOK' ) )
+    define( 'JSL3_FWF_SCHED_HOOK', 'jsl3_fwf_schedule_hook' );
+
 // }}}
 
 // add the version numbers to the WordPress database

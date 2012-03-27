@@ -157,7 +157,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'show_comments' => FALSE,
                 'locale'        => get_locale(),
                 'verify'        => TRUE,
-                'profile'       => FALSE );
+                'profile'       => FALSE,
+                'fb_icons'      => TRUE,
+                'sched'         => 'jsl3_fwf_bimonthly' );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -213,7 +215,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
   <td>
     <select id="<?php echo $option; ?>" name="<?php echo $option; ?>">
 <?php
-            foreach ($select_options as $key => $value) {
+            foreach ( $select_options as $key => $value ) {
 ?>
       <option value="<?php echo $key; ?>"<?php if ( $dev_options[ $option ] == $key ) echo ' selected="selected"'; ?>><?php echo $value; ?></option>
 <?php
@@ -544,6 +546,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'show_comments' ] = TRUE;
                 else
                     $dev_options[ 'show_comments' ] = FALSE;
+
+                // store show Facebook icons check
+                if ( isset( $_POST[ 'fb_icons' ] ) &&
+                    ( $_POST[ 'fb_icons' ] == '1' ) )
+                    $dev_options[ 'fb_icons' ] = TRUE;
+                else
+                    $dev_options[ 'fb_icons' ] = FALSE;
                 
                 // store SSL verify peer check
                 if ( isset( $_POST[ 'verify' ] ) &&
@@ -558,6 +567,18 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'profile' ] = TRUE;
                 else
                     $dev_options[ 'profile' ] = FALSE;
+
+                // store the schedule setting
+                if ( isset( $_POST[ 'sched' ] ) &&
+                    $_POST[ 'sched' ] != $dev_options[ 'sched' ] ) {
+                    $dev_options[ 'sched' ] =
+                        apply_filters( 'content_save_pre',
+                            $_POST[ 'sched' ] );
+                    wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
+                    if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
+                        wp_schedule_event( time(), $dev_options[ 'sched' ],
+                            JSL3_FWF_SCHED_HOOK );
+                }
                 
                 // store the locale setting
                 $dev_options[ 'locale' ] = get_locale();
@@ -609,6 +630,12 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'EVERYONE' => __( 'Show only wall posts labeled public',
                     JSL3_FWF_TEXT_DOMAIN ) );
 
+            $sel_sched_options = array();
+            foreach ( wp_get_schedules() as $key => $value ) {
+                $sel_sched_options[$key] = $value[ 'display' ];
+            }
+            
+
             /*
             $sel_locale_options = array();
             $xml_url =
@@ -656,9 +683,11 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_checkbox2_fn( __( 'Show all status messages.', JSL3_FWF_TEXT_DOMAIN ), 'show_status', __( 'Recent Activity', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Open links in a new window or tab.', JSL3_FWF_TEXT_DOMAIN ), 'new_window', __( 'Links', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Show Facebook icons.', JSL3_FWF_TEXT_DOMAIN ), 'fb_icons', __( 'Icons', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)', JSL3_FWF_TEXT_DOMAIN ), 'thorough', __( 'Thoroughness', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)', JSL3_FWF_TEXT_DOMAIN ), 'verify', __( 'Verify SSL Peer', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)', JSL3_FWF_TEXT_DOMAIN ), 'profile', __( 'Profile Picture', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_select_fn( __( 'Renew Token', JSL3_FWF_TEXT_DOMAIN ), 'sched', $sel_sched_options ); ?>
         <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
       </tbody>
     </table>
@@ -858,6 +887,94 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         } // End get_token function
 
         // }}}
+        // {{{ renew_token()
+
+        /**
+         * Renew access token from Facebook
+         *
+         * Renews access token from Facebook.  Facebook no longer allows for
+         * none expiring tokens.  So we have to renew the access token every
+         * 60 days.
+         *
+         * @access public
+         * @since Method available since Release 1.4
+         */
+        function renew_token() {
+            $dev_options = $this->get_admin_options();
+
+            if ( empty( $dev_options[ 'token' ] ) )
+                return;
+
+            $token_url =
+                "https://graph.facebook.com/oauth/access_token" .
+                "?client_id=" . $dev_options[ 'app_id' ] .
+                "&client_secret=" . $dev_options[ 'app_secret' ] .
+                "&grant_type=fb_exchange_token" .
+                "&fb_exchange_token=" . $dev_options[ 'token' ];
+
+            $err_msg = '';
+            $response = FALSE;
+                
+            // check if cURL is loaded
+            if ( in_array( 'curl', get_loaded_extensions() ) ) {
+                $ch = curl_init();
+
+                curl_setopt( $ch, CURLOPT_URL, $token_url );
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER,
+                    $dev_options[ 'verify' ] );
+
+                $response = curl_exec( $ch );
+
+                if ( ! $response ) {
+                    $err_msg = '[' . curl_errno( $ch ) . '] ' .
+                        curl_error( $ch );
+                }
+                
+                curl_close( $ch );
+            }
+                
+            // check if allow_url_fopen is on
+            if ( ! $response && ini_get( 'allow_url_fopen' ) ) {
+                $response = @file_get_contents( $token_url );
+
+                if ( ! $response && empty( $err_msg ) ) {
+                    $err_msg = 
+                        __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN );
+                }
+            }
+
+            // no way to get the access token
+            if ( ! $response && empty( $err_msg ) )
+                $err_msg =
+                    __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN );
+                    
+            if ( ! $response && ! empty( $err_msg ) ) {
+                error_log( $err_msg );
+
+                return;
+            }
+
+            $params = NULL;
+            parse_str( $response, $params );
+
+            if ( isset( $params[ 'access_token' ] ) ) {
+                $dev_options[ 'token' ] = $params[ 'access_token' ];
+                update_option( $this->admin_options_name, $dev_options );
+                //error_log( 'Renew succeeded.');
+            } else {
+                $response = json_decode( $response, TRUE );
+                if ( isset( $response[ 'error' ] ) )
+                    error_log(
+                        $response[ 'error' ][ 'type' ] . ': ' .
+                        $response[ 'error' ][ 'message' ] );
+                else
+                    error_log(
+                        __( 'No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
+            }
+        } // End renew_token function
+
+        // }}}
         // {{{ shortcode_handler()
 
         /**
@@ -899,7 +1016,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'show_comments' ],
                 $dev_options[ 'locale' ],
                 $dev_options[ 'verify' ],
-                $dev_options[ 'profile' ] );
+                $dev_options[ 'profile' ],
+                $dev_options[ 'fb_icons' ] );
             
             return $feed->get_fb_wall_feed();
         }

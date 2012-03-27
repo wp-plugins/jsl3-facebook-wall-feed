@@ -121,7 +121,8 @@ class JSL3_FWF_Widget extends WP_Widget {
             $dev_options[ 'show_comments' ],
             $dev_options[ 'locale' ],
             $dev_options[ 'verify' ],
-            $dev_options[ 'profile' ] );
+            $dev_options[ 'profile' ],
+            $dev_options[ 'fb_icons' ] );
         echo $feed->get_fb_wall_feed();
 
         // After widget

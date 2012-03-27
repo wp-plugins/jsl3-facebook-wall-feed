@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-04 11:52-0800\n"
-"PO-Revision-Date: 2012-02-04 11:52-0800\n"
+"POT-Creation-Date: 2012-03-26 19:40-0800\n"
+"PO-Revision-Date: 2012-03-26 19:40-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -18,7 +18,7 @@ msgstr ""
 #: jsl3-facebook-wall-feed.php:102
 #: jsl3-facebook-wall-feed.php:103
 #: php/class-jsl3-fwf-widget.php:69
-#: php/class-jsl3-facebook-wall-feed.php:644
+#: php/class-jsl3-facebook-wall-feed.php:671
 msgid "JSL3 Facebook Wall Feed"
 msgstr ""
 
@@ -173,183 +173,198 @@ msgstr ""
 msgid "Display your facebook wall"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:185
+#: php/class-jsl3-fwf-widget.php:186
 msgid "Title"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:189
+#: php/class-jsl3-fwf-widget.php:190
 msgid "Number of wall posts to get"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:326
+#: php/class-jsl3-facebook-wall-feed.php:328
 msgid "Tick this box if you wish to reset the style to default."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:402
+#: php/class-jsl3-facebook-wall-feed.php:404
 msgid "Settings saved."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:608
+#: php/class-jsl3-facebook-wall-feed.php:629
 msgid "Show all wall posts"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:609
+#: php/class-jsl3-facebook-wall-feed.php:630
 msgid "Show only wall posts labeled public"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:645
+#: php/class-jsl3-facebook-wall-feed.php:672
 msgid "For configuration and usage assistance click \"Help\" in the upper right hand corner of this page or go to the <a href=\"http://takanudo.com/jsl3-facebook-wall-feed\">JSL3 Facebook Wall Feed</a> page."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:649
+#: php/class-jsl3-facebook-wall-feed.php:676
 msgid "Facebook ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:650
+#: php/class-jsl3-facebook-wall-feed.php:677
 msgid "App ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:651
+#: php/class-jsl3-facebook-wall-feed.php:678
 msgid "App Secret"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:652
+#: php/class-jsl3-facebook-wall-feed.php:679
 msgid "Access Token"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:654
+#: php/class-jsl3-facebook-wall-feed.php:681
 msgid "Only show posts made by this Facebook ID."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:654
+#: php/class-jsl3-facebook-wall-feed.php:681
 msgid "Facebook ID Only"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:655
+#: php/class-jsl3-facebook-wall-feed.php:682
 msgid "Privacy"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:656
+#: php/class-jsl3-facebook-wall-feed.php:683
 msgid "Show all status messages."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:656
+#: php/class-jsl3-facebook-wall-feed.php:683
 msgid "Recent Activity"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:657
+#: php/class-jsl3-facebook-wall-feed.php:684
 msgid "Show all post comments."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:657
+#: php/class-jsl3-facebook-wall-feed.php:684
 msgid "Comments"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:658
+#: php/class-jsl3-facebook-wall-feed.php:685
 msgid "Open links in a new window or tab."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:658
+#: php/class-jsl3-facebook-wall-feed.php:685
 msgid "Links"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:659
+#: php/class-jsl3-facebook-wall-feed.php:686
+msgid "Show Facebook icons."
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:686
+msgid "Icons"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:687
 msgid "Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:659
+#: php/class-jsl3-facebook-wall-feed.php:687
 msgid "Thoroughness"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:660
+#: php/class-jsl3-facebook-wall-feed.php:688
 msgid "Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:660
+#: php/class-jsl3-facebook-wall-feed.php:688
 msgid "Verify SSL Peer"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:661
+#: php/class-jsl3-facebook-wall-feed.php:689
 msgid "Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:661
+#: php/class-jsl3-facebook-wall-feed.php:689
 msgid "Profile Picture"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:662
+#: php/class-jsl3-facebook-wall-feed.php:690
+msgid "Renew Token"
+msgstr ""
+
+#: php/class-jsl3-facebook-wall-feed.php:691
 msgid "Modify the style sheet for the Facebook wall feed."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:662
+#: php/class-jsl3-facebook-wall-feed.php:691
 msgid "Style"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:666
+#: php/class-jsl3-facebook-wall-feed.php:695
 msgid "Save Changes"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:671
+#: php/class-jsl3-facebook-wall-feed.php:700
 msgid "Donate to Tak"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:675
-#: php/class-jsl3-facebook-wall-feed.php:684
+#: php/class-jsl3-facebook-wall-feed.php:704
+#: php/class-jsl3-facebook-wall-feed.php:713
 msgid "PayPal - The safer, easier way to pay online!"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:680
+#: php/class-jsl3-facebook-wall-feed.php:709
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:812
-#: php/class-uki-facebook-wall-feed.php:389
+#: php/class-jsl3-facebook-wall-feed.php:841
+#: php/class-jsl3-facebook-wall-feed.php:943
+#: php/class-uki-facebook-wall-feed.php:402
 msgid "file_get_contents failed to open URL."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:827
-#: php/class-uki-facebook-wall-feed.php:314
+#: php/class-jsl3-facebook-wall-feed.php:856
+#: php/class-jsl3-facebook-wall-feed.php:950
+#: php/class-uki-facebook-wall-feed.php:327
 msgid "Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:848
+#: php/class-jsl3-facebook-wall-feed.php:877
+#: php/class-jsl3-facebook-wall-feed.php:973
 msgid "No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:854
+#: php/class-jsl3-facebook-wall-feed.php:883
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:252
+#: php/class-uki-facebook-wall-feed.php:265
 msgid "Facebook Status"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:320
+#: php/class-uki-facebook-wall-feed.php:333
 msgid "No feed returned. Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:522
-#: php/class-uki-facebook-wall-feed.php:665
+#: php/class-uki-facebook-wall-feed.php:536
+#: php/class-uki-facebook-wall-feed.php:679
 msgid "Facebook Profile Pic"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:532
+#: php/class-uki-facebook-wall-feed.php:546
 msgid "Facebook Icon"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:554
-msgid "Facebook Picture"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:594
+#: php/class-uki-facebook-wall-feed.php:608
 msgid "people like this"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:598
+#: php/class-uki-facebook-wall-feed.php:612
 msgid "Comment"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:765
+#: php/class-uki-facebook-wall-feed.php:779
 msgid "at"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:804
+msgid "Facebook Picture"
 msgstr ""
 

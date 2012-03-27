@@ -40,4 +40,5 @@ delete_option( JSL3_FWF_ADMIN_OPTIONS );
 delete_option( JSL3_FWF_VERSION_KEY );
 delete_option( 'widget_' . JSL3_FWF_WIDGET );
 delete_option( UKI_FWF_VERSION_KEY );
+wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
 ?>

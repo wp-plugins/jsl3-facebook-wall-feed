@@ -138,6 +138,15 @@ class UKI_Facebook_Wall_Feed {
     var $show_comments;
 
     /**
+     * Show facebook icons
+     *
+     * Will show Facebook icons.
+     *
+     * @var boolean
+     */
+    var $fb_icons;
+
+    /**
      * Open links in a new window
      *
      * Will add 'target="_blank"' to all anchor tags
@@ -195,9 +204,11 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $new_window  determines if links open in a new window
      * @param boolean $show_all    determines if all status messages are shown
      * @param boolean $show_comm   determines if post comments are shown
-     * @param boolean $verify      determines if SSL verification takes place
-     * @param boolean $profile     determines if access token is used to get
+     * @param string  $locale      sets the language locale
+     * @param boolean $verify_ssl  determines if SSL verification takes place
+     * @param boolean $get_profile determines if access token is used to get
      *                             profile picture
+     * @param boolean $show_icons  determines id Facebook icons are shown
      *
      * @access public
      * @since Method available since Release 1.0
@@ -206,7 +217,8 @@ class UKI_Facebook_Wall_Feed {
         $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
         $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE,
-        $locale = 'en_US', $verify_ssl = TRUE, $get_profile = FALSE ) {
+        $locale = 'en_US', $verify_ssl = TRUE, $get_profile = FALSE,
+        $show_icons = TRUE ) {
 
         $this->fb_id         = $id;
         $this->fb_limit      = $limit;
@@ -220,6 +232,7 @@ class UKI_Facebook_Wall_Feed {
         $this->fb_locale     = $locale;
         $this->verify        = $verify_ssl;
         $this->profile       = $get_profile;
+        $this->fb_icons      = $show_icons;
         $this->post_count    = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -528,7 +541,7 @@ class UKI_Facebook_Wall_Feed {
                   '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
                   '          </h5>' .
                   '          <div class="fb_time">';
-                if ( isset( $fb_feed[ $i ][ 'icon' ] ) )
+                if ( $this->fb_icons && isset( $fb_feed[ $i ][ 'icon' ] ) )
                     $result .=
                   '            <img class="fb_post_icon" src="' . htmlentities( $fb_feed[ $i ][ 'icon' ], ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Icon', JSL3_FWF_TEXT_DOMAIN ) . '" />';
                 $result .= $post_time .
@@ -783,12 +796,17 @@ class UKI_Facebook_Wall_Feed {
      */
     function fb_fix( $str ) {
         $pos = strpos( $str, 'safe_image.php' );
-        if( $pos !== FALSE ) {
+        if ( $pos !== FALSE ) {
             parse_str( $str );
             $str = $url;
         }
 
-        return '<img src="' . htmlentities( $str, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN ) . '" width="' . $w . '" height="' . $h . '" />';
+        $result = '<img src="' . htmlentities( $str, ENT_QUOTES, 'UTF-8' ) . '" alt="' . __( 'Facebook Picture', JSL3_FWF_TEXT_DOMAIN );
+        if ( isset( $w ) && isset( $h ) )
+            $result .= '" width="' . $w . '" height="' . $h;
+        $result .= '" />';
+
+        return $result;
     }
 
     // }}}
