@@ -123,6 +123,7 @@ class JSL3_FWF_Widget extends WP_Widget {
             $dev_options[ 'verify' ],
             $dev_options[ 'profile' ],
             $dev_options[ 'fb_icons' ] );
+        //echo wp_kses_post( $feed->get_fb_wall_feed() );
         echo $feed->get_fb_wall_feed();
 
         // After widget

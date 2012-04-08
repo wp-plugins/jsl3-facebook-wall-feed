@@ -323,7 +323,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <label for="<?php echo $option; ?>"><?php echo $label;  ?></label>
       </p>
       <p>
-        <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', stripslashes( $dev_options[ $option ] ) );  ?></textarea>
+        <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', esc_textarea( $dev_options[ $option ] ) );  ?></textarea>
       </p>
       <?php $this->setting_checkbox_fn( __('Tick this box if you wish to reset the style to default.', JSL3_FWF_TEXT_DOMAIN ), 'reset_style' ); ?>
     </fieldset>
@@ -352,7 +352,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 ?>
 <tr valign="top">
   <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
-  <td><input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', $dev_options[ $option ] ); ?>" /></td>
+  <td><input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', esc_attr( $dev_options[ $option ] ) ); ?>" /></td>
 </tr>
 <?php
         }
@@ -379,7 +379,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
   <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
   <td>
     <input id="<?php echo $option; ?>" name="<?php echo $option; ?>" type="hidden" value="<?php echo apply_filters( 'format_to_edit', $dev_options[ $option ] ); ?>" />
-    <?php echo $dev_options[ $option ]; ?>
+    <?php echo esc_html( $dev_options[ $option ] ); ?>
   </td>
 </tr>
 <?php
@@ -450,7 +450,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             //$is_changed = FALSE;
 
             // check to see if a post-back has occured
-            if ( isset( $_POST[ 'update_jsl3_fwf_settings' ] ) ) {
+            if ( isset( $_POST[ 'update_jsl3_fwf_settings' ] ) && check_admin_referer( 'jsl3_fb_update', 'jsl3_fb_nonce' ) ) {
 
                 // store the Facebook ID if it has been changed
                 if ( isset( $_POST[ 'fb_id' ] ) ) {
@@ -670,7 +670,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 <div class=wrap>
   <h2><?php _e( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ); ?></h2>
   <?php _e( 'For configuration and usage assistance click "Help" in the upper right hand corner of this page or go to the <a href="http://takanudo.com/jsl3-facebook-wall-feed">JSL3 Facebook Wall Feed</a> page.', JSL3_FWF_TEXT_DOMAIN ); ?>
-  <form method="post" action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>">
+  <form method="post" action="<?php echo esc_attr( $_SERVER[ 'REQUEST_URI' ] ); ?>">
+    <?php wp_nonce_field( 'jsl3_fb_update', 'jsl3_fb_nonce' ); ?>
     <table class="form-table">
       <tbody>
         <?php $this->setting_text_fn( __( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ), 'fb_id' ); ?>
@@ -1019,6 +1020,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'profile' ],
                 $dev_options[ 'fb_icons' ] );
             
+            //return wp_kses_post( $feed->get_fb_wall_feed() );
             return $feed->get_fb_wall_feed();
         }
 
