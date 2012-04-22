@@ -3,8 +3,8 @@ Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
-Tested up to: 3.3.1
-Stable tag: 1.3.1
+Tested up to: 3.4
+Stable tag: 1.4.1
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,13 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.4.1 =
+* Added CRON schedule to refresh expired tokens because Facebook no longer
+  allows non-expiring tokens.
+* Fixed 1 pixel images filtered through Facebook's safe_image.php file.
+* Added ability to turn off displaying Facebook icons.
+* Added additional security features.
+
 = 1.3.1 =
 * Made the feed validate XHTML 1.0 Strict.
 * Made a cURL and allow_url_fopen check.
@@ -248,7 +255,12 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Upgrade Notice ==
 
-= 1.3 =
+= 1.4.1 =
+This update adds additional security features.  It also adds a CRON schedule
+to refresh expired tokens because Facebook no longer allows non-expiring
+tokens.
+
+= 1.3.1 =
 This update should validate under XHTML 1.0 Strict.  It also checks to see if
 cURL is loaded or allow_url_fopen is on.  The feed will now use the same locale
 setting that WordPress is using.
