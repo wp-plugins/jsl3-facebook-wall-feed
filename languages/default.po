@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-26 19:40-0800\n"
-"PO-Revision-Date: 2012-03-26 19:40-0800\n"
+"POT-Creation-Date: 2012-04-28 20:56-0800\n"
+"PO-Revision-Date: 2012-04-28 20:56-0800\n"
 "Last-Translator: Takanudo <fwf@takanudo.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -173,11 +173,11 @@ msgstr ""
 msgid "Display your facebook wall"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:186
+#: php/class-jsl3-fwf-widget.php:187
 msgid "Title"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:190
+#: php/class-jsl3-fwf-widget.php:191
 msgid "Number of wall posts to get"
 msgstr ""
 
@@ -201,137 +201,137 @@ msgstr ""
 msgid "For configuration and usage assistance click \"Help\" in the upper right hand corner of this page or go to the <a href=\"http://takanudo.com/jsl3-facebook-wall-feed\">JSL3 Facebook Wall Feed</a> page."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:676
+#: php/class-jsl3-facebook-wall-feed.php:677
 msgid "Facebook ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:677
+#: php/class-jsl3-facebook-wall-feed.php:678
 msgid "App ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:678
+#: php/class-jsl3-facebook-wall-feed.php:679
 msgid "App Secret"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:679
+#: php/class-jsl3-facebook-wall-feed.php:680
 msgid "Access Token"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:681
+#: php/class-jsl3-facebook-wall-feed.php:682
 msgid "Only show posts made by this Facebook ID."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:681
+#: php/class-jsl3-facebook-wall-feed.php:682
 msgid "Facebook ID Only"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:682
+#: php/class-jsl3-facebook-wall-feed.php:683
 msgid "Privacy"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:683
+#: php/class-jsl3-facebook-wall-feed.php:684
 msgid "Show all status messages."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:683
+#: php/class-jsl3-facebook-wall-feed.php:684
 msgid "Recent Activity"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:684
+#: php/class-jsl3-facebook-wall-feed.php:685
 msgid "Show all post comments."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:684
+#: php/class-jsl3-facebook-wall-feed.php:685
 msgid "Comments"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:685
+#: php/class-jsl3-facebook-wall-feed.php:686
 msgid "Open links in a new window or tab."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:685
+#: php/class-jsl3-facebook-wall-feed.php:686
 msgid "Links"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:686
+#: php/class-jsl3-facebook-wall-feed.php:687
 msgid "Show Facebook icons."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:686
+#: php/class-jsl3-facebook-wall-feed.php:687
 msgid "Icons"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:687
+#: php/class-jsl3-facebook-wall-feed.php:688
 msgid "Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:687
+#: php/class-jsl3-facebook-wall-feed.php:688
 msgid "Thoroughness"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:688
+#: php/class-jsl3-facebook-wall-feed.php:689
 msgid "Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:688
+#: php/class-jsl3-facebook-wall-feed.php:689
 msgid "Verify SSL Peer"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:689
+#: php/class-jsl3-facebook-wall-feed.php:690
 msgid "Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:689
+#: php/class-jsl3-facebook-wall-feed.php:690
 msgid "Profile Picture"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:690
+#: php/class-jsl3-facebook-wall-feed.php:691
 msgid "Renew Token"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:691
+#: php/class-jsl3-facebook-wall-feed.php:692
 msgid "Modify the style sheet for the Facebook wall feed."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:691
+#: php/class-jsl3-facebook-wall-feed.php:692
 msgid "Style"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:695
+#: php/class-jsl3-facebook-wall-feed.php:696
 msgid "Save Changes"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:700
+#: php/class-jsl3-facebook-wall-feed.php:701
 msgid "Donate to Tak"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:704
-#: php/class-jsl3-facebook-wall-feed.php:713
+#: php/class-jsl3-facebook-wall-feed.php:705
+#: php/class-jsl3-facebook-wall-feed.php:714
 msgid "PayPal - The safer, easier way to pay online!"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:709
+#: php/class-jsl3-facebook-wall-feed.php:710
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:841
-#: php/class-jsl3-facebook-wall-feed.php:943
+#: php/class-jsl3-facebook-wall-feed.php:842
+#: php/class-jsl3-facebook-wall-feed.php:944
 #: php/class-uki-facebook-wall-feed.php:402
 msgid "file_get_contents failed to open URL."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:856
-#: php/class-jsl3-facebook-wall-feed.php:950
+#: php/class-jsl3-facebook-wall-feed.php:857
+#: php/class-jsl3-facebook-wall-feed.php:951
 #: php/class-uki-facebook-wall-feed.php:327
 msgid "Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:877
-#: php/class-jsl3-facebook-wall-feed.php:973
+#: php/class-jsl3-facebook-wall-feed.php:878
+#: php/class-jsl3-facebook-wall-feed.php:974
 msgid "No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:883
+#: php/class-jsl3-facebook-wall-feed.php:884
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
