@@ -3,8 +3,8 @@ Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
-Tested up to: 3.4
-Stable tag: 1.4.1
+Tested up to: 3.5
+Stable tag: 1.4.2
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,10 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.4.2 =
+* Added make_clickable() WordPress function to convert plain text URI to HTML
+  links.
+
 = 1.4.1 =
 * Added CRON schedule to refresh expired tokens because Facebook no longer
   allows non-expiring tokens.
@@ -254,6 +258,10 @@ wall posts are found.  NOTE: This will slow down the feed.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+This is a minor update thats adds the make_clickable() WordPress function to
+convert plain text URI to HTML links.
 
 = 1.4.1 =
 This update adds additional security features.  It also adds a CRON schedule
