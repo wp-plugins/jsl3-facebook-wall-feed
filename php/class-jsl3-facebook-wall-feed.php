@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.4.2
+ * @version    1.5
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.4.2
+ * @version    1.5
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -143,23 +143,26 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         function get_admin_options() {
             // set default values
             $jsl3_fwf_admin_options = array(
-                'fb_id'         => '',
-                'app_id'        => '',
-                'app_secret'    => '', 
-                'token'         => '',
-                'session'       => '',
-                'style'         => '',
-                'fb_id_only'    => FALSE,
-                'privacy'       => 'All',
-                'thorough'      => FALSE,
-                'new_window'    => FALSE,
-                'show_status'   => FALSE,
-                'show_comments' => FALSE,
-                'locale'        => get_locale(),
-                'verify'        => TRUE,
-                'profile'       => FALSE,
-                'fb_icons'      => TRUE,
-                'sched'         => 'jsl3_fwf_bimonthly' );
+                'fb_id'          => '',
+                'app_id'         => '',
+                'app_secret'     => '', 
+                'token'          => '',
+                'expires'        => '',
+                'session'        => '',
+                'style'          => '',
+                'fb_id_only'     => FALSE,
+                'privacy'        => 'All',
+                'thorough'       => FALSE,
+                'new_window'     => FALSE,
+                'make_clickable' => TRUE,
+                'show_status'    => FALSE,
+                'show_comments'  => FALSE,
+                'locale'         => get_locale(),
+                'verify'         => TRUE,
+                'profile'        => FALSE,
+                'fb_icons'       => TRUE,
+                'sched'          => JSL3_FWF_CRON_SCHED );
+                //'sched'          => 'jsl3_fwf_bimonthly' );
 
             // get default stylesheet
             $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
@@ -179,6 +182,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             // reset privacy setting
             if ( $jsl3_fwf_admin_options[ 'privacy' ] == 'Public' )
                 $jsl3_fwf_admin_options[ 'privacy' ] = 'EVERYONE';
+
+            // reset cron schedule to daily
+            $jsl3_fwf_admin_options[ 'sched' ] = JSL3_FWF_CRON_SCHED;
             
             // store values back in the WordPress database
             update_option( $this->admin_options_name,
@@ -353,6 +359,36 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 <tr valign="top">
   <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
   <td><input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', esc_attr( $dev_options[ $option ] ) ); ?>" /></td>
+</tr>
+<?php
+        }
+
+        // }}}
+        // {{{ setting_plaindate_fn()
+
+        /**
+         * Prints an html row.
+         *
+         * Prints an html table row with the passed in label in the first
+         * column and the formatted date in the second column.
+         *
+         * @param string $label the label.
+         * @param string $option the name of date option
+         *
+         * @access public
+         * @since Method available since Release 1.5
+         */
+        function setting_plaindate_fn( $label, $option ) {
+            $dev_options = $this->get_admin_options();
+
+            $date = $dev_options[ $option ];
+            $text = '';
+            if ( ! empty( $date ) )
+                $text = date_i18n( get_option( 'date_format' ), $date );
+?>
+<tr valign="top">
+  <th scope="row"><?php echo $label; ?></th>
+  <td><?php echo $text; ?></td>
 </tr>
 <?php
         }
@@ -533,6 +569,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'new_window' ] = FALSE;
 
+                // store make clickable check
+                if ( isset( $_POST[ 'make_clickable' ] ) &&
+                    ( $_POST[ 'make_clickable' ] == '1' ) )
+                    $dev_options[ 'make_clickable' ] = TRUE;
+                else
+                    $dev_options[ 'make_clickable' ] = FALSE;
+
                 // store show all status messages check
                 if ( isset( $_POST[ 'show_status' ] ) &&
                     ( $_POST[ 'show_status' ] == '1' ) )
@@ -569,6 +612,11 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'profile' ] = FALSE;
 
                 // store the schedule setting
+                wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
+                if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
+                    wp_schedule_event( time(), JSL3_FWF_CRON_SCHED,
+                        JSL3_FWF_SCHED_HOOK );
+                /*
                 if ( isset( $_POST[ 'sched' ] ) &&
                     $_POST[ 'sched' ] != $dev_options[ 'sched' ] ) {
                     $dev_options[ 'sched' ] =
@@ -579,6 +627,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                         wp_schedule_event( time(), $dev_options[ 'sched' ],
                             JSL3_FWF_SCHED_HOOK );
                 }
+                */
                 
                 // store the locale setting
                 $dev_options[ 'locale' ] = get_locale();
@@ -614,7 +663,14 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
              * Facebook app and now need to request the access token
              */
             if ( ! empty( $_REQUEST[ 'code' ] ) ) {
-                $dev_options[ 'token' ] = $this->get_token();
+                //$dev_options[ 'token' ] = $this->get_token();
+                $response = $this->get_token();
+                $params = NULL;
+                parse_str( $response, $params );
+                if ( isset( $params[ 'access_token' ] ) ) {
+                    $dev_options[ 'token' ] = $params[ 'access_token' ];
+                    $dev_options[ 'expires' ] = time() + $params[ 'expires' ];
+                }
 
                 update_option( $this->admin_options_name, $dev_options );
 
@@ -634,7 +690,6 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             foreach ( wp_get_schedules() as $key => $value ) {
                 $sel_sched_options[$key] = $value[ 'display' ];
             }
-            
 
             /*
             $sel_locale_options = array();
@@ -678,17 +733,19 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_text_fn( __( 'App ID', JSL3_FWF_TEXT_DOMAIN ), 'app_id' ); ?>
         <?php $this->setting_text_fn( __( 'App Secret', JSL3_FWF_TEXT_DOMAIN ), 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
+        <?php $this->setting_plaindate_fn( __( 'Token Expiration', JSL3_FWF_TEXT_DOMAIN ), 'expires' ); ?>
         <?php //$this->setting_select_fn( __( 'Locale', JSL3_FWF_TEXT_DOMAIN ), 'locale', $sel_locale_options ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_privacy_options ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all status messages.', JSL3_FWF_TEXT_DOMAIN ), 'show_status', __( 'Recent Activity', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Open links in a new window or tab.', JSL3_FWF_TEXT_DOMAIN ), 'new_window', __( 'Links', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Covert plain text URI to HTML links.', JSL3_FWF_TEXT_DOMAIN ), 'make_clickable', __( 'Make URI Clickable', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show Facebook icons.', JSL3_FWF_TEXT_DOMAIN ), 'fb_icons', __( 'Icons', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)', JSL3_FWF_TEXT_DOMAIN ), 'thorough', __( 'Thoroughness', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)', JSL3_FWF_TEXT_DOMAIN ), 'verify', __( 'Verify SSL Peer', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)', JSL3_FWF_TEXT_DOMAIN ), 'profile', __( 'Profile Picture', JSL3_FWF_TEXT_DOMAIN ) ); ?>
-        <?php $this->setting_select_fn( __( 'Renew Token', JSL3_FWF_TEXT_DOMAIN ), 'sched', $sel_sched_options ); ?>
+        <?php //$this->setting_select_fn( __( 'Renew Token', JSL3_FWF_TEXT_DOMAIN ), 'sched', $sel_sched_options ); ?>
         <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
       </tbody>
     </table>
@@ -866,7 +923,9 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 parse_str( $response, $params );
 
                 if ( isset( $params[ 'access_token' ] ) ) {
-                    $access_token = $params[ 'access_token' ];
+                    //$access_token = $params[ 'access_token' ];
+                    //$dev_options[ 'expires' ] = time() + $params[ 'expires' ];
+                    $access_token = $response;
                 } else {
                     $response = json_decode( $response, TRUE );
                     if ( isset( $response[ 'error' ] ) )
@@ -893,9 +952,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         /**
          * Renew access token from Facebook
          *
-         * Renews access token from Facebook.  Facebook no longer allows for
-         * none expiring tokens.  So we have to renew the access token every
-         * 60 days.
+         * Sends an email to the WordPress administrator notifying them that
+         * there Facebook access token is about to expire.
          *
          * @access public
          * @since Method available since Release 1.4
@@ -906,6 +964,39 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             if ( empty( $dev_options[ 'token' ] ) )
                 return;
 
+            $expires = $dev_options[ 'expires' ];
+            if ( ! empty( $expires ) ) {
+                $exp_date = date_i18n( get_option( 'date_format' ), $expires );
+                $time_to_expire = $expires - time();
+
+                if ( $time_to_expire < JSL3_FWF_TIME_TO_EXPIRE ) {
+                    $to = get_option( 'admin_email' );
+
+                    $subject =
+                        __( 'JSL3 Facebook Wall Feed Token Expiration',
+                            JSL3_FWF_TEXT_DOMAIN );
+                
+                    $message =
+                        __( 'The Facebook Access Token for the JSL3 Facebook ' .
+                            'Wall Feed plugin on your WordPress site will ' .
+                            'expire on the following date:',
+                            JSL3_FWF_TEXT_DOMAIN ) .
+                        "\n\n" . $exp_date . "\n\n" .
+                        __( 'Please go to the settings page for the plugin at ',
+                            JSL3_FWF_TEXT_DOMAIN ) .
+                        get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=' .
+                        JSL3_FWF_SLUG .
+                        __( ' and click "Save Changes" at the bottom of the ' .
+                            'page to renew your token.', JSL3_FWF_TEXT_DOMAIN ) .
+                        "\n\n" . __( 'Thank you,', JSL3_FWF_TEXT_DOMAIN ) . "\n" .
+                        __( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ) .
+                        "\n" . 'http://takanudo.com/jsl3-facebook-wall-feed';
+
+                    wp_mail( $to, $subject, $message );
+                }
+            }
+
+            /*
             $token_url =
                 "https://graph.facebook.com/oauth/access_token" .
                 "?client_id=" . $dev_options[ 'app_id' ] .
@@ -973,6 +1064,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     error_log(
                         __( 'No access token returned.  Please double check you have the correct Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) );
             }
+            */
         } // End renew_token function
 
         // }}}
