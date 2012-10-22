@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.4.2
+ * @version    1.5
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.4.2
+ * @version    1.5
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -154,6 +154,15 @@ class UKI_Facebook_Wall_Feed {
      * @var boolean
      */
     var $new_win;
+
+    /**
+     * Converts plan text URI to HTML link
+     *
+     * Flag to call make_clickable() WordPress function
+     *
+     * @var boolean
+     */
+    var $make_link;
     
     /**
      * Facebook Locale Settings
@@ -202,6 +211,8 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $be_thorough determines if multiple calls to facebook
      *                             graph will be made
      * @param boolean $new_window  determines if links open in a new window
+     * @param boolean $make_click  determines if plain text URI are converted
+     *                             to HTML links
      * @param boolean $show_all    determines if all status messages are shown
      * @param boolean $show_comm   determines if post comments are shown
      * @param string  $locale      sets the language locale
@@ -216,9 +227,9 @@ class UKI_Facebook_Wall_Feed {
     function UKI_Facebook_Wall_Feed(
         $id, $app_id = '', $app_secret = '', $limit = JSL3_FWF_WIDGET_LIMIT,
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
-        $new_window = FALSE, $show_all = FALSE, $show_comm = FALSE,
-        $locale = 'en_US', $verify_ssl = TRUE, $get_profile = FALSE,
-        $show_icons = TRUE ) {
+        $new_window = FALSE, $make_click = TRUE, $show_all = FALSE,
+        $show_comm = FALSE, $locale = 'en_US', $verify_ssl = TRUE,
+        $get_profile = FALSE, $show_icons = TRUE ) {
 
         $this->fb_id         = $id;
         $this->fb_limit      = $limit;
@@ -227,6 +238,7 @@ class UKI_Facebook_Wall_Feed {
         $this->fb_privacy    = $privacy;
         $this->thorough      = $be_thorough;
         $this->new_win       = $new_window;
+        $this->make_link     = $make_click;
         $this->show_status   = $show_all;
         $this->show_comments = $show_comm;
         $this->fb_locale     = $locale;
@@ -352,10 +364,14 @@ class UKI_Facebook_Wall_Feed {
                   '  </div>' .
                   '</div>';
 
-        $result = make_clickable( str_replace( '&lt;jsl3fwfbr /&gt;', '<br />', $result ) );
+        $result = str_replace( '&lt;jsl3fwfbr /&gt;', '<br />', $result );
 
-        if ( $this->new_win )
-            $result = str_replace( 'rel="nofollow"', 'rel="nofollow" target="_blank"', $result );
+        if ( $this->make_link ) {
+            $result = make_clickable( $result );
+
+            if ( $this->new_win )
+                $result = str_replace( 'rel="nofollow"', 'rel="nofollow" target="_blank"', $result );
+        }
         
         return $result;
     
@@ -777,7 +793,7 @@ class UKI_Facebook_Wall_Feed {
 
         $unix_time_stamp = mktime( $time_hr, $time_arr[ 1 ], 0,
                     $date_items[ 1 ], $date_items[ 2 ], $date_items[ 0 ] );
-        $date_str = date_i18n( get_option( 'date_format'), $unix_time_stamp );
+        $date_str = date_i18n( get_option( 'date_format' ), $unix_time_stamp );
 
         $time_str = date( get_option( 'time_format' ), $unix_time_stamp );
 
