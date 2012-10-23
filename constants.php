@@ -25,7 +25,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.4.2
+ * @version    1.5.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -91,6 +91,18 @@ if ( ! defined( 'JSL3_FWF_WIDGET_LIMIT' ) )
     define( 'JSL3_FWF_WIDGET_LIMIT', 25 );
 
 /**
+ * The default value of the time to expiration
+ */
+if ( ! defined( 'JSL3_FWF_TIME_TO_EXPIRE' ) )
+    define( 'JSL3_FWF_TIME_TO_EXPIRE', 60 * 60 * 24 * 7 );
+
+/**
+ * The default value of the wp cron schedule
+ */
+if ( ! defined( 'JSL3_FWF_CRON_SCHED' ) )
+    define( 'JSL3_FWF_CRON_SCHED', 'daily' );
+
+/**
  * The admin page slug
  */
 if ( ! defined( 'JSL3_FWF_SLUG' ) )
@@ -106,7 +118,7 @@ if ( ! defined( 'JSL3_FWF_VERSION_KEY' ) )
  * The version number used in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_VERSION_NUM' ) )
-    define( 'JSL3_FWF_VERSION_NUM', '1.4.2' );
+    define( 'JSL3_FWF_VERSION_NUM', '1.5.1' );
 
 /**
  * The file name used for the UKI files

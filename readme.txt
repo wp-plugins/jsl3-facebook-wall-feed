@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
 Tested up to: 3.5
-Stable tag: 1.4.2
+Stable tag: 1.5.1
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,15 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.5.1 =
+* Fixed a bug in the shortcode introduced in v1.5
+
+= 1.5 =
+* Added an option to disable the make_clickable() WordPress function added in
+  v1.4.2
+* The plugin will now notify the WordPress admin that their Facebook access
+  token is about to expire a week from the expiration date.
+
 = 1.4.2 =
 * Added make_clickable() WordPress function to convert plain text URI to HTML
   links.
@@ -259,8 +268,19 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Upgrade Notice ==
 
+= 1.5.1 =
+This is a minor shortcode bug fix.
+
+= 1.5 =
+This update adds an option to disable the make_clickable() WordPress function
+added in v1.4.2.  Also, the automatic Facebook access token renewal added in
+v1.4.1 never worked properly.  So now the plugin will now notify the WordPress
+admin that their Facebook access token is about to expire a week from the
+expiration date.  Renewing the token should simply be a matter of clicking
+"Save Changes" on the settings page for the plugin.
+
 = 1.4.2 =
-This is a minor update thats adds the make_clickable() WordPress function to
+This is a minor update that adds the make_clickable() WordPress function to
 convert plain text URI to HTML links.
 
 = 1.4.1 =
