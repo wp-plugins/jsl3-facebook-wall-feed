@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
 Tested up to: 3.5
-Stable tag: 1.5
+Stable tag: 1.5.1
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.5.1 =
+* Fixed a bug in the shortcode introduced in v1.5
+
 = 1.5 =
 * Added an option to disable the make_clickable() WordPress function added in
   v1.4.2
@@ -264,6 +267,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+This is a minor shortcode bug fix.
 
 = 1.5 =
 This update adds an option to disable the make_clickable() WordPress function
