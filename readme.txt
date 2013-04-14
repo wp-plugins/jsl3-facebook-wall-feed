@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
 Tested up to: 3.5.1
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.5.3 =
+* Fixed a minor bug introduced in v1.5.2
+
 = 1.5.2 =
 * Fixed privacy setting to work with the change Facebook made to how they
   display privacy settings in the feed.
@@ -272,6 +275,9 @@ wall posts are found.  NOTE: This will slow down the feed.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.5.3 =
+Fixed a minor bug introduced in v1.5.2.
 
 = 1.5.2 =
 Facebook changed public privacy setting to be a blank entry, so I have
