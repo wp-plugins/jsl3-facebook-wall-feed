@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2012
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.2
+ * @version    1.5.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2012
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.5.2
+ * @version    1.5.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -473,7 +473,7 @@ class UKI_Facebook_Wall_Feed {
 
             $privacy_good = FALSE;
             if ( empty( $privacy ) )
-                $privacy_good == TRUE;
+                $privacy_good = TRUE;
             elseif ( $this->fb_privacy == 'All' )
                 $privacy_good = TRUE;
             elseif ( $this->fb_privacy == $privacy )
