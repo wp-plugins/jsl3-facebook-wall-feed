@@ -3,8 +3,8 @@ Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed
 Requires at least: 3.2.1
-Tested up to: 3.5
-Stable tag: 1.5.1
+Tested up to: 3.5.1
+Stable tag: 1.5.2
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -217,6 +217,11 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Changelog ==
 
+= 1.5.2 =
+* Fixed privacy setting to work with the change Facebook made to how they
+  display privacy settings in the feed.
+* Minor change to how the style sheet is enqueued into the header.
+
 = 1.5.1 =
 * Fixed a bug in the shortcode introduced in v1.5
 
@@ -267,6 +272,12 @@ wall posts are found.  NOTE: This will slow down the feed.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.5.2 =
+Facebook changed public privacy setting to be a blank entry, so I have
+adjusted the plugin to account for that.  Also, for some users, the
+style sheet would be embedded more than once.  This update should fix
+that.
 
 = 1.5.1 =
 This is a minor shortcode bug fix.
