@@ -91,8 +91,8 @@ of the style sheet on the settings page for the plugin:
     }
 
 Change the numbers in front of "px" to ones that fits for you. Try to keep the
-height in #facebook_status_box about 40px greater than the height in
-#facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
+height in #facebook_status_box about 40px greater than the height
+in #facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
 feed.
 
 = Why is there so much space at the bottom of my page where the plugin is located? =
