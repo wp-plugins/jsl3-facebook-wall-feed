@@ -1,10 +1,10 @@
 === JSL3 Facebook Wall Feed ===
 Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
-Tags: facebook, wall, profile, page, feed
+Tags: facebook, wall, profile, page, feed, timeline
 Requires at least: 3.2.1
-Tested up to: 3.5.1
-Stable tag: 1.5.3
+Tested up to: 3.6
+Stable tag: 1.5.4
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -51,14 +51,6 @@ Let me know the URL of the site with the translated plugin by posting a comment
 on the [JSL3 Facebook Wall Feed](http://takanudo.com/jsl3-facebook-wall-feed)
 page.
 
-= How do I find my Facebook ID? =
-
-Click on any image in your facebook photos and note the URL. It should look
-something like this: http://www.facebook.com/media/set/?set=a.123456789012.123456.XXXXXXXXX&type=3
-
-The “XXXXXXXXX” is your Facebook ID. Even if you see more sets of numbers than the
-above, the last set is your Facebook ID.
-
 = How do I get rid of the 'Facebook Status' box? =
 
 To remove the 'Facebook Status' box add the following to the bottom of the
@@ -82,6 +74,40 @@ of the style sheet on the settings page for the plugin:
     }
 
 Change the number in front of "px" to one that fits for you.
+
+= How do I adjust the height of the Facebook Wall Feed? =
+
+To adjust the height of the Facebook Wall Feed add the following to the bottom
+of the style sheet on the settings page for the plugin:
+
+    /* Adjust height */
+    #facebook_status_box
+    {
+        height: 500px;
+    }
+    #facebook_status_box #facebook_canvas
+    {
+        height: 460px;
+    }
+
+Change the numbers in front of "px" to ones that fits for you. Try to keep the
+height in #facebook_status_box about 40px greater than the height in
+#facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
+feed.
+
+= Why is there so much space at the bottom of my page where the plugin is located? =
+
+To remove the space at the bottom of your page add the following to the bottom
+of the style sheet on the settings page for the plugin:
+
+    /* Remove extra space */
+    #facebook_status_box #facebook_canvas .fb_post .fb_commLink .fb_likes .tooltip
+    {
+        position: static !important;
+        padding: 0 0 0 18px !important;
+        opacity: 1 !important;
+        filter: alpha(opacity=1) !important;
+    }
 
 = Why do comments look so bad? =
 
@@ -120,6 +146,19 @@ style sheet on the settings page for the plugin:
         width: 85%
     }
 
+= Why is my token set to expire in less than 24 hours? =
+
+I am not sure why Facebook will give some users a short-lived token. Facebook
+will only allow you to attempt to renew your token once per 24 hours. Try
+waiting 24 hours from the last time you clicked "Save Changes" on the settings
+page for the plugin, then try again. If you do not get a token that lasts about
+60 days, then you may want to try creating a new Facebook App for the plugin.
+
+= What does the error “OAuthException: Error validating access token: Session has expired at unix time [UNIX TIME]. The current unix time is [UNIX TIME]” mean? =
+
+It means your access token has expired. Go to the settings page for the plugin
+and click "Save Changes" to renew your token.
+
 = What does the error "OAuthException: Error validating access token: The session has been invalidated because the user has changed the password" mean? =
 
 It usually means you changed your Facebook password recently. Go to the
@@ -128,8 +167,8 @@ settings page for the plugin and click "Save Changes" to validate your session.
 = What does the error "OAuthException: An access token is required to request this resource" mean? =
 
 It usually means you do not have an access token.  Check that your App ID and
-App Secret are correct and that there are no extra spaces in front or after
-them.  Then click "Save Changes" on the settings page for the plugin.
+App Secret are correct.  Then click "Save Changes" on the settings page for the
+plugin.
 
 = What does the error "Exception: No node specified" mean? =
 
@@ -141,12 +180,6 @@ Changes" on the settings page for the plugin.
 
 It usually means are using an incorrect Facebook ID.  Check that your Facebook
 ID is correct.  Then click "Save Changes" on the settings page for the plugin.
-
-= What does a pink box with a red outline with either ":" or "n: n" in it mean? =
-
-It usually means you have some extra spaces in front or after your Facebook ID.
-Remove the spaces and then click "Save Changes" on the settings page for the
-plugin.
 
 = What does "An error occurred with [Your App Name]. Please try again later" mean? =
 
@@ -161,22 +194,29 @@ match the domain of the website where you are using the plugin. Go to
 [https://developers.facebook.com/apps](https://developers.facebook.com/apps)
 and click "Edit Settings". Under "Basic Info", change your "App Domain" to
 match the domain of the website where the plugin is located. In the "Select how
-your app integrates with Facebook" section, under "Website", change your "Site
-URL" to match the URL of the website where the plugin is located.
+your app integrates with Facebook" section, under "Website with Facebook Login",
+change your "Site URL" to match the URL of the website where the plugin is
+located.  Do not use "www." in your App Domain or Site URL.
 
 = Why is my feed blank? =
 
-First, it could mean you have an invalid value set for the "limit" in the
-shortcode or the "number of wall posts to get" in the widget.  Please make sure
-you have a valid number greater than zero with no spaces in front or after the
-number.
+First, a blank feed usually indicates an invalid Facebook ID. If you do not know
+your Facebook ID, then go to [https://developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer).
+Click "Get Access Token". You may be prompted to log in. If you are prompted to
+"Select permissions", click "Get Access Token". In the text box next to the
+"Submit" button, enter the "Facebook Username" used in your Facebook URL (for
+example, my Facebook URL is https://www.facebook.com/takanudo so my Facebook
+Username is takanudo) followed by "?fields=id". Click Submit. Your Facebook ID
+will be in the results.
 
-Second, the JSL3 Facebook Wall Feed filters out status messages (stuff like
-"person1 is now friends with person2").  If your wall feed contains many status
-messages, facebook might not be sending any actual wall posts in your feed.
-Checking the "Thorougness" option in the settings page of the plugin, will
-force the JSL3 Facebook Wall Feed to continue contacting Facebook until actual
-wall posts are found.  NOTE: This will slow down the feed.
+Second, The limit property tells Facebook how many posts to return. Some of
+those posts could be filtered out depending on how you have configured the
+plugin. For example, if you set the limit to one, the post returned may be
+filtered out if you have "Only show posts made by this Facebook ID" checked or
+"Show all status messages" unchecked or "Privacy" set to "Show only wall posts
+labeled public". The thoroughness option forces the plugin to keep making
+requests to Facebook until the limit number has been reached, but it will slow
+down the plugin dramatically.
 
 == Screenshots ==
 
@@ -186,22 +226,25 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 3. Click **Create New App**.
 
-4. Enter any **App Display Name** and **App Namespace**.
+4. Enter an **App Name**.  All the other entries are optional.
 
-5. On your App page, enter your **App Domain**. Under **Select how your app
-   integrates with Facebook** click **Website** and enter your **Site URL**.
+5. On your App page, enter your **App Domain**. Set **Sandbox Mode** to
+   **Disabled**. Under **Select how your app integrates with Facebook** click
+   **Website with Facebook Login** and enter your **Site URL**.  Do not use
+   **www.** in your App Domain or Site URL.
 
 6. Go to **JSL3 Facebook Wall Feed** under **Settings** on the Dashboard menu.
 
-7. Enter your **Facebook ID**.
+7. Enter your **Facebook ID**, **App ID**, and  **App Secret**.  Click
+   **Save Changes**.
 
-8. You will be redirected to Facebook. You may be prompted to **Log In** a
-   couple of times.
+8. Click **Okay** to give your App permission to acess your public profile,
+   friends list, News Feed and status updates.
 
-9. Allow your Facebook App to have access to your Facebook profile.
+9. Click **Okay** to give your App permission to manage your Pages.
 
 10. You will be returned to the JSL3 Facebook Wall Feed settings page with your
-    **Access Token**.
+    **Access Token** and its expiration date.
 
 11. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
 
@@ -216,6 +259,10 @@ wall posts are found.  NOTE: This will slow down the feed.
 15. View your Facebook Wall Feed on your WordPress post or page.
 
 == Changelog ==
+
+= 1.5.4 =
+* This update should send fewer notification emails.
+* Changes all URLs to use https.
 
 = 1.5.3 =
 * Fixed a minor bug introduced in v1.5.2
@@ -276,6 +323,10 @@ wall posts are found.  NOTE: This will slow down the feed.
 
 == Upgrade Notice ==
 
+= 1.5.4 =
+Hopefully this update will send fewer email notifications when your token is
+about to expire. Also, changed all URLs to use https.
+
 = 1.5.3 =
 Fixed a minor bug introduced in v1.5.2.
 
@@ -323,35 +374,51 @@ This is the initial version.
 
 == Configuration ==
 
-1. [Create your Facebook App](https://developers.facebook.com/apps).
+1. [Create your Facebook App](https://developers.facebook.com/apps).  NOTE: You
+   cannot use a Facebook Page to create a Facebook App. You must use your
+   personal Facebook profile. However, once you create your Facebook App, you
+   can use its App ID and App Secret along with the Facebook ID of the Facebook
+   Page you want to get the feed from on the settings page for the plugin. 
 
-1. **Allow** Developer to access your basic information.
+1. If you get a Request for Permission prompt, then **Allow** Developer to
+   access your basic information.
 
 1. Click **Create New App**.
 
-1. Enter any **App Display Name** and **App Namespace**. I suggest using the
-   name of your blog. Agree to the Facebook Platform Policies and click
-   **Continue**. You will be prompted with a security check.
+1. Enter any **App Name**. I suggest using the name of your blog.  All the other
+   entries are optional. Click **Continue**. You will be prompted with a
+   security check.
 
-1. On your App page, enter your **App Domain**. Under **Select how your app
-   integrates with Facebook** click **Website** and enter your **Site URL**.
-   Then save your changes.
+1. On your App page, enter your **App Domain**.  Set **Sandbox Mode** to
+   **Disabled**. Under **Select how your app integrates with Facebook** click
+   **Website with Facebook Login** and enter your **Site URL**.  Do not use
+   **www.* in your App Domain or Site URL.  Save your changes.
 
 1. Record your **App ID** and **App Secret**. You will need these later.
 
 1. Go to **JSL3 Facebook Wall Feed** under **Settings** on the Dashboard menu.
 
-1. Enter your **Facebook ID**. This is the number at the end of your Facebook
-   profile URL. Enter the **App ID** and **App Secret** you recorded earlier.
+1. Enter your **Facebook ID**.  If you do not know your Facebook ID, then use
+   the [Graph API Explorer](https://developers.facebook.com/tools/explorer).
+   Click **Get Access Token**. You may be prompted to log in. If you are
+   prompted to Select permissions, click **Get Access Token**. In the text box
+   next to the Submit button, enter the **Facebook Username** used in your
+   Facebook URL (for example, my Facebook URL is
+   http://www.facebook.com/takanudo so my Facebook Username is takanudo)
+   followed by **?fields=id**. Click **Submit**. Your Facebook ID will be in the
+   results.  Enter the **App ID** and **App Secret** you recorded earlier.
    Click **Save Changes**.
 
 1. You will be redirected to Facebook. You may be prompted to **Log In** a
    couple of times.
 
-1. Allow your Facebook App to have access to your Facebook profile.
+1. Click **Okay** to give your App permission to acess your public profile,
+   friends list, News Feed and status updates.
+
+1. Click **Okay** to give your App permission to manage your Pages.
 
 1. You will be returned to the JSL3 Facebook Wall Feed settings page with your
-   **Access Token**.
+   **Access Token** and its expiration date.
 
 == Widget Usage ==
 

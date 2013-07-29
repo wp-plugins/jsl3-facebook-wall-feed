@@ -25,9 +25,9 @@
  * @package    JSL3_FWF
  * @author     Takanudo <fwf@takanudo.com>
  * @author     Fedil Grogan <fedil@ukneeq.com>
- * @copyright  2011-2012
+ * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.3
+ * @version    1.5.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -48,9 +48,9 @@
  * @package    JSL3_FWF
  * @author     Takanudo <fwf@takanudo.com>
  * @author     Fedil Grogan <fedil@ukneeq.com>
- * @copyright  2011-2012
+ * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.5.3
+ * @version    1.5.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -161,11 +161,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'verify'         => TRUE,
                 'profile'        => FALSE,
                 'fb_icons'       => TRUE,
+                'send_notice'    => TRUE,
                 'sched'          => JSL3_FWF_CRON_SCHED );
                 //'sched'          => 'jsl3_fwf_bimonthly' );
 
             // get default stylesheet
-            $jsl3_fwf_admin_options[ 'style' ] = $this->reset_style_fn();
+            $jsl3_fwf_admin_options[ 'style' ] =
+                        apply_filters( 'content_save_pre', $this->reset_style_fn() );
 
             // get admin options from WordPress database
             $dev_options = get_option( $this->admin_options_name );
@@ -329,7 +331,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <label for="<?php echo $option; ?>"><?php echo $label;  ?></label>
       </p>
       <p>
-        <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', esc_textarea( $dev_options[ $option ] ) );  ?></textarea>
+        <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', esc_textarea( stripslashes( $dev_options[ $option ] ) ) );  ?></textarea>
       </p>
       <?php $this->setting_checkbox_fn( __('Tick this box if you wish to reset the style to default.', JSL3_FWF_TEXT_DOMAIN ), 'reset_style' ); ?>
     </fieldset>
@@ -538,7 +540,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 // reset the stylesheet back to the default
                 if ( isset( $_POST[ 'reset_style' ] ) &&
                     $_POST[ 'reset_style' ] == 'on' ) {
-                    $dev_options[ 'style' ] = $this->reset_style_fn();
+                    $dev_options[ 'style' ] =
+                        apply_filters( 'content_save_pre', $this->reset_style_fn() );
                 }
 
                 // store facebook id posts only
@@ -610,7 +613,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                     $dev_options[ 'profile' ] = TRUE;
                 else
                     $dev_options[ 'profile' ] = FALSE;
-
+                
                 // store the schedule setting
                 wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
                 if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
@@ -638,6 +641,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                             $_POST[ 'locale' ] );
                 }
                 */
+
+                $dev_options[ 'send_notice' ] = TRUE;
 
                 // store the admin options back to the WordPress database
                 update_option( $this->admin_options_name, $dev_options );
@@ -686,10 +691,12 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'EVERYONE' => __( 'Show only wall posts labeled public',
                     JSL3_FWF_TEXT_DOMAIN ) );
 
+            /*
             $sel_sched_options = array();
             foreach ( wp_get_schedules() as $key => $value ) {
                 $sel_sched_options[$key] = $value[ 'display' ];
             }
+            */
 
             /*
             $sel_locale_options = array();
@@ -992,7 +999,11 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                         __( 'JSL3 Facebook Wall Feed', JSL3_FWF_TEXT_DOMAIN ) .
                         "\n" . 'http://takanudo.com/jsl3-facebook-wall-feed';
 
-                    wp_mail( $to, $subject, $message );
+                    if ( $dev_options[ 'send_notice' ] ) {
+                        wp_mail( $to, $subject, $message );
+                        $dev_options[ 'send_notice' ] = FALSE;
+                        update_option( $this->admin_options_name, $dev_options );
+                    }
                 }
             }
 

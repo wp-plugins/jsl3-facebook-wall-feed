@@ -144,9 +144,9 @@
   margin-left: 5px;
 }
 #facebook_status_box .fb_post .fb_likes a {
-  background-image: url(http://static.ak.fbcdn.net/rsrc.php/v1/yx/r/zGa_R4SG5mm.png);
+  background-image: url("https://fbstatic-a.akamaihd.net/rsrc.php/v2/y-/r/tbhIfdAHjXE.png");
   background-repeat: no-repeat;
-  background-position: -11px -172px;
+  background-position: 0 -60px;
   height: 14px;
   padding-left: 18px;
 }

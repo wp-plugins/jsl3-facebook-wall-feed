@@ -25,9 +25,9 @@
  * @package    JSL3_FWF
  * @author     Takanudo <fwf@takanudo.com>
  * @author     Fedil Grogan <fedil@ukneeq.com>
- * @copyright  2011-2012
+ * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.3
+ * @version    1.5.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -45,9 +45,9 @@
  * @package    JSL3_FWF
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @author     Takanudo <fwf@takanudo.com>
- * @copyright  2011-2012
+ * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.5.3
+ * @version    1.5.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -63,6 +63,15 @@ class UKI_Facebook_Wall_Feed {
      * @var string
      */
     var $fb_id;
+
+    /**
+     * Facebook App ID
+     *
+     * ID of the Facebook App used by the feed.
+     *
+     * @var string
+     */
+    var $fb_app_id;
     
     /**
      * Limit of wall posts
@@ -231,21 +240,22 @@ class UKI_Facebook_Wall_Feed {
         $show_comm = FALSE, $locale = 'en_US', $verify_ssl = TRUE,
         $get_profile = FALSE, $show_icons = TRUE ) {
 
-        $this->fb_id         = $id;
-        $this->fb_limit      = $limit;
-        $this->access_token  = $token;
-        $this->fb_id_only    = $id_only;
-        $this->fb_privacy    = $privacy;
-        $this->thorough      = $be_thorough;
-        $this->new_win       = $new_window;
-        $this->make_link     = $make_click;
-        $this->show_status   = $show_all;
-        $this->show_comments = $show_comm;
-        $this->fb_locale     = $locale;
-        $this->verify        = $verify_ssl;
-        $this->profile       = $get_profile;
-        $this->fb_icons      = $show_icons;
-        $this->post_count    = 0;
+        $this->fb_id          = $id;
+        $this->fb_app_id      = $app_id;
+        $this->fb_limit       = $limit;
+        $this->access_token   = $token;
+        $this->fb_id_only     = $id_only;
+        $this->fb_privacy     = $privacy;
+        $this->thorough       = $be_thorough;
+        $this->new_win        = $new_window;
+        $this->make_link      = $make_click;
+        $this->show_status    = $show_all;
+        $this->show_comments  = $show_comm;
+        $this->fb_locale      = $locale;
+        $this->verify         = $verify_ssl;
+        $this->profile        = $get_profile;
+        $this->fb_icons       = $show_icons;
+        $this->post_count     = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
     }
@@ -267,12 +277,14 @@ class UKI_Facebook_Wall_Feed {
     function get_fb_wall_feed() {
         //echo 'Contacting FaceBook...<br />';
         $id = $this->fb_id;
+        $app_id = $this->fb_app_id;
         $limit = $this->fb_limit;
         $locale = $this->fb_locale;
         $token = 'access_token=' . $this->access_token;
+        $result = '';
 
         // start building facebool wall feed
-        $result = '<div id="facebook_status_box">' .
+        $result .= '<div id="facebook_status_box">' .
                   '  <h2>' .
                   __( 'Facebook Status', JSL3_FWF_TEXT_DOMAIN ) . '</h2>' .
                   '  <div id="facebook_canvas">';
@@ -514,7 +526,7 @@ class UKI_Facebook_Wall_Feed {
                         '/picture?access_token=' . $this->access_token;
                 else
                     $fb_photo  =
-                        "http://graph.facebook.com/$fb_id/picture";
+                        "https://graph.facebook.com/$fb_id/picture";
                 $post_time =
                     $this->parse_fb_timestamp(
                         $fb_feed[ $i ][ 'created_time' ] );
@@ -555,13 +567,13 @@ class UKI_Facebook_Wall_Feed {
                   '    <div class="fb_post">' .
                   '      <div class="fb_photoblock">' .
                   '        <div class="fb_photo">' .
-                  '          <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
+                  '          <a href="https://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
                   '            <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                   '          </a>' .
                   '        </div>' .
                   '        <div class="fb_photo_content">' .
                   '          <h5>' .
-                  '            <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+                  '            <a href="https://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
                   '          </h5>' .
                   '          <div class="fb_time">';
                 if ( $this->fb_icons && isset( $fb_feed[ $i ][ 'icon' ] ) )
@@ -691,20 +703,20 @@ class UKI_Facebook_Wall_Feed {
                     $fb_photo  = 'https://graph.facebook.com/' . $fb_id .
                         '/picture?access_token=' . $this->access_token;
                 else
-                    $fb_photo  = "http://graph.facebook.com/$fb_id/picture";
+                    $fb_photo  = "https://graph.facebook.com/$fb_id/picture";
                 $post_time = $this->parse_fb_timestamp(
                     $fb_feed[ $i ][ 'created_time' ] );
                 
                 $result .=
               '          <div class="fb_comments">' .
               '            <div class="fb_photo">' .
-              '              <a href="http://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
+              '              <a href="https://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
               '                <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
               '              </a>' .
               '            </div>' .
               '            <div class="fb_photo_content">' .
               '              <p>' .
-              '                <a href="http://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+              '                <a href="https://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
               '                ' . htmlentities( $fb_feed[ $i ][ 'message' ], ENT_QUOTES, 'UTF-8' ) .
               '              </p>' .
               '              <p class="fb_time">';
@@ -737,7 +749,7 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.0
      */
     function fb_comment_link( $fb_story_id ) {
-        $link = 'http://www.facebook.com/permalink.php?';
+        $link = 'https://www.facebook.com/permalink.php?';
         $split_id = explode( '_', $fb_story_id );
         $link .= 'id=' . $split_id[ 0 ] . '&amp;story_fbid=' . $split_id[ 1 ];
 
@@ -760,7 +772,7 @@ class UKI_Facebook_Wall_Feed {
      * @since Method available since Release 1.2
      */
     function fb_like_link( $fb_story_id ) {
-        $link = 'http://www.facebook.com/';
+        $link = 'https://www.facebook.com/';
         $split_id = explode( '_', $fb_story_id );
         $link .= $split_id[ 0 ] . '/posts/' . $split_id[ 1 ];
 

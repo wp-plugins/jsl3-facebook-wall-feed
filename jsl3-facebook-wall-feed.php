@@ -3,12 +3,12 @@
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
 Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>.
-Version: 1.5.3
+Version: 1.5.4
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
 
-Copyright 2011  Takanudo  (email : fwf@takanudo.com)
+Copyright 2013  Takanudo  (email : fwf@takanudo.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -47,9 +47,9 @@ Copyright 2011  Takanudo  (email : fwf@takanudo.com)
  * @category   WordPress_Plugin
  * @package    JSL3_FWF
  * @author     Takanudo <fwf@takanudo.com>
- * @copyright  2011-2012
+ * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.3
+ * @version    1.5.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
