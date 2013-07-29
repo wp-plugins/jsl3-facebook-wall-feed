@@ -260,6 +260,9 @@ down the plugin dramatically.
 
 == Changelog ==
 
+= 1.5.5 =
+* Updated the help section.
+
 = 1.5.4 =
 * This update should send fewer notification emails.
 * Changes all URLs to use https.
@@ -322,6 +325,9 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.5.5 =
+The help section has been updated.
 
 = 1.5.4 =
 Hopefully this update will send fewer email notifications when your token is
