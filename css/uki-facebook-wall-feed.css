@@ -172,3 +172,12 @@
   color: #0A7A98;
   text-decoration: none;
 }
+
+#facebook_status_box #facebook_canvas .fb_post .fb_commLink .fb_likes .tooltip
+{
+  position: static !important;
+  padding: 0 0 0 18px !important;
+  opacity: 1 !important;
+  filter: alpha(opacity=1) !important;
+}
+

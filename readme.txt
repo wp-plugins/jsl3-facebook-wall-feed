@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline
 Requires at least: 3.2.1
 Tested up to: 3.6
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 

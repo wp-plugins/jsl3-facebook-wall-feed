@@ -3,7 +3,7 @@
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
 Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>.
-Version: 1.5.4
+Version: 1.5.5
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2013  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.4
+ * @version    1.5.5
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -159,9 +159,11 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
         return '<ol>' .
                '  <li><a href="https://developers.facebook.com/apps">' .
                __( 'Create your Facebook App', JSL3_FWF_TEXT_DOMAIN ) .
-               '</a>.</li>' .
+               '</a>. ' .
+               __( 'NOTE: You cannot use a Facebook Page to create a Facebook App.  You must use your personal Facebook profile.  However, once you create your Facebook App, you can use its App ID and App Secret along with the Facebook ID of the Facebook Page you want to get the feed from on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) .
+               '</li>' .
                '  <li>' .
-               __( '<strong>Allow</strong> Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               __( 'If you get a Request for Permission prompt, then <strong>Allow</strong> Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
                '    <img title="' . __( 'Allow Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-2.png" alt="' . __( 'Allow Developer to access your basic information.', JSL3_FWF_TEXT_DOMAIN ) . '"  />' .
                '  </li>' .
                '  <li>' .
@@ -169,12 +171,12 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
                '    <img title="' . __( 'Click Create New App.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-3.png" alt="' . __( 'Click Create New App.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               __( 'Enter any <strong>App Display Name</strong> and <strong>App Namespace</strong>. I suggest using the name of your blog. Agree to the Facebook Platform Policies and click <strong>Continue</strong>. You will be prompted with a security check.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'Enter any App Display Name and App Namespace.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-4.png" alt="' . __( 'Enter any App Display Name and App Namespace.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'Enter an <strong>App Name</strong>. I suggest using the name of your blog. All the other entries are optional. Click <strong>Continue</strong>. You will be prompted with a security check.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Enter an App Name.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-4.png" alt="' . __( 'Enter an App Name.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               __( 'On your App page, enter your <strong>App Domain</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website</strong> and enter your <strong>Site URL</strong>. Then save your changes.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-5.png" alt="' . __( 'On your App page, enter your App Domain. Under Select how your app integrates with Facebook click Website and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'On your App page, enter your <strong>App Domain</strong>. Set <strong>Sandbox Mode</strong> to <strong>Disabled</strong>. Under <strong>Select how your app integrates with Facebook</strong> click <strong>Website with Facebook Login</strong> and enter your <strong>Site URL</strong>. Do not use <strong>www.</strong> in your App Domain or Site URL. Then save your changes.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'On your App page, enter your App Domain. Set Sandbox Mode to Disabled. Under Select how your app integrates with Facebook click Website with Facebook Login and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-5.png" alt="' . __( 'On your App page, enter your App Domain. Set Sandbox Mode to Disabled. Under Select how your app integrates with Facebook click Website with Facebook Login and enter your Site URL.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
                __( 'Record your <strong>App ID</strong> and <strong>App Secret</strong>. You will need these later.', JSL3_FWF_TEXT_DOMAIN ) .
@@ -184,21 +186,28 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
                '    <img title="' . __( 'Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-6.png" alt="' . __( 'Go to JSL3 Facebook Wall Feed under Settings on the Dashboard menu.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               __( 'Enter your <strong>Facebook ID</strong>. This is the number at the end of your Facebook profile URL.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'Enter your Facebook ID.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-7.png" alt="' . __( 'Enter your Facebook ID.', JSL3_FWF_TEXT_DOMAIN ) . '" /><br />' .
+               __( 'Enter your <strong>Facebook ID</strong>. If you do not know your Facebook ID, then use the', JSL3_FWF_TEXT_DOMAIN ) .
+               ' <a href="https://developers.facebook.com/tools/explorer">' .
+               __( 'Graph API Explorer', JSL3_FWF_TEXT_DOMAIN ) .
+               '</a>. ' .
+               __( 'Click <strong>Get Access Token</strong>.  You may be prompted to log in.  If you are prompted to <stong>Select permissions</strong>, click <strong>Get Access Token</strong>.  In the text box next to the Submit button, enter the <strong>Facebook Username</strong> used in your Facebook URL (for example, my Facebook URL is http://www.facebook.com/takanudo so my Facebook Username is takanudo) followed by <strong>?fields=id</strong>.  Click <strong>Submit</strong>.  Your Facebook ID will be in the results.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Enter your Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-7.png" alt="' . __( 'Enter your Facebook ID, App ID, and App Secret.', JSL3_FWF_TEXT_DOMAIN ) . '" /><br />' .
                __( 'Enter the <strong>App ID</strong> and <strong>App Secret</strong> you recorded earlier. Click <strong>Save Changes</strong>.', JSL3_FWF_TEXT_DOMAIN )  .
                '  </li>' .
                '  <li>' .
-               __( 'You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' .__( 'You will be redirected to Facebook. You may be prompted to Log In a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="' . __( 'You will be redirected to Facebook. You may be prompted to Log In a couple of times.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.', JSL3_FWF_TEXT_DOMAIN ) .
                '  </li>' .
                '  <li>' .
-               __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-9.png" alt="' . __( 'Allow your Facebook App to have access to your Facebook profile.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'Click <strong>Okay</strong> to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' .__( 'Click Okay to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="' . __( 'Click Okay to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'Click <strong>Okay</strong> to give your App permission to manage your Pages.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Click Okay to give your App permission to manage your Pages.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-9.png" alt="' . __( 'Click Okay to give your App permission to manage your Pages.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               '  </li>' .
+               '  <li>' .
+               __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong> and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '</ol>';
 
