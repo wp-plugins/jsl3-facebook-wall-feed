@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline
 Requires at least: 3.2.1
 Tested up to: 3.6
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -91,8 +91,8 @@ of the style sheet on the settings page for the plugin:
     }
 
 Change the numbers in front of "px" to ones that fits for you. Try to keep the
-height in #facebook_status_box about 40px greater than the height in
-#facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
+height in #facebook_status_box about 40px greater than the height
+in #facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
 feed.
 
 = Why is there so much space at the bottom of my page where the plugin is located? =
