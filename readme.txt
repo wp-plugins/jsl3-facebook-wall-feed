@@ -1,10 +1,10 @@
 === JSL3 Facebook Wall Feed ===
 Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
-Tags: facebook, wall, profile, page, feed, timeline
+Tags: facebook, wall, profile, page, feed, timeline, posts
 Requires at least: 3.2.1
 Tested up to: 3.6
-Stable tag: 1.5.5
+Stable tag: 1.6
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -146,6 +146,21 @@ style sheet on the settings page for the plugin:
         width: 85%
     }
 
+= Why is the like icon missing from comments? =
+
+To add the like icon to comments, add the following to the bottom of the style
+sheet on the settings page for the plugin:
+
+    #facebook_status_box .fb_post .fb_comments .fb_comment_likes
+    {
+        background-image: url("https://fbstatic-a.akamaihd.net/rsrc.php/v2/y-/r/tbhIfdAHjXE.png");
+        background-repeat: no-repeat;
+        background-position: 0 -60px;
+        height: 14px;
+        padding-left: 18px;
+        margin-left: 5px;
+    }
+
 = Why is my token set to expire in less than 24 hours? =
 
 I am not sure why Facebook will give some users a short-lived token. Facebook
@@ -260,6 +275,9 @@ down the plugin dramatically.
 
 == Changelog ==
 
+= 1.6 =
+* This update displays the likes count for each post and comment.
+
 = 1.5.5 =
 * Updated the help section.
 
@@ -325,6 +343,11 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.6 =
+Facebook removed the likes count from the feed.  This update uses a different
+method to get the likes count for each post.  The plugin also displays the
+likes count for each comment.
 
 = 1.5.5 =
 The help section has been updated.
