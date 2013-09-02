@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.5.5
+ * @version    1.6
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.5.5
+ * @version    1.6
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -305,6 +305,7 @@ class UKI_Facebook_Wall_Feed {
         else
             $fb_url = "https://graph.facebook.com/$id/feed?" .
                 "locale=$locale&limit=$limit&$token";
+        $fb_url .= "&fields=from.fields(id,name),privacy,message,name,caption,description,id,created_time,picture,source,link,likes.limit(1).summary(true),properties,icon,story,comments";
         
         // loop until we have reached the limit or have the entire feed
         do {
@@ -541,8 +542,8 @@ class UKI_Facebook_Wall_Feed {
                 if ( isset( $fb_feed[ $i ][ 'link' ] ) )
                     $fb_link = $fb_feed[ $i ][ 'link' ];
                 $fb_likes = 0;
-                if ( isset( $fb_feed[ $i ][ 'likes' ][ 'count' ] ) )
-                    $fb_likes = $fb_feed[ $i ][ 'likes' ][ 'count' ];
+                if ( isset( $fb_feed[ $i ][ 'likes' ][ 'summary' ][ 'total_count' ] ) )
+                    $fb_likes = $fb_feed[ $i ][ 'likes' ][ 'summary' ][ 'total_count' ];
                 $fb_prop = FALSE;
                 $fb_prop_name = NULL;
                 $fb_prop_text = NULL;
@@ -706,6 +707,9 @@ class UKI_Facebook_Wall_Feed {
                     $fb_photo  = "https://graph.facebook.com/$fb_id/picture";
                 $post_time = $this->parse_fb_timestamp(
                     $fb_feed[ $i ][ 'created_time' ] );
+                $fb_comment_likes = 0;
+                if ( isset( $fb_feed[ $i ][ 'like_count' ] ) )
+                    $fb_comment_likes = $fb_feed[ $i ][ 'like_count' ];
                 
                 $result .=
               '          <div class="fb_comments">' .
@@ -721,7 +725,11 @@ class UKI_Facebook_Wall_Feed {
               '              </p>' .
               '              <p class="fb_time">';
                 $result .= $post_time .
-              '              </p>' .
+              '              </p>';
+                if ( $fb_comment_likes > 0 )
+                    $result .= 
+              '              <span class="fb_comment_likes">' . $fb_comment_likes . '</span>';
+                $result .=
               '            </div>' .
               '          </div>';
 
