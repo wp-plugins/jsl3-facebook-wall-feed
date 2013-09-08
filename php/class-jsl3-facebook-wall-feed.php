@@ -1098,16 +1098,23 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
          */
         function shortcode_handler( $atts ) {
             extract( shortcode_atts(
-                array( 'limit' => JSL3_FWF_WIDGET_LIMIT ), $atts ) );
+                array(
+                    'fb_id' => '',
+                    'limit' => JSL3_FWF_WIDGET_LIMIT
+                ), $atts ) );
 
             $limit = trim( $limit );
             if ( ! is_numeric( $limit ) || $limit < 0 )
                 $limit = JSL3_FWF_WIDGET_LIMIT;
 
             $dev_options = $this->get_admin_options();
+
+            $fb_id = trim( $fb_id );
+            if ( ! is_numeric( $fb_id ) || $fb_id < 0 )
+                $fb_id = $dev_options[ 'fb_id' ];
             
             $feed = new UKI_Facebook_Wall_Feed(
-                $dev_options[ 'fb_id' ],
+                $fb_id,
                 FALSE,
                 FALSE,
                 $limit,

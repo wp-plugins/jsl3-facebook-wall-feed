@@ -98,6 +98,11 @@ class JSL3_FWF_Widget extends WP_Widget {
         // The number of facebook wall posts to get
         $limit = apply_filters( 'widget_title', $instance[ 'limit' ] );
 
+        // The Facebook ID
+        $fb_id = NULL;
+        if ( isset( $instance[ 'fb_id' ] ) )
+            $fb_id = apply_filters( 'widget_title', $instance[ 'fb_id' ] );
+
         // Before widget
         echo $before_widget;
 
@@ -107,8 +112,12 @@ class JSL3_FWF_Widget extends WP_Widget {
         // Widget output
         $jsl3_fwf = new JSL3_Facebook_Wall_Feed();
         $dev_options = $jsl3_fwf->get_admin_options();
+
+        if ( ! isset( $fb_id ) )
+            $fb_id = $dev_options[ 'fb_id' ];
+
         $feed = new UKI_Facebook_Wall_Feed(
-            $dev_options[ 'fb_id' ],
+            $fb_id,
             FALSE,
             FALSE,
             $limit,
@@ -157,6 +166,11 @@ class JSL3_FWF_Widget extends WP_Widget {
             $instance[ 'limit' ] = $limit;
         else
             $instance[ 'limit' ] = JSL3_FWF_WIDGET_LIMIT;
+        $fb_id = strip_tags( trim( $new_instance[ 'fb_id' ] ) );
+        if ( is_numeric( $fb_id ) && $fb_id >= 0 )
+            $instance[ 'fb_id' ] = $fb_id;
+        else
+            $instance[ 'fb_id' ] = NULL;
             
         return $instance;
     }
@@ -178,15 +192,21 @@ class JSL3_FWF_Widget extends WP_Widget {
     function form( $instance ) {
         $defaults = array(
             'title' => JSL3_FWF_WIDGET_TITLE,
+            'fb_id' => '',
             'limit' => JSL3_FWF_WIDGET_LIMIT );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $title = esc_attr( $instance[ 'title' ] );
         $limit = esc_attr( $instance[ 'limit' ] );
+        $fb_id = esc_attr( $instance[ 'fb_id' ] );
 ?>
 <p>
   <label>
     <?php _e( 'Title', JSL3_FWF_TEXT_DOMAIN ); ?>:
     <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" />
+  </label>
+  <label>
+    <?php _e( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ); ?>:
+    <input class="widefat" id="<?php echo $this->get_field_id( 'fb_id' ); ?>" name="<?php echo $this->get_field_name( 'fb_id' ); ?>" type="text" value="<?php echo $fb_id; ?>" />
   </label>
   <label>
     <?php _e( 'Number of wall posts to get', JSL3_FWF_TEXT_DOMAIN ); ?>:
