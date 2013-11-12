@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
-"POT-Creation-Date: 2013-07-28 18:52-0800\n"
-"PO-Revision-Date: 2013-07-28 18:52-0800\n"
-"Last-Translator: Takanudo <fwf@takanudo.com>\n"
+"POT-Creation-Date: 2013-11-11 15:52-0800\n"
+"PO-Revision-Date: 2013-11-11 15:52-0800\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15,8 +15,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: php\n"
 
 #: jsl3-facebook-wall-feed.php:102 jsl3-facebook-wall-feed.php:103
-#: php/class-jsl3-fwf-widget.php:69 php/class-jsl3-facebook-wall-feed.php:733
-#: php/class-jsl3-facebook-wall-feed.php:999
+#: php/class-jsl3-facebook-wall-feed.php:733
+#: php/class-jsl3-facebook-wall-feed.php:999 php/class-jsl3-fwf-widget.php:69
 msgid "JSL3 Facebook Wall Feed"
 msgstr ""
 
@@ -205,13 +205,18 @@ msgstr ""
 #: jsl3-facebook-wall-feed.php:240
 msgid ""
 "Give the widget a title (or leave it blank) and enter how many posts you "
-"want to get from your wall. Then click <strong>Save</strong>."
+"want to get from your wall. You may also enter the Facebook ID of the "
+"Facebook page you want to display in the widget.  If you leave the Facebook "
+"ID blank, the widget will use the Facebook ID entered on the settings page "
+"for the plugin.  Click <strong>Save</strong>."
 msgstr ""
 
 #: jsl3-facebook-wall-feed.php:241
 msgid ""
 "Give the widget a title (or leave it blank) and enter how many posts you "
-"want to get from your wall."
+"want to get from your wall.  You may also enter the Facebook ID of the feed "
+"you want to display.  If you leave the Facebook ID blank, the plugin will "
+"use the Facebook ID entered on the settings page for the plugin."
 msgstr ""
 
 #: jsl3-facebook-wall-feed.php:244 jsl3-facebook-wall-feed.php:245
@@ -221,13 +226,18 @@ msgstr ""
 #: jsl3-facebook-wall-feed.php:268
 msgid ""
 "Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="
-"\"1\"]</strong> to the <strong>HTML</strong> view of a post or page."
+"\"1\"]</strong> or even <strong>[jsl3_fwf limit=\"1\" fb_id=\"1405307559\"]</"
+"strong> to the <strong>Text</strong> view of a post or page.  If you do not "
+"enter a Facebook ID, the plugin will use the Facebook ID entered on the "
+"settings page for the plugin."
 msgstr ""
 
 #: jsl3-facebook-wall-feed.php:269
 msgid ""
-"Add the shortcode [jsl3_fwf] or [jsl3_fwf limit=\"1\"] to the HTML view of a "
-"post or page."
+"Add the shortcode [jsl3_fwf] or [jsl3_fwf limit=\"1\"] or even [jsl3_fwf "
+"limit=\"1\" fb_id=\"1405307559\"] to the Text view of a post or page.  If "
+"you do not enter a Facebook ID, the plugin will use the Facebook ID entered "
+"on the settings page for the plugin."
 msgstr ""
 
 #: jsl3-facebook-wall-feed.php:272 jsl3-facebook-wall-feed.php:273
@@ -243,16 +253,50 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:71
-msgid "Display your facebook wall"
+#: php/class-uki-facebook-wall-feed.php:289
+msgid "Facebook Status"
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:188
-msgid "Title"
+#: php/class-uki-facebook-wall-feed.php:352
+#: php/class-jsl3-facebook-wall-feed.php:921
+msgid ""
+"Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
 msgstr ""
 
-#: php/class-jsl3-fwf-widget.php:192
-msgid "Number of wall posts to get"
+#: php/class-uki-facebook-wall-feed.php:358
+msgid ""
+"No feed returned. Please double check you have the correct Facebook ID, App "
+"ID, and App Secret."
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:436
+#: php/class-jsl3-facebook-wall-feed.php:906
+msgid "file_get_contents failed to open URL."
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:572
+#: php/class-uki-facebook-wall-feed.php:718
+msgid "Facebook Profile Pic"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:582
+msgid "Facebook Icon"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:644
+msgid "people like this"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:648
+msgid "Comment"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:822
+msgid "at"
+msgstr ""
+
+#: php/class-uki-facebook-wall-feed.php:847
+msgid "Facebook Picture"
 msgstr ""
 
 #: php/class-jsl3-facebook-wall-feed.php:336
@@ -278,7 +322,7 @@ msgid ""
 "facebook-wall-feed\">JSL3 Facebook Wall Feed</a> page."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:739
+#: php/class-jsl3-facebook-wall-feed.php:739 php/class-jsl3-fwf-widget.php:208
 msgid "Facebook ID"
 msgstr ""
 
@@ -407,17 +451,6 @@ msgstr ""
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:906
-#: php/class-uki-facebook-wall-feed.php:435
-msgid "file_get_contents failed to open URL."
-msgstr ""
-
-#: php/class-jsl3-facebook-wall-feed.php:921
-#: php/class-uki-facebook-wall-feed.php:351
-msgid ""
-"Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
-msgstr ""
-
 #: php/class-jsl3-facebook-wall-feed.php:944
 msgid ""
 "No access token returned.  Please double check you have the correct Facebook "
@@ -451,37 +484,14 @@ msgstr ""
 msgid "Thank you,"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:289
-msgid "Facebook Status"
+#: php/class-jsl3-fwf-widget.php:71
+msgid "Display your facebook wall"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:357
-msgid ""
-"No feed returned. Please double check you have the correct Facebook ID, App "
-"ID, and App Secret."
+#: php/class-jsl3-fwf-widget.php:204
+msgid "Title"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:571
-#: php/class-uki-facebook-wall-feed.php:714
-msgid "Facebook Profile Pic"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:581
-msgid "Facebook Icon"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:643
-msgid "people like this"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:647
-msgid "Comment"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:814
-msgid "at"
-msgstr ""
-
-#: php/class-uki-facebook-wall-feed.php:839
-msgid "Facebook Picture"
+#: php/class-jsl3-fwf-widget.php:212
+msgid "Number of wall posts to get"
 msgstr ""

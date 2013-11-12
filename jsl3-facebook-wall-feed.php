@@ -2,8 +2,8 @@
 /* 
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
-Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>.
-Version: 1.6
+Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>. German translation provided by Remo Fleckinger.
+Version: 1.7
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2013  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.6
+ * @version    1.7
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -237,8 +237,8 @@ if ( ! function_exists( 'jsl3_fwf_print_widget' ) ) {
                '    <img title="' . __( 'Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-11.png" alt="' . __( 'Drag the JSL3 Facebook Wall Feed widget to the sidebar of your choice.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
-               __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. Then click <strong>Save</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-12.png" alt="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall. You may also enter the Facebook ID of the Facebook page you want to display in the widget.  If you leave the Facebook ID blank, the widget will use the Facebook ID entered on the settings page for the plugin.  Click <strong>Save</strong>.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.  You may also enter the Facebook ID of the feed you want to display.  If you leave the Facebook ID blank, the plugin will use the Facebook ID entered on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-12.png" alt="' . __( 'Give the widget a title (or leave it blank) and enter how many posts you want to get from your wall.  You may also enter the Facebook ID of the feed you want to display.  If you leave the Facebook ID blank, the plugin will use the Facebook ID entered on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
                __( 'Go check out your Facebook Wall Feed on your WordPress site.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
@@ -265,8 +265,8 @@ if ( ! function_exists( 'jsl3_fwf_print_short' ) ) {
 
         return '<ol>' .
                '  <li>' .
-               __( 'Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="1"]</strong> to the <strong>HTML</strong> view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-14.png" alt="' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] to the HTML view of a post or page.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( 'Add the shortcode <strong>[jsl3_fwf]</strong> or <strong>[jsl3_fwf limit="1"]</strong> or even <strong>[jsl3_fwf limit="1" fb_id="1405307559"]</strong> to the <strong>Text</strong> view of a post or page.  If you do not enter a Facebook ID, the plugin will use the Facebook ID entered on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title=\'' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] or even [jsl3_fwf limit="1" fb_id="1405307559"] to the Text view of a post or page.  If you do not enter a Facebook ID, the plugin will use the Facebook ID entered on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) . '\' src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-14.png" alt=\'' . __( 'Add the shortcode [jsl3_fwf] or [jsl3_fwf limit="1"] or even [jsl3_fwf limit="1" fb_id="1405307559"] to the Text view of a post or page.  If you do not enter a Facebook ID, the plugin will use the Facebook ID entered on the settings page for the plugin.', JSL3_FWF_TEXT_DOMAIN ) . '\' />' .
                '  </li>' .
                '  <li>' .
                __( 'View your Facebook Wall Feed on your WordPress post or page.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .

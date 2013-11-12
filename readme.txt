@@ -1,16 +1,16 @@
 === JSL3 Facebook Wall Feed ===
 Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
-Tags: facebook, wall, profile, page, feed, timeline, posts
+Tags: facebook, wall, profile, page, feed, timeline, post
 Requires at least: 3.2.1
-Tested up to: 3.6
-Stable tag: 1.6
+Tested up to: 3.7.1
+Stable tag: 1.7
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
 == Description ==
 
-Displays your Facebook wall as a widget or through shortcode on a post or page. Makes use of Fedil Grogan's [Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated) code and changes suggested by [Daniel Westergren](http://danielwestergren.se) and [Neil Pie](http://www.neilpie.co.uk).
+Displays your Facebook wall as a widget or through shortcode on a post or page. Makes use of Fedil Grogan's [Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated) code and changes suggested by [Daniel Westergren](http://danielwestergren.se) and [Neil Pie](http://www.neilpie.co.uk). German translation provided by Remo Fleckinger.
 
 == Installation ==
 
@@ -28,13 +28,21 @@ Just add a comment and I will do my best to help you.
 
 = How do I use shortcode to add the Facebook Wall Feed to a post or page? =
 
-Switch to HTML view and add the following:
+Switch to Text view and add the following:
 
     [jsl3_fwf]
 
 To limit the number of posts displayed add the 'limit' attribute:
 
     [jsl3_fwf limit="1"]
+
+To specify a specific feed to display add the 'fb_id' attribute and enter the
+feed's Facebook ID:
+
+    [jsl3_fwf fb_id="1405307559"]
+
+If you do not enter a Facebook ID in the shortcode, the plugin will use the
+Facebook ID entered on the settings page for the plugin.
 
 = Can I translate the plugin? =
 
@@ -264,16 +272,24 @@ down the plugin dramatically.
 11. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
 
 12. Give the widget a title (or leave it blank) and enter how many posts you
-    want to get from your wall.
+    want to get from your wall.  You may also enter the Facebook ID of the feed
+    you want to display.  If you leave the Facebook ID blank, the plugin will
+    use the Facebook ID entered on the settings page for the plugin.
 
 13. Go check out your Facebook Wall Feed on your WordPress site.
 
-14. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** to the
-    **HTML** view of a post or page.
+14. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** or even
+    **`[jsl3_fwf limit="1" fb_id="1405307559"]`** to the **Text** view of a
+    post or page.  If you do not enter a Facebook ID, the plugin will use the
+    Facebook ID entered on the settings page for the plugin.
 
 15. View your Facebook Wall Feed on your WordPress post or page.
 
 == Changelog ==
+
+= 1.7 =
+* Added the ability to display multiple feeds.
+* Added a German translation to the plugin.
 
 = 1.6 =
 * This update displays the likes count for each post and comment.
@@ -343,6 +359,10 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.7 =
+The plugin now has the abiliy to display feeds from different Facebook pages.
+Also, a German translation of the plugin has been provided.
 
 = 1.6 =
 Facebook removed the likes count from the feed.  This update uses a different
@@ -456,13 +476,18 @@ This is the initial version.
 1. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
 
 1. Give the widget a title (or leave it blank) and enter how many posts you
-   want to get from your wall. Then click **Save**.
+   want to get from your wall. You may also enter the Facebook ID of the
+   Facebook page you want to display in the widget.  If you leave the Facebook
+   ID blank, the widget will use the Facebook ID entered on the settings page
+   for the plugin.  Click **Save**.
 
 1. Go check out your Facebook Wall Feed on your WordPress site.
 
 == Shortcode Usage ==
 
-1. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** to the
-   **HTML** view of a post or page.
+1. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** or even
+   **`[jsl3_fwf limit="1" fb_id="1405307559"]`** to the **Text** view of a post
+   or page.  If you do not enter a Facebook ID, the plugin will use the
+   Facebook ID entered on the settings page for the plugin.
 
 1. View your Facebook Wall Feed on your WordPress post or page.
