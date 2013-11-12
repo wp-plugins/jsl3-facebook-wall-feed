@@ -25,7 +25,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.6
+ * @version    1.7
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -118,7 +118,7 @@ if ( ! defined( 'JSL3_FWF_VERSION_KEY' ) )
  * The version number used in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_VERSION_NUM' ) )
-    define( 'JSL3_FWF_VERSION_NUM', '1.6' );
+    define( 'JSL3_FWF_VERSION_NUM', '1.7' );
 
 /**
  * The file name used for the UKI files
