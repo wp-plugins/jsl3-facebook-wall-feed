@@ -3,8 +3,8 @@ Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline, post
 Requires at least: 3.2.1
-Tested up to: 3.7.1
-Stable tag: 1.7
+Tested up to: 3.8
+Stable tag: 1.7.1
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -262,7 +262,7 @@ down the plugin dramatically.
    **Save Changes**.
 
 8. Click **Okay** to give your App permission to acess your public profile,
-   friends list, News Feed and status updates.
+   friend list, News Feed, status updates and groups and your friends' groups.
 
 9. Click **Okay** to give your App permission to manage your Pages.
 
@@ -286,6 +286,9 @@ down the plugin dramatically.
 15. View your Facebook Wall Feed on your WordPress post or page.
 
 == Changelog ==
+
+= 1.7.1 =
+* Added group permissions to the feed.
 
 = 1.7 =
 * Added the ability to display multiple feeds.
@@ -359,6 +362,9 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.7.1 =
+A minor update to add group permissions to the feed.
 
 = 1.7 =
 The plugin now has the abiliy to display feeds from different Facebook pages.
@@ -462,7 +468,7 @@ This is the initial version.
    couple of times.
 
 1. Click **Okay** to give your App permission to acess your public profile,
-   friends list, News Feed and status updates.
+   friend list, News Feed, status updates and groups and your friends' groups.
 
 1. Click **Okay** to give your App permission to manage your Pages.
 

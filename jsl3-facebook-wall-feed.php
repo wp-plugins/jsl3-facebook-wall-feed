@@ -3,7 +3,7 @@
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
 Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>. German translation provided by Remo Fleckinger.
-Version: 1.7
+Version: 1.7.1
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2013  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7
+ * @version    1.7.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -198,8 +198,8 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
                __( 'You will be redirected to Facebook. You may be prompted to <strong>Log In</strong> a couple of times.', JSL3_FWF_TEXT_DOMAIN ) .
                '  </li>' .
                '  <li>' .
-               __( 'Click <strong>Okay</strong> to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' .__( 'Click Okay to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="' . __( 'Click Okay to give your App permission to acess your public profile, friends list, News Feed and status updates.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               __( "Click <strong>Okay</strong> to give your App permission to acess your public profile, friend list, News Feed, status updates and groups and your friends' groups.", JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
+               '    <img title="' . __( "Click Okay to give your App permission to acess your public profile, friend list, News Feed, status updates and groups and your friends' groups.", JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-8.png" alt="' . __( "Click Okay to give your App permission to acess your public profile, friend list, News Feed, status updates and groups and your friends' groups.", JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '  <li>' .
                __( 'Click <strong>Okay</strong> to give your App permission to manage your Pages.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
@@ -207,7 +207,7 @@ if ( ! function_exists( 'jsl3_fwf_print_config' ) ) {
                '  </li>' .
                '  <li>' .
                __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your <strong>Access Token</strong> and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '<br />' .
-               '    <img title="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
+               '    <img title="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" src="' . JSL3_FWF_PLUGIN_URL . '/screenshot-10.png" alt="' . __( 'You will be returned to the JSL3 Facebook Wall Feed settings page with your Access Token and its expiration date.', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                '  </li>' .
                '</ol>';
 

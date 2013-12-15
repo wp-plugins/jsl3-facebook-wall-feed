@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7
+ * @version    1.7.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7
+ * @version    1.7.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -827,7 +827,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 
             $dialog_url =
                 "http://www.facebook.com/dialog/oauth?" .
-                "scope=read_stream,offline_access,manage_pages,user_status&" .
+                "scope=user_groups,friends_groups,read_stream,offline_access,manage_pages,user_status&" .
                 "client_id=" . $dev_options[ 'app_id' ] . "&state=$session&" .
                 "redirect_uri=" . get_bloginfo('wpurl') .
                 "/wp-admin/admin.php?page=" . JSL3_FWF_SLUG;
