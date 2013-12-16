@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: jsl3-fwf\n"
-"POT-Creation-Date: 2013-12-15 15:27-0800\n"
-"PO-Revision-Date: 2013-12-15 15:28-0800\n"
+"POT-Creation-Date: 2013-12-15 19:25-0800\n"
+"PO-Revision-Date: 2013-12-15 19:25-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,8 +15,8 @@ msgstr ""
 "X-Poedit-SearchPath-1: php\n"
 
 #: jsl3-facebook-wall-feed.php:102 jsl3-facebook-wall-feed.php:103
-#: php/class-jsl3-facebook-wall-feed.php:733
-#: php/class-jsl3-facebook-wall-feed.php:999 php/class-jsl3-fwf-widget.php:69
+#: php/class-jsl3-facebook-wall-feed.php:648
+#: php/class-jsl3-facebook-wall-feed.php:894 php/class-jsl3-fwf-widget.php:69
 msgid "JSL3 Facebook Wall Feed"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgid "Facebook Status"
 msgstr ""
 
 #: php/class-uki-facebook-wall-feed.php:352
-#: php/class-jsl3-facebook-wall-feed.php:921
+#: php/class-jsl3-facebook-wall-feed.php:818
 msgid ""
 "Server Configuration Error: allow_url_fopen is off and cURL is not loaded."
 msgstr ""
@@ -265,12 +265,12 @@ msgid ""
 msgstr ""
 
 #: php/class-uki-facebook-wall-feed.php:436
-#: php/class-jsl3-facebook-wall-feed.php:906
+#: php/class-jsl3-facebook-wall-feed.php:811
 msgid "file_get_contents failed to open URL."
 msgstr ""
 
 #: php/class-uki-facebook-wall-feed.php:572
-#: php/class-uki-facebook-wall-feed.php:718
+#: php/class-uki-facebook-wall-feed.php:717
 msgid "Facebook Profile Pic"
 msgstr ""
 
@@ -278,204 +278,204 @@ msgstr ""
 msgid "Facebook Icon"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:644
+#: php/class-uki-facebook-wall-feed.php:643
 msgid "people like this"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:648
+#: php/class-uki-facebook-wall-feed.php:647
 msgid "Comment"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:822
+#: php/class-uki-facebook-wall-feed.php:821
 msgid "at"
 msgstr ""
 
-#: php/class-uki-facebook-wall-feed.php:847
+#: php/class-uki-facebook-wall-feed.php:846
 msgid "Facebook Picture"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:336
+#: php/class-jsl3-facebook-wall-feed.php:335
 msgid "Tick this box if you wish to reset the style to default."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:442
+#: php/class-jsl3-facebook-wall-feed.php:441
 msgid "Settings saved."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:690
+#: php/class-jsl3-facebook-wall-feed.php:642
 msgid "Show all wall posts"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:691
+#: php/class-jsl3-facebook-wall-feed.php:643
 msgid "Show only wall posts labeled public"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:734
+#: php/class-jsl3-facebook-wall-feed.php:649
 msgid ""
 "For configuration and usage assistance click \"Help\" in the upper right "
 "hand corner of this page or go to the <a href=\"http://takanudo.com/jsl3-"
 "facebook-wall-feed\">JSL3 Facebook Wall Feed</a> page."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:739 php/class-jsl3-fwf-widget.php:208
+#: php/class-jsl3-facebook-wall-feed.php:654 php/class-jsl3-fwf-widget.php:208
 msgid "Facebook ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:740
+#: php/class-jsl3-facebook-wall-feed.php:655
 msgid "App ID"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:741
+#: php/class-jsl3-facebook-wall-feed.php:656
 msgid "App Secret"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:742
+#: php/class-jsl3-facebook-wall-feed.php:657
 msgid "Access Token"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:743
+#: php/class-jsl3-facebook-wall-feed.php:658
 msgid "Token Expiration"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:745
+#: php/class-jsl3-facebook-wall-feed.php:659
 msgid "Only show posts made by this Facebook ID."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:745
+#: php/class-jsl3-facebook-wall-feed.php:659
 msgid "Facebook ID Only"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:746
+#: php/class-jsl3-facebook-wall-feed.php:660
 msgid "Privacy"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:747
+#: php/class-jsl3-facebook-wall-feed.php:661
 msgid "Show all status messages."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:747
+#: php/class-jsl3-facebook-wall-feed.php:661
 msgid "Recent Activity"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:748
+#: php/class-jsl3-facebook-wall-feed.php:662
 msgid "Show all post comments."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:748
+#: php/class-jsl3-facebook-wall-feed.php:662
 msgid "Comments"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:749
+#: php/class-jsl3-facebook-wall-feed.php:663
 msgid "Open links in a new window or tab."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:749
+#: php/class-jsl3-facebook-wall-feed.php:663
 msgid "Links"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:750
+#: php/class-jsl3-facebook-wall-feed.php:664
 msgid "Covert plain text URI to HTML links."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:750
+#: php/class-jsl3-facebook-wall-feed.php:664
 msgid "Make URI Clickable"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:751
+#: php/class-jsl3-facebook-wall-feed.php:665
 msgid "Show Facebook icons."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:751
+#: php/class-jsl3-facebook-wall-feed.php:665
 msgid "Icons"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:752
+#: php/class-jsl3-facebook-wall-feed.php:666
 msgid ""
 "Perform thorough wall grab.  (Check this if your facebook wall feed is "
 "empty. NOTE: This will slow down the feed.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:752
+#: php/class-jsl3-facebook-wall-feed.php:666
 msgid "Thoroughness"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:753
+#: php/class-jsl3-facebook-wall-feed.php:667
 msgid ""
 "Verify SSL certificates on Facebook server.  (Uncheck this if you are "
 "getting SSL certificate errors. NOTE: Unchecking this option makes the feed "
 "less secure.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:753
+#: php/class-jsl3-facebook-wall-feed.php:667
 msgid "Verify SSL Peer"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:754
+#: php/class-jsl3-facebook-wall-feed.php:668
 msgid ""
 "Get profile picture from Facebook page with demographic restrictions.  "
 "(Check this if your profile picture is not displaying. NOTE: Checking this "
 "options will reveal your access token to the public.)"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:754
+#: php/class-jsl3-facebook-wall-feed.php:668
 msgid "Profile Picture"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:756
+#: php/class-jsl3-facebook-wall-feed.php:669
 msgid "Modify the style sheet for the Facebook wall feed."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:756
+#: php/class-jsl3-facebook-wall-feed.php:669
 msgid "Style"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:760
+#: php/class-jsl3-facebook-wall-feed.php:673
 msgid "Save Changes"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:765
+#: php/class-jsl3-facebook-wall-feed.php:678
 msgid "Donate to Tak"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:769
-#: php/class-jsl3-facebook-wall-feed.php:778
+#: php/class-jsl3-facebook-wall-feed.php:682
+#: php/class-jsl3-facebook-wall-feed.php:691
 msgid "PayPal - The safer, easier way to pay online!"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:774
+#: php/class-jsl3-facebook-wall-feed.php:687
 msgid "Donate to Fedil Grogan"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:944
+#: php/class-jsl3-facebook-wall-feed.php:839
 msgid ""
 "No access token returned.  Please double check you have the correct Facebook "
 "ID, App ID, and App Secret."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:950
+#: php/class-jsl3-facebook-wall-feed.php:845
 msgid "The state does not match. You may be a victim of CSRF."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:983
+#: php/class-jsl3-facebook-wall-feed.php:878
 msgid "JSL3 Facebook Wall Feed Token Expiration"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:987
+#: php/class-jsl3-facebook-wall-feed.php:882
 msgid ""
 "The Facebook Access Token for the JSL3 Facebook Wall Feed plugin on your "
 "WordPress site will expire on the following date:"
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:992
+#: php/class-jsl3-facebook-wall-feed.php:887
 msgid "Please go to the settings page for the plugin at "
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:996
+#: php/class-jsl3-facebook-wall-feed.php:891
 msgid ""
 " and click \"Save Changes\" at the bottom of the page to renew your token."
 msgstr ""
 
-#: php/class-jsl3-facebook-wall-feed.php:998
+#: php/class-jsl3-facebook-wall-feed.php:893
 msgid "Thank you,"
 msgstr ""
 

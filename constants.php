@@ -25,7 +25,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.1
+ * @version    1.7.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -118,7 +118,7 @@ if ( ! defined( 'JSL3_FWF_VERSION_KEY' ) )
  * The version number used in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_VERSION_NUM' ) )
-    define( 'JSL3_FWF_VERSION_NUM', '1.7.1' );
+    define( 'JSL3_FWF_VERSION_NUM', '1.7.2' );
 
 /**
  * The file name used for the UKI files
@@ -144,11 +144,17 @@ if ( ! defined( 'UKI_FWF_VERSION_NUM' ) )
 if ( ! defined( 'JSL3_FWF_SCHED_HOOK' ) )
     define( 'JSL3_FWF_SCHED_HOOK', 'jsl3_fwf_schedule_hook' );
 
+/**
+ * The WordPress CRON scheduling hook
+ */
+if ( ! defined( 'JSL3_FWF_SHORTCODE' ) )
+    define( 'JSL3_FWF_SHORTCODE', 'jsl3_fwf' );
+
 // }}}
 
 // add the version numbers to the WordPress database
-add_option( JSL3_FWF_VERSION_KEY, JSL3_FWF_VERSION_NUM );
-add_option( UKI_FWF_VERSION_KEY, UKI_FWF_VERSION_NUM );
+update_option( JSL3_FWF_VERSION_KEY, JSL3_FWF_VERSION_NUM );
+update_option( UKI_FWF_VERSION_KEY, UKI_FWF_VERSION_NUM );
 
 //echo JSL3_FWF_THEME_DIR . '<br />';
 //echo JSL3_FWF_PLUGIN_NAME . '<br />';
