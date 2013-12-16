@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline, post
 Requires at least: 3.2.1
 Tested up to: 3.8
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -287,6 +287,9 @@ down the plugin dramatically.
 
 == Changelog ==
 
+= 1.7.2 =
+* Fixed a bug with how the access token renew check was scheduled.
+
 = 1.7.1 =
 * Added group permissions to the feed.
 
@@ -362,6 +365,10 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.7.2 =
+Fixed a timing bug where the access token renew check would be scheduled to
+run before the expiration date was stored in the database.
 
 = 1.7.1 =
 A minor update to add group permissions to the feed.

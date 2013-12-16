@@ -3,7 +3,7 @@
 Plugin Name: JSL3 Facebook Wall Feed
 Plugin URI: http://www.takanudo.com/jsl3-facebook-wall-feed
 Description: Displays your facebook wall. Makes use of Fedil Grogan's <a href="http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated/">Facebook Wall Feed for WordPress</a> code and changes suggested by <a href="http://danielwestergren.se">Daniel Westergren</a> and <a href="http://www.neilpie.co.uk">Neil Pie</a>. German translation provided by Remo Fleckinger.
-Version: 1.7.1
+Version: 1.7.2
 Author: Takanudo
 Author URI: http://www.takanudo.com
 License: GPL2
@@ -49,7 +49,7 @@ Copyright 2013  Takanudo  (email : fwf@takanudo.com)
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.1
+ * @version    1.7.2
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -445,11 +445,11 @@ if ( isset( $jsl3_fwf ) ) {
     //add_filter( 'cron_schedules', 'jsl3_fwf_more_schedules' );
     
     //Shortcode
-    add_shortcode( 'jsl3_fwf', array( &$jsl3_fwf, 'shortcode_handler' ) );
+    add_shortcode( JSL3_FWF_SHORTCODE, array( &$jsl3_fwf, 'shortcode_handler' ) );
 
     //Create initial schedule
     if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
-        wp_schedule_event( time(), 'jsl3_fwf_bimonthly', JSL3_FWF_SCHED_HOOK );
+        wp_schedule_event( time() + 86400, JSL3_FWF_CRON_SCHED, JSL3_FWF_SCHED_HOOK );
 }
 
 ?>
