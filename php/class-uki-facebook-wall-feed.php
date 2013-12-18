@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.2
+ * @version    1.7.2.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7.2
+ * @version    1.7.2.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -201,6 +201,16 @@ class UKI_Facebook_Wall_Feed {
      */
     var $profile;
 
+    /**
+     * Only get posts posted to this feed
+     *
+     * Determines if each post should be checked as to whether or not
+     * it was posted to this feed.
+     *
+     * @var boolean
+     */
+    var $fb_to_feed;
+
     // }}}
     // {{{ UKI_Facebook_Wall_Feed()
 
@@ -229,6 +239,8 @@ class UKI_Facebook_Wall_Feed {
      * @param boolean $get_profile determines if access token is used to get
      *                             profile picture
      * @param boolean $show_icons  determines id Facebook icons are shown
+     * @param boolean $to_feed     determines if post should be checked if it
+     *                             was posted to this feed
      *
      * @access public
      * @since Method available since Release 1.0
@@ -238,7 +250,7 @@ class UKI_Facebook_Wall_Feed {
         $token, $id_only = FALSE, $privacy = 'All', $be_thorough = FALSE,
         $new_window = FALSE, $make_click = TRUE, $show_all = FALSE,
         $show_comm = FALSE, $locale = 'en_US', $verify_ssl = TRUE,
-        $get_profile = FALSE, $show_icons = TRUE ) {
+        $get_profile = FALSE, $show_icons = TRUE, $to_feed = FALSE ) {
 
         $this->fb_id          = $id;
         $this->fb_app_id      = $app_id;
@@ -255,6 +267,7 @@ class UKI_Facebook_Wall_Feed {
         $this->verify         = $verify_ssl;
         $this->profile        = $get_profile;
         $this->fb_icons       = $show_icons;
+        $this->fb_to_feed     = $to_feed;
         $this->post_count     = 0;
         //echo 'Initializing (' . $this->fbID . ')...<br />';
 
@@ -505,6 +518,17 @@ class UKI_Facebook_Wall_Feed {
                     $show_post = TRUE;
             }
 
+            // check to see if this post was posted to this feed by checking
+            // the "to" property.  If there is no "to" property assume it was
+            $post_in_feed = TRUE;
+            if ( $this->fb_to_feed ) {
+                if ( isset( $fb_feed[ $i ][ 'to' ] ) ) {
+                    $post_in_feed =
+                        $this->posted_to_feed(
+                            $fb_feed[ $i ][ 'to' ][ 'data' ] );
+                }
+            }
+
             $is_status = TRUE;
             if ( isset( $fb_feed[ $i ][ 'message' ] ) ||
                 isset( $fb_feed[ $i ][ 'name' ] ) ||
@@ -515,7 +539,8 @@ class UKI_Facebook_Wall_Feed {
             // don't display posts without a message, name, caption,
             // or description they are just usually "is now friends with"
             // posts
-            if ( $show_post && ( $this->show_status || ! $is_status ) ) {
+            if ( $post_in_feed && $show_post &&
+                 ( $this->show_status || ! $is_status ) ) {
                     
                 $comment_link =
                     $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
@@ -847,6 +872,40 @@ class UKI_Facebook_Wall_Feed {
         if ( isset( $w ) && isset( $h ) )
             $result .= '" width="' . $w . '" height="' . $h;
         $result .= '" />';
+
+        return $result;
+    }
+
+    // }}}
+    // {{{ posted_to_feed()
+
+    /**
+     * Check if a post was posted to this wall
+     *
+     * Checks to see if a particular post was posted to this wall by checking
+     * the "to" property of the post in the feed
+     *
+     * @param array $fb_to an array of places where the posts was posted to.
+     *
+     * @return boolean whether or not this post was posted to this wall
+     *
+     * @access public
+     * @since Method available since Release 1.7.3
+     */
+    function posted_to_feed( $fb_to ) {
+        $result = FALSE;
+
+        // loop through each to item
+        for ( $i = 0; $i < count( $fb_to ); $i++) {
+            $fb_id = $fb_to[ $i ][ 'id' ];
+
+            // if the id of where the post was posted to matches the id of the
+            // feed, then we are don't need to loop anymore
+            if ( $this->fb_id == $fb_id ) {
+                $result = TRUE;
+                break;
+            } 
+        }
 
         return $result;
     }

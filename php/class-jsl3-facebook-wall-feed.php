@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.2
+ * @version    1.7.2.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7.2
+ * @version    1.7.2.1
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -162,6 +162,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 'profile'        => FALSE,
                 'fb_icons'       => TRUE,
                 'send_notice'    => TRUE,
+                'post_in_feed'   => FALSE,
                 'sched'          => JSL3_FWF_CRON_SCHED );
 
             // get default stylesheet
@@ -599,6 +600,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'profile' ] = FALSE;
                 
+                // store post in feed check
+                if ( isset( $_POST[ 'post_in_feed' ] ) &&
+                    ( $_POST[ 'post_in_feed' ] == '1' ) )
+                    $dev_options[ 'post_in_feed' ] = TRUE;
+                else
+                    $dev_options[ 'post_in_feed' ] = FALSE;
+                
                 // store the schedule setting
                 wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
                 if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
@@ -659,7 +667,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_text_fn( __( 'App Secret', JSL3_FWF_TEXT_DOMAIN ), 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
         <?php $this->setting_plaindate_fn( __( 'Token Expiration', JSL3_FWF_TEXT_DOMAIN ), 'expires' ); ?>
-        <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Only show posts made by this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'fb_id_only', __( 'By Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_checkbox2_fn( __( 'Only show posts that were posted to this Facebook ID.', JSL3_FWF_TEXT_DOMAIN ), 'post_in_feed', __( 'To Facebook ID Only', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_select_fn( __( 'Privacy', JSL3_FWF_TEXT_DOMAIN ), 'privacy', $sel_privacy_options ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all status messages.', JSL3_FWF_TEXT_DOMAIN ), 'show_status', __( 'Recent Activity', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Show all post comments.', JSL3_FWF_TEXT_DOMAIN ), 'show_comments', __( 'Comments', JSL3_FWF_TEXT_DOMAIN ) ); ?>
@@ -958,7 +967,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 $dev_options[ 'locale' ],
                 $dev_options[ 'verify' ],
                 $dev_options[ 'profile' ],
-                $dev_options[ 'fb_icons' ] );
+                $dev_options[ 'fb_icons' ],
+                $dev_options[ 'post_in_feed' ] );
             
             //return wp_kses_post( $feed->get_fb_wall_feed() );
             return $feed->get_fb_wall_feed();
