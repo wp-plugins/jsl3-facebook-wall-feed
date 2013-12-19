@@ -318,7 +318,7 @@ class UKI_Facebook_Wall_Feed {
         else
             $fb_url = "https://graph.facebook.com/$id/feed?" .
                 "locale=$locale&limit=$limit&$token";
-        $fb_url .= "&fields=from.fields(id,name),privacy,message,name,caption,description,id,created_time,picture,source,link,likes.limit(1).summary(true),properties,icon,story,comments";
+        $fb_url .= "&fields=from.fields(id,name),to,privacy,message,name,caption,description,id,created_time,picture,source,link,likes.limit(1).summary(true),properties,icon,story,comments";
         
         // loop until we have reached the limit or have the entire feed
         do {
