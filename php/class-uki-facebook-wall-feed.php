@@ -423,7 +423,7 @@ class UKI_Facebook_Wall_Feed {
         $result = FALSE;
         
         // check if cURL is loaded
-        if ( in_array( 'curl', get_loaded_extensions() ) ) {
+        if ( in_array( 'curl', get_loaded_extensions() ) && function_exists( 'curl_exec' ) ) {
             $ch = curl_init();
             
             curl_setopt( $ch, CURLOPT_URL, $url );
