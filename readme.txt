@@ -3,14 +3,14 @@ Contributors: Takanudo
 Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline, post
 Requires at least: 3.2.1
-Tested up to: 3.8
-Stable tag: 1.7.2
+Tested up to: 4.2.2
+Stable tag: 1.7.3
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
 == Description ==
 
-Displays your Facebook wall as a widget or through shortcode on a post or page. Makes use of Fedil Grogan's [Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated) code and changes suggested by [Daniel Westergren](http://danielwestergren.se) and [Neil Pie](http://www.neilpie.co.uk). German translation provided by Remo Fleckinger.
+Displays your Facebook wall as a widget or through shortcode on a post or page. Makes use of Fedil Grogan's [Facebook Wall Feed for WordPress](http://fedil.ukneeq.com/2011/06/23/facebook-wall-feed-for-wordpress-updated) code and changes suggested by [Daniel Westergren](http://danielwestergren.se) and [Neil Pie](http://www.neilpie.co.uk). German translation provided by Remo Fleckinger. Facebook Graph API v2.0 bug fix provided by Andrew Bloom.
 
 == Installation ==
 
@@ -287,6 +287,11 @@ down the plugin dramatically.
 
 == Changelog ==
 
+= 1.7.3 =
+* Added the ability to only show posts that were posted to the Facebook ID
+  listed in the plugin's settings page.
+* Fixed a bug introduced in Fracebook Graph v2.0.
+
 = 1.7.2 =
 * Fixed a bug with how the access token renew check was scheduled.
 
@@ -365,6 +370,12 @@ down the plugin dramatically.
 * This is the initial version.
 
 == Upgrade Notice ==
+
+= 1.7.3 =
+Added a feature to limit the posts disaplyed in the feed to only posts that
+were directly posted to the timeline associated with the Facebook ID you
+assign to the plugin.  Also, fixed a incompatability bug introduced with
+the latest Facebook Graph API.
 
 = 1.7.2 =
 Fixed a timing bug where the access token renew check would be scheduled to

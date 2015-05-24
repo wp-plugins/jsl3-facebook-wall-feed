@@ -23,9 +23,9 @@
  * @category   WordPress_Plugin
  * @package    JSL3_FWF
  * @author     Takanudo <fwf@takanudo.com>
- * @copyright  2011-2013
+ * @copyright  2011-2015
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.2.1
+ * @version    1.7.3
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -118,7 +118,7 @@ if ( ! defined( 'JSL3_FWF_VERSION_KEY' ) )
  * The version number used in the WordPress database
  */
 if ( ! defined( 'JSL3_FWF_VERSION_NUM' ) )
-    define( 'JSL3_FWF_VERSION_NUM', '1.7.2.1' );
+    define( 'JSL3_FWF_VERSION_NUM', '1.7.3' );
 
 /**
  * The file name used for the UKI files
