@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2015
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -50,7 +50,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2015
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -313,11 +313,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
          * @param string $label the label for the textarea.
          * @param string $option the id and name of the textarea.
          * @param string $legend the legend for the textarea.
+         * @param string $cblabel the label for the checkbox.
+         * @param string $cboption the id and name of the checkbox.
          *
          * @access public
          * @since Method available since Release 1.0
          */
-        function setting_textarea_fn( $label, $option, $legend ) {
+        function setting_textarea_fn( $label, $option, $legend, $cblabel, $cboption ) {
             $dev_options = $this->get_admin_options();
 ?>
 <tr valign="top">
@@ -333,7 +335,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
       <p>
         <textarea id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="large-text code" cols="50" rows="10"><?php echo apply_filters( 'format_to_edit', esc_textarea( stripslashes( $dev_options[ $option ] ) ) );  ?></textarea>
       </p>
-      <?php $this->setting_checkbox_fn( __('Tick this box if you wish to reset the style to default.', JSL3_FWF_TEXT_DOMAIN ), 'reset_style' ); ?>
+      <?php $this->setting_checkbox_fn( $cblabel, $cboption ); ?>
     </fieldset>
   </td>
 </tr>
@@ -349,8 +351,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
          * Prints an html text box with an id and name set to the passed in
          * option.  An associated label is created form the passed in label.
          *
-         * @param string $label the label for the textarea.
-         * @param string $option the id and name of the textarea.
+         * @param string $label the label for the text box.
+         * @param string $option the id and name of the text box.
          *
          * @access public
          * @since Method available since Release 1.0
@@ -361,6 +363,38 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
 <tr valign="top">
   <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
   <td><input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', esc_attr( $dev_options[ $option ] ) ); ?>" /></td>
+</tr>
+<?php
+        }
+
+        // }}}
+        // {{{ setting_text_fn2()
+
+        /**
+         * Prints an html text box with associated label and checkbox
+         *
+         * Prints an html text box with an id and name set to the passed in
+         * option.  An associated label is created form the passed in label. A
+         * checkbox is also created with the text box by calling the
+         * setting_checkbox_fn() function.
+         *
+         * @param string $label the label for the textarea.
+         * @param string $option the id and name of the textarea.
+         * @param string $cblabel the label for the checkbox.
+         * @param string $cboption the id and name of the checkbox.
+         *
+         * @access public
+         * @since Method available since Release 1.0
+         */
+        function setting_text_fn2( $label, $option, $cblabel, $cboption ) {
+            $dev_options = $this->get_admin_options();
+?>
+<tr valign="top">
+  <th scope="row"><label for="<?php echo $option; ?>"><?php echo $label; ?></label></th>
+  <td>
+    <input id="<?php echo $option; ?>" name="<?php echo $option; ?>" class="regular-text" type="text" value="<?php echo apply_filters( 'format_to_edit', esc_attr( $dev_options[ $option ] ) ); ?>" />
+    <?php $this->setting_checkbox_fn( $cblabel, $cboption ); ?>
+  </td>
 </tr>
 <?php
         }
@@ -607,6 +641,13 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
                 else
                     $dev_options[ 'post_in_feed' ] = FALSE;
                 
+                // reset the stylesheet back to the default
+                if ( isset( $_POST[ 'app_scoped_user_id' ] ) &&
+                    $_POST[ 'app_scoped_user_id' ] == 'on' ) {
+                    $dev_options[ 'fb_id' ] =
+                        apply_filters( 'content_save_pre', $this->get_app_scoped_user_id() );
+                }
+
                 // store the schedule setting
                 wp_clear_scheduled_hook( JSL3_FWF_SCHED_HOOK );
                 if ( ! wp_next_scheduled( JSL3_FWF_SCHED_HOOK ) )
@@ -662,7 +703,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
     <?php wp_nonce_field( 'jsl3_fb_update', 'jsl3_fb_nonce' ); ?>
     <table class="form-table">
       <tbody>
-        <?php $this->setting_text_fn( __( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ), 'fb_id' ); ?>
+        <?php $this->setting_text_fn2( __( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ), 'fb_id', __( 'Check this if your feed is blank, after you received your token, to get the App Scoped User ID', JSL3_FWF_TEXT_DOMAIN ), 'app_scoped_user_id' ); ?>
         <?php $this->setting_text_fn( __( 'App ID', JSL3_FWF_TEXT_DOMAIN ), 'app_id' ); ?>
         <?php $this->setting_text_fn( __( 'App Secret', JSL3_FWF_TEXT_DOMAIN ), 'app_secret' ); ?>
         <?php $this->setting_hidden_fn( __( 'Access Token', JSL3_FWF_TEXT_DOMAIN ), 'token' ); ?>
@@ -678,7 +719,7 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         <?php $this->setting_checkbox2_fn( __( 'Perform thorough wall grab.  (Check this if your facebook wall feed is empty. NOTE: This will slow down the feed.)', JSL3_FWF_TEXT_DOMAIN ), 'thorough', __( 'Thoroughness', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Verify SSL certificates on Facebook server.  (Uncheck this if you are getting SSL certificate errors. NOTE: Unchecking this option makes the feed less secure.)', JSL3_FWF_TEXT_DOMAIN ), 'verify', __( 'Verify SSL Peer', JSL3_FWF_TEXT_DOMAIN ) ); ?>
         <?php $this->setting_checkbox2_fn( __( 'Get profile picture from Facebook page with demographic restrictions.  (Check this if your profile picture is not displaying. NOTE: Checking this options will reveal your access token to the public.)', JSL3_FWF_TEXT_DOMAIN ), 'profile', __( 'Profile Picture', JSL3_FWF_TEXT_DOMAIN ) ); ?>
-        <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ) ); ?>
+        <?php $this->setting_textarea_fn( __( 'Modify the style sheet for the Facebook wall feed.', JSL3_FWF_TEXT_DOMAIN ), 'style', __( 'Style', JSL3_FWF_TEXT_DOMAIN ), __('Tick this box if you wish to reset the style to default.', JSL3_FWF_TEXT_DOMAIN ), 'reset_style' ); ?>
       </tbody>
     </table>
     <p class="submit">
@@ -861,6 +902,92 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
         } // End get_token function
 
         // }}}
+        // {{{ get_app_scoped_user_id)
+
+        /**
+         * Gets the App Scoped User ID
+         *
+         * Requests the App Scoped User ID from Facebook.  For new users, the
+         * Facebook ID is no longer good enough to get the feed.  Graph now
+         * needs the App Scoped User ID which is unique to the Facebook App
+         * being used with the plugin.
+         *
+         * @return string the App Scoped User ID.
+         *
+         * @access public
+         * @since Method available since Release 1.7.4
+         */
+        function get_app_scoped_user_id() {
+            $dev_options = $this->get_admin_options();
+            $user_id = $dev_options[ 'fb_id' ];
+
+            $url = "https://graph.facebook.com/" . $dev_options[ 'fb_id' ] .
+                   "?access_token=" . $dev_options[ 'token' ];
+
+            $err_msg = '';
+            $response = FALSE;
+                
+            // check if cURL is loaded
+            if ( in_array( 'curl', get_loaded_extensions() ) ) {
+                $ch = curl_init();
+
+                curl_setopt( $ch, CURLOPT_URL, $url );
+                curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+                curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER,
+                    $dev_options[ 'verify' ] );
+
+                $response = curl_exec( $ch );
+
+                if ( ! $response ) {
+                    $err_msg = '[' . curl_errno( $ch ) . '] ' .
+                        curl_error( $ch );
+                }
+                
+                curl_close( $ch );
+            }
+                
+            // check if allow_url_fopen is on
+            if ( ! $response && ini_get( 'allow_url_fopen' ) ) {
+                $response = @file_get_contents( $url );
+
+                if ( ! $response && empty( $err_msg ) ) {
+                    $err_msg = 
+                        __( 'file_get_contents failed to open URL.', JSL3_FWF_TEXT_DOMAIN );
+                }
+            }
+
+            // no way to get the access token
+            if ( ! $response && empty( $err_msg ) )
+                $err_msg =
+                    __( 'Server Configuration Error: allow_url_fopen is off and cURL is not loaded.', JSL3_FWF_TEXT_DOMAIN );
+                    
+            if ( ! $response && ! empty( $err_msg ) ) {
+                $this->error_msg_fn( $err_msg );
+
+                return $user_id;
+            }
+
+            $response = json_decode( $response, TRUE );
+
+            if ( isset( $response[ 'link' ] ) ) {
+                $link = $response[ 'link' ];
+                $path = parse_url( $link, PHP_URL_PATH );
+                $segments = explode( '/', rtrim( $path, '/' ) );
+                $user_id = end( $segments );
+            } else {
+                if ( isset( $response[ 'error' ] ) )
+                    $this->error_msg_fn(
+                        $response[ 'error' ][ 'type' ] . ': ' .
+                        $response[ 'error' ][ 'message' ] );
+                else
+                    $this->error_msg_fn(
+                        __( 'No App Scoped User ID.  Please double check you have already obtained a non-expired token and have the correct Facebook ID.', JSL3_FWF_TEXT_DOMAIN ) );
+            }
+
+            return $user_id;
+        } // End get_token function
+
+        // }}}
         // {{{ renew_token()
 
         /**
@@ -938,7 +1065,8 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             extract( shortcode_atts(
                 array(
                     'fb_id' => '',
-                    'limit' => JSL3_FWF_WIDGET_LIMIT
+                    'limit' => JSL3_FWF_WIDGET_LIMIT,
+                    'app_scoped_user_id' => 'FALSE'
                 ), $atts ) );
 
             $limit = trim( $limit );
@@ -950,6 +1078,10 @@ if ( ! class_exists( 'JSL3_Facebook_Wall_Feed' ) ) {
             $fb_id = trim( $fb_id );
             if ( ! is_numeric( $fb_id ) || $fb_id < 0 )
                 $fb_id = $dev_options[ 'fb_id' ];
+
+            if ( filter_var( $app_scoped_user_id, FILTER_VALIDATE_BOOLEAN ) ) {
+                $fb_id = $this->get_app_scoped_user_id();
+            }
             
             $feed = new UKI_Facebook_Wall_Feed(
                 $fb_id,

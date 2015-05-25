@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2015
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Takanudo <fwf@takanudo.com>
  * @copyright  2011-2015
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -318,7 +318,7 @@ class UKI_Facebook_Wall_Feed {
         else
             $fb_url = "https://graph.facebook.com/$id/feed?" .
                 "locale=$locale&limit=$limit&$token";
-        $fb_url .= "&fields=from.fields(id,name),to,privacy,message,name,caption,description,id,created_time,picture,source,link,likes.limit(1).summary(true),properties,icon,story,comments";
+        $fb_url .= "&fields=from.fields(id,name,link),to,privacy,message,name,caption,description,id,created_time,picture,source,link,likes.limit(1).summary(true),properties,icon,story,comments.fields(id,from.fields(id,name,link),message,created_time,like_count)";
         
         // loop until we have reached the limit or have the entire feed
         do {
@@ -542,17 +542,18 @@ class UKI_Facebook_Wall_Feed {
             if ( $post_in_feed && $show_post &&
                  ( $this->show_status || ! $is_status ) ) {
                     
-                $comment_link =
-                    $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
-                $like_link =
-                    $this->fb_like_link( $fb_feed[ $i ][ 'id' ] );
+                //$comment_link =
+                //    $this->fb_comment_link( $fb_feed[ $i ][ 'id' ] );
+                //$like_link =
+                //    $this->fb_like_link( $fb_feed[ $i ][ 'id' ] );
+                $profile_link = $fb_feed[ $i ][ 'from' ][ 'link' ];
                 if ( $this->profile )
                     $fb_photo  =
                         'https://graph.facebook.com/' . $fb_id .
-                        '/picture?access_token=' . $this->access_token;
+                        '/picture?type=normal&amp;access_token=' . $this->access_token;
                 else
                     $fb_photo  =
-                        "https://graph.facebook.com/$fb_id/picture";
+                        "https://graph.facebook.com/$fb_id/picture?type=normal";
                 $post_time =
                     $this->parse_fb_timestamp(
                         $fb_feed[ $i ][ 'created_time' ] );
@@ -593,13 +594,13 @@ class UKI_Facebook_Wall_Feed {
                   '    <div class="fb_post">' .
                   '      <div class="fb_photoblock">' .
                   '        <div class="fb_photo">' .
-                  '          <a href="https://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
+                  '          <a href="' . $profile_link . '"' . $target . '>' .
                   '            <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
                   '          </a>' .
                   '        </div>' .
                   '        <div class="fb_photo_content">' .
                   '          <h5>' .
-                  '            <a href="https://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+                  '            <a href="' . $profile_link  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
                   '          </h5>' .
                   '          <div class="fb_time">';
                 if ( $this->fb_icons && isset( $fb_feed[ $i ][ 'icon' ] ) )
@@ -661,16 +662,27 @@ class UKI_Facebook_Wall_Feed {
                     $result .= $this->display_comments(
                         $fb_feed[ $i ][ 'comments' ][ 'data' ] );
                 $result .=
-                  '      <div class="fb_commLink">' .
-                  '        <span class="fb_likes">';
-                if ( $fb_likes > 0 )
+                  '      <div class="fb_commLink">';
+                if ( isset( $fb_link ) ) {
                     $result .=
-                  '          <a class="tooltip" title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="' . $like_link . '"' . $target . '>' . $fb_likes . '</a>';
-                $result .=
-                  '        </span>' .
                   '        <span class="fb_comment">' .
-                  '          <a href="' . $comment_link . '"' . $target . '>' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
-                  '        </span>' .
+                  '          <a href="' . htmlentities( $fb_link, ENT_QUOTES, 'UTF-8' )  . '"' . $target . '>' . __( 'Comment', JSL3_FWF_TEXT_DOMAIN ) . '</a>' .
+                  '        </span>';
+                }
+                $result .=
+                  '        <span>';
+                if ( $fb_likes > 0 ) {
+                    if ( isset( $fb_link ) ) {
+                        $result .=
+                  '          <a title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '" href="' . $fb_link . '"' . $target . '><span class="fb_likes_count">' . $fb_likes . '</span><span class="fb_likes"></span></a>';
+                    } else {
+                        $result .=
+                  '          <span title="' . $fb_likes . ' ' . __( 'people like this', JSL3_FWF_TEXT_DOMAIN ) . '"><span class="fb_likes_count">' . $fb_likes . '</span><span class="fb_likes"></span></span>';
+                    }
+                }
+                $result .=
+                  '        </span>';
+                $result .=
                   '      </div>' .
                   '      <div style="clear: both;"></div>' .
                   '    </div>';
@@ -711,6 +723,7 @@ class UKI_Facebook_Wall_Feed {
         for ( $i = 0; $i < count( $fb_feed ); $i++) {
             
             $fb_id = $fb_feed[ $i ][ 'from' ][ 'id' ];
+            $profile_link = $fb_feed[ $i ][ 'from' ][ 'link' ];
 
             // check to see if we are not getting posts by other facebook
             // friends
@@ -726,9 +739,9 @@ class UKI_Facebook_Wall_Feed {
             
                 if ( $this->profile )
                     $fb_photo  = 'https://graph.facebook.com/' . $fb_id .
-                        '/picture?access_token=' . $this->access_token;
+                        '/picture?type=normal&amp;access_token=' . $this->access_token;
                 else
-                    $fb_photo  = "https://graph.facebook.com/$fb_id/picture";
+                    $fb_photo  = "https://graph.facebook.com/$fb_id/picture?type=normal";
                 $post_time = $this->parse_fb_timestamp(
                     $fb_feed[ $i ][ 'created_time' ] );
                 $fb_comment_likes = 0;
@@ -738,13 +751,13 @@ class UKI_Facebook_Wall_Feed {
                 $result .=
               '          <div class="fb_comments">' .
               '            <div class="fb_photo">' .
-              '              <a href="https://www.facebook.com/profile.php?id=' . $fb_id . '"' . $target . '>' .
+              '              <a href="' . $profile_link . '"' . $target . '>' .
               '                <img src="' . $fb_photo . '" alt="' . __( 'Facebook Profile Pic', JSL3_FWF_TEXT_DOMAIN ) . '" />' .
               '              </a>' .
               '            </div>' .
               '            <div class="fb_photo_content">' .
               '              <p>' .
-              '                <a href="https://www.facebook.com/profile.php?id=' . $fb_id  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
+              '                <a href="' . $profile_link  . '"' . $target . '>' . $fb_feed[ $i ][ 'from' ][ 'name' ] . '</a>' .
               '                ' . htmlentities( $fb_feed[ $i ][ 'message' ], ENT_QUOTES, 'UTF-8' ) .
               '              </p>' .
               '              <p class="fb_time">';
@@ -752,7 +765,7 @@ class UKI_Facebook_Wall_Feed {
               '              </p>';
                 if ( $fb_comment_likes > 0 )
                     $result .= 
-              '              <span class="fb_comment_likes">' . $fb_comment_likes . '</span>';
+              '              <span class="fb_likes fb_comment_likes">' . $fb_comment_likes . '</span>';
                 $result .=
               '            </div>' .
               '          </div>';
