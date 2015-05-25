@@ -11,7 +11,7 @@
   color: #383838;
   margin: 0px;
   padding: 0px;
-  width: 296px;
+  width: 250px;
   height: 450px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -143,12 +143,17 @@
   float: right;
   margin-left: 5px;
 }
-#facebook_status_box .fb_post .fb_likes a {
-  background-image: url("https://fbstatic-a.akamaihd.net/rsrc.php/v2/y-/r/tbhIfdAHjXE.png");
+#facebook_status_box .fb_post .fb_likes_count {
+  float: right;
+}
+#facebook_status_box .fb_post .fb_likes {
+  background-image: url("https://www.facebook.com/rsrc.php/v2/yP/r/5XOCrBv7t-N.png");
   background-repeat: no-repeat;
-  background-position: 0 -60px;
-  height: 14px;
-  padding-left: 18px;
+  background-size: auto;
+  background-position: -244px -484px;
+  height: 15px;
+  width: 13px;
+  margin: 0 3px -3px 0;
 }
 #facebook_status_box .fb_msg p.fb_story {
   font-size: 10px;
@@ -165,7 +170,7 @@
 #facebook_status_box .fb_post .fb_comments p {
   font-size: 11px;
   margin: 0;
-  padding: 0;
+  padding: 0 5px 0 0;
   float: left;
 }
 #facebook_status_box .fb_post .fb_comments a {
@@ -173,20 +178,7 @@
   text-decoration: none;
 }
 
-#facebook_status_box #facebook_canvas .fb_post .fb_commLink .fb_likes .tooltip
-{
-  position: static !important;
-  padding: 0 0 0 18px !important;
-  opacity: 1 !important;
-  filter: alpha(opacity=1) !important;
-}
-
 #facebook_status_box .fb_post .fb_comments .fb_comment_likes {
-  background-image: url("https://fbstatic-a.akamaihd.net/rsrc.php/v2/y-/r/tbhIfdAHjXE.png");
-  background-repeat: no-repeat;
-  background-position: 0 -60px;
-  height: 14px;
-  padding-left: 18px;
-  margin-left: 5px;
+  float: left;
 }
 

@@ -27,7 +27,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2015
  * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License 3
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -47,7 +47,7 @@
  * @author     Fedil Grogan <fedil@ukneeq.com>
  * @copyright  2011-2013
  * @license    http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version    1.7.3
+ * @version    1.7.4
  * @link       http://takando.com/jsl3-facebook-wall-feed
  * @since      File available since Release 1.0
  */
@@ -168,10 +168,20 @@ class JSL3_FWF_Widget extends WP_Widget {
         else
             $instance[ 'limit' ] = JSL3_FWF_WIDGET_LIMIT;
         $fb_id = strip_tags( trim( $new_instance[ 'fb_id' ] ) );
-        if ( is_numeric( $fb_id ) && $fb_id >= 0 )
+
+        if ( isset ( $new_instance[ 'app_scoped_user_id' ] ) ) {
+            $app_scoped_user_id = $new_instance[ 'app_scoped_user_id' ];
+        }
+
+        if ( is_numeric( $fb_id ) && $fb_id >= 0 ) {
+            if ( isset( $app_scoped_user_id ) && $app_scoped_user_id == 'on' ) {
+                $jsl3_fwf = new JSL3_Facebook_Wall_Feed();
+                $fb_id = $jsl3_fwf->get_app_scoped_user_id();
+            }
             $instance[ 'fb_id' ] = $fb_id;
-        else
+        } else {
             $instance[ 'fb_id' ] = NULL;
+        }
             
         return $instance;
     }
@@ -194,11 +204,13 @@ class JSL3_FWF_Widget extends WP_Widget {
         $defaults = array(
             'title' => JSL3_FWF_WIDGET_TITLE,
             'fb_id' => '',
-            'limit' => JSL3_FWF_WIDGET_LIMIT );
+            'limit' => JSL3_FWF_WIDGET_LIMIT,
+            'app_scoped_user_id' => 'off' );
         $instance = wp_parse_args( (array) $instance, $defaults );
         $title = esc_attr( $instance[ 'title' ] );
         $limit = esc_attr( $instance[ 'limit' ] );
         $fb_id = esc_attr( $instance[ 'fb_id' ] );
+        $app_scoped_user_id = esc_attr( $instance[ 'app_scoped_user_id' ] );
 ?>
 <p>
   <label>
@@ -209,6 +221,11 @@ class JSL3_FWF_Widget extends WP_Widget {
     <?php _e( 'Facebook ID', JSL3_FWF_TEXT_DOMAIN ); ?>:
     <input class="widefat" id="<?php echo $this->get_field_id( 'fb_id' ); ?>" name="<?php echo $this->get_field_name( 'fb_id' ); ?>" type="text" value="<?php echo $fb_id; ?>" />
   </label>
+  <label>
+    <?php _e( 'Check this if your feed is blank, after you received your token, to get the App Scoped User ID', JSL3_FWF_TEXT_DOMAIN ); ?>:
+    <input class="widefat" id="<?php echo $this->get_field_id( 'app_scoped_user_id' ); ?>" name="<?php echo $this->get_field_name( 'app_scoped_user_id' ); ?>" type="checkbox" />
+  </label>
+  <br />
   <label>
     <?php _e( 'Number of wall posts to get', JSL3_FWF_TEXT_DOMAIN ); ?>:
     <input class="widefat" id="<?php echo $this->get_field_id( 'limit' ); ?>" name="<?php echo $this->get_field_name( 'limit' ); ?>" type="text" value="<?php echo $limit; ?>" />

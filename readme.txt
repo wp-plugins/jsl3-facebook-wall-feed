@@ -4,7 +4,7 @@ Donate link: http://takanudo.com/jsl3-facebook-wall-feed
 Tags: facebook, wall, profile, page, feed, timeline, post
 Requires at least: 3.2.1
 Tested up to: 4.2.2
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 
 Displays your Facebook wall as a widget or through shortcode on a post or page.
 
@@ -103,72 +103,6 @@ height in #facebook_status_box about 40px greater than the height
 in #facebook_canvas if you are keeping the 'Facebook Status' box at the top of the
 feed.
 
-= Why is there so much space at the bottom of my page where the plugin is located? =
-
-To remove the space at the bottom of your page add the following to the bottom
-of the style sheet on the settings page for the plugin:
-
-    /* Remove extra space */
-    #facebook_status_box #facebook_canvas .fb_post .fb_commLink .fb_likes .tooltip
-    {
-        position: static !important;
-        padding: 0 0 0 18px !important;
-        opacity: 1 !important;
-        filter: alpha(opacity=1) !important;
-    }
-
-= Why do comments look so bad? =
-
-To fix the formatting of the comments, add the following to the bottom of the
-style sheet on the settings page for the plugin:
-
-    /* Format comments */
-    #facebook_status_box .fb_msg p.fb_story
-    {
-        font-size: 10px;
-        color: #999999;
-    }
-    #facebook_status_box .fb_post .fb_comments
-    {
-        background-color: #EDEFF4;
-        font-size: 11px;
-        border-bottom: 1px solid #e6e6fa;
-        overflow: hidden;
-        padding: 7px;
-        margin: 0;
-    }
-    #facebook_status_box .fb_post .fb_comments p
-    {
-        font-size: 11px;
-        margin: 0;
-        padding: 0;
-        float: left;
-    }
-    #facebook_status_box .fb_post .fb_comments a
-    {
-        color: #0A7A98;
-        text-decoration: none;
-    }
-    #facebook_status_box .fb_post .fp_photo_content
-    {
-        width: 85%
-    }
-
-= Why is the like icon missing from comments? =
-
-To add the like icon to comments, add the following to the bottom of the style
-sheet on the settings page for the plugin:
-
-    #facebook_status_box .fb_post .fb_comments .fb_comment_likes
-    {
-        background-image: url("https://fbstatic-a.akamaihd.net/rsrc.php/v2/y-/r/tbhIfdAHjXE.png");
-        background-repeat: no-repeat;
-        background-position: 0 -60px;
-        height: 14px;
-        padding-left: 18px;
-        margin-left: 5px;
-    }
-
 = Why is my token set to expire in less than 24 hours? =
 
 I am not sure why Facebook will give some users a short-lived token. Facebook
@@ -243,49 +177,83 @@ down the plugin dramatically.
 
 == Screenshots ==
 
-1. **Activate** the plugin through the 'Plugins' menu in WordPress.
+1. Activate the plugin through the **Plugins** menu in WordPress.
 
-2. Allow Developer to access your basic information.
+2. If this is your first time creating a Facebook App, you will need to
+   register.
 
-3. Click **Create New App**.
+3. Toggle the button to **Yes** to agree to the Facebook Policies and then
+   click **Next**.
 
-4. Enter an **App Name**.  All the other entries are optional.
+4. After you enter the confirmation code that Facebook sent to your phone,
+   click **Register**.
 
-5. On your App page, enter your **App Domain**. Set **Sandbox Mode** to
-   **Disabled**. Under **Select how your app integrates with Facebook** click
-   **Website with Facebook Login** and enter your **Site URL**.  Do not use
-   **www.** in your App Domain or Site URL.
+5. Click **Done** to complete the registration.
 
-6. Go to **JSL3 Facebook Wall Feed** under **Settings** on the Dashboard menu.
+6. When you **Add a New App**, select the **Website** option.
 
-7. Enter your **Facebook ID**, **App ID**, and  **App Secret**.  Click
-   **Save Changes**.
+7. Click **Create New Facebook App ID**.
 
-8. Click **Okay** to give your App permission to acess your public profile,
-   friend list, News Feed, status updates and groups and your friends' groups.
+8. Select a category that best fits your WordPress site and then click
+   **Create App ID**.
 
-9. Click **Okay** to give your App permission to manage your Pages.
+9. Enter your **Site URL** and **Mobile Site URL** in the
+   **Tell us about your website** section at the bottom of the page.
 
-10. You will be returned to the JSL3 Facebook Wall Feed settings page with your
-    **Access Token** and its expiration date.
+10. Click the **Skip to Developer Dashboard** link in the **Next Steps**
+    section at the bottom of the page.
 
-11. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
+11. Select the **Settings** menu option. Enter your **App Domain** and
+    **Contact Email**.
 
-12. Give the widget a title (or leave it blank) and enter how many posts you
-    want to get from your wall.  You may also enter the Facebook ID of the feed
-    you want to display.  If you leave the Facebook ID blank, the plugin will
-    use the Facebook ID entered on the settings page for the plugin.
+12. Click the **Show** button to reveal your **App Secret**.
 
-13. Go check out your Facebook Wall Feed on your WordPress site.
+13. Make note of your **App ID** and **App Secret**.
 
-14. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** or even
+14. Select the **Status & Review** menu option. Change the toggle button to
+    **Yes** to make you Facebook App available to the public.
+
+15. Click **Confirm** to complete the creation of your Facebook App.
+
+16. Go to **JSL3 Facebook Wall Feed** under **Settings** on your WordPress
+    Administration menu. Enter the **App ID** and **App Secret** you recorded
+    earlier. Also, enter your **Facebook ID**.
+
+17. Click the **Save Changes** button at the bottom of the page. You will be
+    redirected to Facebook.
+
+18. Click **Okay** to give your Facebook App permission to access your public
+    profile, News Feed, status updates and groups.
+
+19. Click **Okay** to give your Facebook App permission to manage your Pages.
+
+20. You will be returned to the JSL3 Facebook Wall Feed settings page with
+    your Access Token and its expiration date.
+
+21. If, after adding your widget to your WordPress site, you see that the feed
+    is blank, go back to the settings page for the plugin and check the box
+    below your Facebook ID and then click the **Save Changes** button.
+
+22. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
+
+23. Give the widget a title (or leave it blank) and enter how many posts you
+    want to get from your wall. You may also enter the Facebook ID of the
+    Facebook page you want to display in the widget.
+
+24. Go check out your Facebook Wall Feed on your WordPress site.
+
+25. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** or even
     **`[jsl3_fwf limit="1" fb_id="1405307559"]`** to the **Text** view of a
-    post or page.  If you do not enter a Facebook ID, the plugin will use the
-    Facebook ID entered on the settings page for the plugin.
+    post or page.
 
-15. View your Facebook Wall Feed on your WordPress post or page.
+26. View your Facebook Wall Feed on your WordPress post or page.
 
 == Changelog ==
+
+= 1.7.4 =
+* Added a feature to request your App Scoped User ID if your Facebook ID
+  returns a blank feed.
+* Updated the Facebook App configuration guide.
 
 = 1.7.3 =
 * Added the ability to only show posts that were posted to the Facebook ID
@@ -371,6 +339,10 @@ down the plugin dramatically.
 
 == Upgrade Notice ==
 
+= 1.7.4 =
+Added a feature to request your App Scoped User ID if your Facebook ID returns
+a blank feed.  Also, I finally updated the Facebook App configuration guide.
+
 = 1.7.3 =
 Added a feature to limit the posts disaplyed in the feed to only posts that
 were directly posted to the timeline associated with the Facebook ID you
@@ -453,51 +425,73 @@ This is the initial version.
    can use its App ID and App Secret along with the Facebook ID of the Facebook
    Page you want to get the feed from on the settings page for the plugin. 
 
-1. If you get a Request for Permission prompt, then **Allow** Developer to
-   access your basic information.
+1. If this is your first time creating a Facebook App, you will need to
+   register. Otherwise, skip to step **6**.
 
-1. Click **Create New App**.
+1. Toggle the button to **Yes** to agree to the Facebook Policies and then
+   click **Next**.
 
-1. Enter any **App Name**. I suggest using the name of your blog.  All the other
-   entries are optional. Click **Continue**. You will be prompted with a
-   security check.
+1. After you enter the confirmation code that Facebook sent to your phone,
+   click **Register**.
 
-1. On your App page, enter your **App Domain**.  Set **Sandbox Mode** to
-   **Disabled**. Under **Select how your app integrates with Facebook** click
-   **Website with Facebook Login** and enter your **Site URL**.  Do not use
-   **www.* in your App Domain or Site URL.  Save your changes.
+1. Click **Done** to complete the registration.
 
-1. Record your **App ID** and **App Secret**. You will need these later.
+1. When you **Add a New App**, select the **Website** option.
 
-1. Go to **JSL3 Facebook Wall Feed** under **Settings** on the Dashboard menu.
+1. Click **Create New Facebook App ID**.
 
-1. Enter your **Facebook ID**.  If you do not know your Facebook ID, then use
-   the [Graph API Explorer](https://developers.facebook.com/tools/explorer).
-   Click **Get Access Token**. You may be prompted to log in. If you are
-   prompted to Select permissions, click **Get Access Token**. In the text box
-   next to the Submit button, enter the **Facebook Username** used in your
-   Facebook URL (for example, my Facebook URL is
-   http://www.facebook.com/takanudo so my Facebook Username is takanudo)
-   followed by **?fields=id**. Click **Submit**. Your Facebook ID will be in the
-   results.  Enter the **App ID** and **App Secret** you recorded earlier.
-   Click **Save Changes**.
+1. Select a category that best fits your WordPress site and then click
+   **Create App ID**.
 
-1. You will be redirected to Facebook. You may be prompted to **Log In** a
-   couple of times.
+1. Enter your **Site URL** and **Mobile Site URL** in the
+   **Tell us about your website** section at the bottom of the page. Do not
+   enter **www.** Then click **Next**.
 
-1. Click **Okay** to give your App permission to acess your public profile,
-   friend list, News Feed, status updates and groups and your friends' groups.
+1. Click the **Skip to Developer Dashboard** link in the **Next Steps**
+   section at the bottom of the page.
 
-1. Click **Okay** to give your App permission to manage your Pages.
+1. Select the **Settings** menu option. Enter your **App Domain** and
+   **Contact Email**. Then click **Save Changes**.
+
+1. Click the **Show** button to reveal your **App Secret**.
+
+1. Make note of your **App ID** and **App Secret**. You will need them in
+   step **16**.
+
+1. Select the **Status & Review** menu option. Change the toggle button to
+   **Yes** to make you Facebook App available to the public.
+
+1. Click **Confirm** to complete the creation of your Facebook App.
+
+1. Go to **JSL3 Facebook Wall Feed** under **Settings** on your WordPress
+   Administration menu. Enter the **App ID** and **App Secret** you recorded
+   earlier. Also, enter your **Facebook ID**. If you do not know your
+   Facebook ID, you can find it at
+   [http://findmyfacebookid.com](http://findmyfacebookid.com).
+
+1. Click the **Save Changes** button at the bottom of the page. You will be
+   redirected to Facebook. You may be prompted to login a couple of times.
+
+1. Click **Okay** to give your Facebook App permission to acess your public
+   profile, News Feed, status updates and groups.
+
+1. Click **Okay** to give your Facebook App permission to manage your Pages.
 
 1. You will be returned to the JSL3 Facebook Wall Feed settings page with your
    **Access Token** and its expiration date.
 
+1. NOTE: Facebook has changed how the Facebook ID is used with new Facebook
+   Apps. If, after adding your widget to your WordPress site, you see that
+   the feed is blank, go back to the settings page for the plugin and check
+   the box below your Facebook ID and then click the Save Changes button.
+   This will tell the plugin to request the App Scoped User ID instead of
+   your Facebook ID.
+
 == Widget Usage ==
 
-1. Go to **Widgets** under **Appearance** on the Dashboard menu.
-
-1. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your choice.
+1. Go to **Widgets** under **Appearance** on your WordPress Administration
+   menu. Drag the **JSL3 Facebook Wall Feed** widget to the sidebar of your
+   choice.
 
 1. Give the widget a title (or leave it blank) and enter how many posts you
    want to get from your wall. You may also enter the Facebook ID of the
@@ -512,6 +506,10 @@ This is the initial version.
 1. Add the shortcode **`[jsl3_fwf]`** or **`[jsl3_fwf limit="1"]`** or even
    **`[jsl3_fwf limit="1" fb_id="1405307559"]`** to the **Text** view of a post
    or page.  If you do not enter a Facebook ID, the plugin will use the
-   Facebook ID entered on the settings page for the plugin.
+   Facebook ID entered on the settings page for the plugin. If your feed is
+   blank, try setting the **fb_id** property to your **App Scoped User ID**.
+   If you do not know your App Scoped User ID, set the **app_scoped_user_id**
+   property to **true** like this:
+   **`[jsl3_fwf limit="1" fb_id="1405307559" app_scoped_user_id="true"]`**
 
 1. View your Facebook Wall Feed on your WordPress post or page.
